@@ -1,13 +1,12 @@
 import javax.swing.*;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JLabel;
-import java.awt.Rectangle;
 
 
 public class frame extends JFrame implements KeyListener {
 
-    JLabel label;
+    JLabel player;
     JLabel obstacle;
 
     frame() {
@@ -17,17 +16,19 @@ public class frame extends JFrame implements KeyListener {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        obstacle = new JLabel();
+
+        ImageIcon icon = new ImageIcon("images/rock.png");
+        Image image = icon.getImage();
+        Image scaledImage = image.getScaledInstance(140, 140, Image.SCALE_SMOOTH);
+        obstacle = new JLabel(new ImageIcon(scaledImage));
         obstacle.setBounds(200, 200, 100, 100);
-        obstacle.setBackground(Color.green);
-        obstacle.setOpaque(true);
 
 
-        label = new JLabel();
-        label.setBounds(0,0,100,100);
-        label.setBackground(Color.red);
-        label.setOpaque(true);
-        frame.add(label);
+        player = new JLabel();
+        player.setBounds(0,0,100,100);
+        player.setBackground(Color.red);
+        player.setOpaque(true);
+        frame.add(player);
         frame.add(obstacle);
         frame.getContentPane().setBackground(Color.blue);
         frame.setLayout(null);
@@ -37,37 +38,41 @@ public class frame extends JFrame implements KeyListener {
 
 
     private boolean isCollision(int x, int y) {
-        Rectangle newBounds = new Rectangle(x, y, label.getWidth(), label.getHeight());
+        Rectangle newBounds = new Rectangle(x, y, player.getWidth(), player.getHeight());
         return !newBounds.intersects(obstacle.getBounds());
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
 
-        int x = label.getX();
-        int y = label.getY();
+        int x = player.getX();
+        int y = player.getY();
         int step = 10;
 
         switch(e.getKeyCode()) {
             case KeyEvent.VK_W:
+                player.setIcon(new ImageIcon("images/up.png"));
                 if (isCollision(x, y - step)) {
                     System.out.println("You moved forwards!");
-                    label.setLocation(x, y - step);
+                    player.setLocation(x, y - step);
                 }
                 break;
             case KeyEvent.VK_A:
+                player.setIcon(new ImageIcon("images/left.png"));
                 if (isCollision(x - step, y)) {
-                    label.setLocation(x - step, y);
+                    player.setLocation(x - step, y);
                 }
                 break;
             case KeyEvent.VK_S:
+                player.setIcon(new ImageIcon("images/down.png"));
                 if (isCollision(x, y + step)) {
-                    label.setLocation(x, y + step);
+                    player.setLocation(x, y + step);
                 }
                 break;
             case KeyEvent.VK_D:
+                player.setIcon(new ImageIcon("images/right.png"));
                 if (isCollision(x + step, y)) {
-                    label.setLocation(x + step, y);
+                    player.setLocation(x + step, y);
                 }
                 break;
         }
