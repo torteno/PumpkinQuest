@@ -16,6 +16,10 @@ public class frame extends JFrame implements KeyListener {
     boolean leftPressed = false;
     boolean rightPressed = false;
 
+
+    double CoordinateX = 0;
+    double CoordinateY = 0;
+
     frame() {
         super("My Frame!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,7 +48,7 @@ public class frame extends JFrame implements KeyListener {
         Image image = icon.getImage();
         Image scaledImage = image.getScaledInstance(140, 140, Image.SCALE_SMOOTH);
         obstacle = new JLabel(new ImageIcon(scaledImage));
-        obstacle.setBounds(200, 200, 100, 100);
+        obstacle.setBounds(300, 600, 100, 100);
 
         backgroundPanel.add(obstacle);
         backgroundPanel.add(player);
@@ -73,23 +77,90 @@ public class frame extends JFrame implements KeyListener {
     public void playerPosition() {
 
         if (upPressed && isCollision(x, y - step)) {
-            y -= step;
-            player.setIcon(new ImageIcon("images/up.png"));
+
+            if(!leftPressed || !rightPressed) {
+                for (int i = 0; i < 1; i++) {
+                    y -= step;
+                }
+                player.setIcon(new ImageIcon("images/up.png"));
+                CoordinateY += 1;
+            }
         }
         if (downPressed && isCollision(x, y + step)) {
-            y += step;
-            player.setIcon(new ImageIcon("images/down.png"));
+            if(!leftPressed || !rightPressed) {
+
+                for(int i = 0; i < 1;i++) {
+                    y += step;
+                }
+                player.setIcon(new ImageIcon("images/down.png"));
+                CoordinateY -= 1;
+
+            }
+
         }
         if (leftPressed && isCollision(x - step, y)) {
-            x -= step;
+            if(upPressed) {
+
+                for(int i = 0; i < 10;i++) {
+                    x -= 0.707;
+                    y -= 0.707;
+                    CoordinateX -= 0.707;
+                    CoordinateY -= 0.707;
+                }
+
+            } else if(downPressed) {
+                for(int i = 0; i < 10;i++) {
+                    x -= 0.707;
+                    y += 0.707;
+                    CoordinateX -= 0.707;
+                    CoordinateY += 0.707;
+
+                }
+
+
+
+            } else {
+                for(int i = 0; i < 1;i++) {
+                    x -= step;
+                    CoordinateX += 1;
+                }
+
+            }
             player.setIcon(new ImageIcon("images/left.png"));
+            CoordinateX -= 1;
         }
+
         if (rightPressed && isCollision(x + step, y)) {
-            x += step;
+
+            if(upPressed) {
+                for(int i = 0; i < 10;i++) {
+                    x += 0.707;
+                    y -= 0.707;
+                    CoordinateX += 0.707;
+                    CoordinateY -= 0.707;
+                }
+
+            } else if(downPressed) {
+                for(int i = 0; i < 10; i++) {
+                    x += 0.707;
+                    y += 0.707;
+                    CoordinateX += 0.707;
+                    CoordinateY += 0.707;
+                }
+            } else {
+                for(int i = 0; i < 1;i++) {
+                    x += step;
+                    CoordinateX += 1;
+                }
+
+            }
+
+
             player.setIcon(new ImageIcon("images/right.png"));
         }
 
         player.setLocation(x, y);
+        System.out.println("X: " + CoordinateX + " Y: " + CoordinateY);
     }
 
     @Override
