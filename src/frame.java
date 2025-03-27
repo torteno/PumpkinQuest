@@ -26,7 +26,7 @@ public class frame extends JFrame implements KeyListener {
         setSize(1500, 1000);
         setLocationRelativeTo(null);
         setResizable(false);
-
+        System.out.print("hello");
 
 
         BackgroundPanel backgroundPanel = new BackgroundPanel("images/forest.png");
@@ -378,5 +378,11 @@ public class frame extends JFrame implements KeyListener {
                 }
                 break;
         } */
+
+
+
+
+
+
 
 //
