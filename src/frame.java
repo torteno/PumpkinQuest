@@ -24,7 +24,7 @@ public class frame extends JFrame implements KeyListener {
     double CoordinateY = 0;
 
     Image playerImage = new ImageIcon("images/standing.png").getImage();
-    Image scaledPlayerImage = playerImage.getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+    Image scaledPlayerImage = playerImage.getScaledInstance(100, 200, Image.SCALE_SMOOTH);
 
 
 
@@ -45,7 +45,7 @@ public class frame extends JFrame implements KeyListener {
 
 
         player = new JLabel();
-        player.setBounds(0, 0, 100, 150);
+        player.setBounds(0, 0, 100, 200);
         // player.setBackground(Color.red);
         player.setOpaque(false);
 
