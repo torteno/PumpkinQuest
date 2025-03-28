@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 
 public class frame extends JFrame implements KeyListener {
@@ -16,10 +17,15 @@ public class frame extends JFrame implements KeyListener {
     boolean downPressed = false;
     boolean leftPressed = false;
     boolean rightPressed = false;
+    int animationDown = 1;
 
 
     double CoordinateX = 0;
     double CoordinateY = 0;
+
+    Image playerImage = new ImageIcon("images/standing.png").getImage();
+    Image scaledPlayerImage = playerImage.getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+
 
 
     //all timer code was chatgpt, as I have never used timers before and I didn't know it was the fix to a problem
@@ -39,9 +45,9 @@ public class frame extends JFrame implements KeyListener {
 
 
         player = new JLabel();
-        player.setBounds(0, 0, 100, 100);
-        player.setBackground(Color.red);
-        player.setOpaque(true);
+        player.setBounds(0, 0, 100, 150);
+        // player.setBackground(Color.red);
+        player.setOpaque(false);
 
         x = player.getX();
         y = player.getY();
@@ -57,6 +63,8 @@ public class frame extends JFrame implements KeyListener {
 
         backgroundPanel.add(obstacle);
         backgroundPanel.add(player);
+
+
 
         backgroundPanel.setVisible(true);
         setContentPane(backgroundPanel);
@@ -80,6 +88,9 @@ public class frame extends JFrame implements KeyListener {
 
 
     private void playerPosition() {
+
+
+
 
         if (upPressed && leftPressed && isCollision(x - step, y - step)) {
             x -= step / Math.sqrt(2);
@@ -109,54 +120,17 @@ public class frame extends JFrame implements KeyListener {
         } else if (rightPressed && isCollision(x + step, y)) {
             x += step;
             player.setIcon(new ImageIcon("images/right.png"));
+        } else {
+            player.setIcon(new ImageIcon(scaledPlayerImage));
         }
 
         player.setLocation(x, y);
+        player.repaint();
         System.out.println("X: " + CoordinateX + " Y: " + CoordinateY);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-       /* if (e.getKeyCode() == KeyEvent.VK_W) {
-            playerPosition();
-            upPressed = true;
-            System.out.println("You moved Up");
-        }
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            playerPosition();
-            leftPressed = true;
-            System.out.println("You moved Left");
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            playerPosition();
-            downPressed = true;
-            System.out.println("You moved down");
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            playerPosition();
-            rightPressed = true;
-            System.out.println("You moved right");
-        } */
-
-     /*   if (e.getKeyCode() == KeyEvent.VK_W && e.getKeyCode() == KeyEvent.VK_A) {
-            topLeft(e);
-            System.out.println("You moved right");
-        }
-
-        if (e.getKeyCode() == KeyEvent.VK_W && e.getKeyCode() == KeyEvent.VK_D) {
-            topRight(e);
-            System.out.println("You moved right");
-        }
-
-        if (e.getKeyCode() == KeyEvent.VK_S && e.getKeyCode() == KeyEvent.VK_A) {
-            bottomLeft(e);
-            System.out.println("You moved right");
-        }
-
-        if (e.getKeyCode() == KeyEvent.VK_S && e.getKeyCode() == KeyEvent.VK_D) {
-            bottomRight(e);
-            System.out.println("You moved right");
-        } */
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
@@ -204,9 +178,12 @@ public class frame extends JFrame implements KeyListener {
 
         if (!upPressed && !downPressed && !leftPressed && !rightPressed) {
             timer.stop();
+
+            player.setIcon(new ImageIcon(scaledPlayerImage));
+
+        } else {
+            playerPosition();
         }
-
-
     }
 
     @Override
@@ -214,131 +191,3 @@ public class frame extends JFrame implements KeyListener {
     }
 }
 
-
-
-
-
-   /* public void moveUp(KeyEvent e) {
-
-            if (isCollision(x, y - step)) {
-                System.out.println("You moved forwards!");
-               // y -= step;
-                player.setLocation(x, y - step);
-
-            }
-        }
-
-
-    public void moveLeft(KeyEvent e) {
-            if (isCollision(x - step, y)) {
-                System.out.println("You moved forwards!");
-              //  x -= step;
-                player.setLocation(x - step, y);
-            }
-        }
-
-
-    public void moveRight(KeyEvent e) {
-            if (isCollision(x + step, y)) {
-                System.out.println("You moved forwards!");
-               // x += step;
-                player.setLocation(x + step, y);
-            }
-        }
-
-
-    public void moveDown(KeyEvent e) {
-            if (isCollision(x, y + step)) {
-                System.out.println("You moved forwards!");
-              //  y += step;
-                player.setLocation(x, y + step);
-            }
-        }
-
-
-
-    public void topLeft(KeyEvent e) {
-
-        if (isCollision(x - step, y - step)) {
-            System.out.println("You moved forwards!");
-            // y -= step;
-            player.setLocation(x - step, y - step);
-
-        }
-    }
-
-    public void topRight(KeyEvent e) {
-
-        if (isCollision(x + step, y - step)) {
-            System.out.println("You moved forwards!");
-            // y -= step;
-            player.setLocation(x + step, y - step);
-
-        }
-    }
-
-    public void bottomLeft(KeyEvent e) {
-
-        if (isCollision(x - step, y + step)) {
-            System.out.println("You moved forwards!");
-            // y -= step;
-            player.setLocation(x - step, y + step);
-
-        }
-    }
-
-    public void bottomRight(KeyEvent e) {
-
-        if (isCollision(x + step, y + step)) {
-            System.out.println("You moved forwards!");
-            // y -= step;
-            player.setLocation(x + step, y + step);
-
-        }
-    }
-
-
-
-
-
-    }
-
-
-
-
-
-/* switch(e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                player.setIcon(new ImageIcon("images/up.png"));
-                if (isCollision(x, y - step)) {
-                    System.out.println("You moved forwards!");
-                    player.setLocation(x, y - step);
-                }
-                break;
-            case KeyEvent.VK_A:
-                player.setIcon(new ImageIcon("images/left.png"));
-                if (isCollision(x - step, y)) {
-                    player.setLocation(x - step, y);
-                }
-                break;
-            case KeyEvent.VK_S:
-                player.setIcon(new ImageIcon("images/down.png"));
-                if (isCollision(x, y + step)) {
-                    player.setLocation(x, y + step);
-                }
-                break;
-            case KeyEvent.VK_D:
-                player.setIcon(new ImageIcon("images/right.png"));
-                if (isCollision(x + step, y)) {
-                    player.setLocation(x + step, y);
-                }
-                break;
-        } */
-
-
-
-
-
-
-
-//
