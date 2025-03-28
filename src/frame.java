@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
 public class frame extends JFrame implements KeyListener {
 
     JLabel player;
@@ -19,6 +20,10 @@ public class frame extends JFrame implements KeyListener {
 
     double CoordinateX = 0;
     double CoordinateY = 0;
+
+
+    //all timer code was chatgpt, as I have never used timers before and I didn't know it was the fix to a problem
+    Timer timer;
 
     frame() {
         super("My Frame!");
@@ -65,7 +70,7 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-
+        timer = new Timer(30, e -> playerPosition());
     }
 
     private boolean isCollision(int x, int y) {
@@ -74,88 +79,35 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-    public void playerPosition() {
+    private void playerPosition() {
 
-        if (upPressed && isCollision(x, y - step)) {
-
-            if(!leftPressed || !rightPressed) {
-                for (int i = 0; i < 1; i++) {
-                    y -= step;
-                }
-                player.setIcon(new ImageIcon("images/up.png"));
-                CoordinateY += 1;
-            }
-        }
-        if (downPressed && isCollision(x, y + step)) {
-            if(!leftPressed || !rightPressed) {
-
-                for(int i = 0; i < 1;i++) {
-                    y += step;
-                }
-                player.setIcon(new ImageIcon("images/down.png"));
-                CoordinateY -= 1;
-
-            }
-
-        }
-        if (leftPressed && isCollision(x - step, y)) {
-            if(upPressed) {
-
-                for(int i = 0; i < 10;i++) {
-                    x -= 0.707;
-                    y -= 0.707;
-                    CoordinateX -= 0.707;
-                    CoordinateY -= 0.707;
-                }
-
-            } else if(downPressed) {
-                for(int i = 0; i < 10;i++) {
-                    x -= 0.707;
-                    y += 0.707;
-                    CoordinateX -= 0.707;
-                    CoordinateY += 0.707;
-
-                }
-
-
-
-            } else {
-                for(int i = 0; i < 1;i++) {
-                    x -= step;
-                    CoordinateX += 1;
-                }
-
-            }
+        if (upPressed && leftPressed && isCollision(x - step, y - step)) {
+            x -= step / Math.sqrt(2);
+            y -= step / Math.sqrt(2);
+            player.setIcon(new ImageIcon("images/up_left.png"));
+        } else if (upPressed && rightPressed && isCollision(x + step, y - step)) {
+            x += step / Math.sqrt(2);
+            y -= step / Math.sqrt(2);
+            player.setIcon(new ImageIcon("images/up_right.png"));
+        } else if (downPressed && leftPressed && isCollision(x - step, y + step)) {
+            x -= step / Math.sqrt(2);
+            y += step / Math.sqrt(2);
+            player.setIcon(new ImageIcon("images/down_left.png"));
+        } else if (downPressed && rightPressed && isCollision(x + step, y + step)) {
+            x += step / Math.sqrt(2);
+            y += step / Math.sqrt(2);
+            player.setIcon(new ImageIcon("images/down_right.png"));
+        } else if (upPressed && isCollision(x, y - step)) {
+            y -= step;
+            player.setIcon(new ImageIcon("images/up.png"));
+        } else if (downPressed && isCollision(x, y + step)) {
+            y += step;
+            player.setIcon(new ImageIcon("images/down.png"));
+        } else if (leftPressed && isCollision(x - step, y)) {
+            x -= step;
             player.setIcon(new ImageIcon("images/left.png"));
-            CoordinateX -= 1;
-        }
-
-        if (rightPressed && isCollision(x + step, y)) {
-
-            if(upPressed) {
-                for(int i = 0; i < 10;i++) {
-                    x += 0.707;
-                    y -= 0.707;
-                    CoordinateX += 0.707;
-                    CoordinateY -= 0.707;
-                }
-
-            } else if(downPressed) {
-                for(int i = 0; i < 10; i++) {
-                    x += 0.707;
-                    y += 0.707;
-                    CoordinateX += 0.707;
-                    CoordinateY += 0.707;
-                }
-            } else {
-                for(int i = 0; i < 1;i++) {
-                    x += step;
-                    CoordinateX += 1;
-                }
-
-            }
-
-
+        } else if (rightPressed && isCollision(x + step, y)) {
+            x += step;
             player.setIcon(new ImageIcon("images/right.png"));
         }
 
@@ -209,22 +161,22 @@ public class frame extends JFrame implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 upPressed = true;
-                playerPosition();
+                //playerPosition();
                 break;
             case KeyEvent.VK_S:
                 downPressed = true;
-                playerPosition();
+                //playerPosition();
                 break;
             case KeyEvent.VK_A:
                 leftPressed = true;
-                playerPosition();
+                //playerPosition();
                 break;
             case KeyEvent.VK_D:
                 rightPressed = true;
-                playerPosition();
+                //playerPosition();
                 break;
         }
-
+        timer.start();
 
     }
 
@@ -248,6 +200,10 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_D:
                 rightPressed = false;
                 break;
+        }
+
+        if (!upPressed && !downPressed && !leftPressed && !rightPressed) {
+            timer.stop();
         }
 
 
