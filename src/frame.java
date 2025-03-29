@@ -94,6 +94,7 @@ public class frame extends JFrame implements KeyListener {
 
                 //insert code here
                 placeholder--;
+                System.out.println(moveDir);
             }
         }
 
@@ -208,7 +209,7 @@ public class frame extends JFrame implements KeyListener {
         moveTime++;
         if (upPressed == true || downPressed == true || leftPressed == true || rightPressed == true) {
 
-            if (moveTime > (FPS / 4)) {
+            if (moveTime >= (FPS / 4)) {
                 if (moveDir == 1) {
                     moveDir = 2;
                 } else if (moveDir == 2) {
@@ -218,11 +219,9 @@ public class frame extends JFrame implements KeyListener {
                 }
                 moveTime = 0;
             }
-        } else {
-            while (moveTime < (FPS / 4)) {
-                moveTime++;
-            }
-            moveDir = 1;
+        } else if (moveTime >= (FPS / 4)){
+                moveDir = 1;
+                moveTime = 0;
         }
 
         player.setLocation(x, y);
