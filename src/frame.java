@@ -18,6 +18,9 @@ public class frame extends JFrame implements KeyListener {
     boolean leftPressed = false;
     boolean rightPressed = false;
     int animationDown = 1;
+    String direction = "down";
+    int moveTime, moveDir;
+    int FPS = 60;
 
 
     double CoordinateX = 0;
@@ -70,12 +73,12 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-
+        moveDir = 1;
 
         addKeyListener(this);
         setVisible(true);
 
-        int FPS = 60;
+
 
         long previousTime = System.nanoTime();
         double placeholder = 0;
@@ -111,41 +114,108 @@ public class frame extends JFrame implements KeyListener {
         if (upPressed && leftPressed && isCollision(x - step, y - step)) {
             x -= step / Math.sqrt(2);
             y -= step / Math.sqrt(2);
-            player.setIcon(new ImageIcon("images/player/up_left.png"));
+            direction = "up";
             player.setBackground(Color.blue);
         } else if (upPressed && rightPressed && isCollision(x + step, y - step)) {
             x += step / Math.sqrt(2);
             y -= step / Math.sqrt(2);
-            player.setIcon(new ImageIcon("images/player/up_right.png"));
+            direction = "up";
             player.setBackground(Color.blue);
         } else if (downPressed && leftPressed && isCollision(x - step, y + step)) {
             x -= step / Math.sqrt(2);
             y += step / Math.sqrt(2);
-            player.setIcon(new ImageIcon("images/player/down_left.png"));
+            direction = "down";
             player.setBackground(Color.blue);
         } else if (downPressed && rightPressed && isCollision(x + step, y + step)) {
             x += step / Math.sqrt(2);
             y += step / Math.sqrt(2);
-            player.setIcon(new ImageIcon("images/player/down_right.png"));
+            direction = "down";
             player.setBackground(Color.blue);
         } else if (upPressed && isCollision(x, y - step)) {
             y -= step;
-            player.setIcon(new ImageIcon("images/player/up.png"));
+            direction = "up";
             player.setBackground(Color.blue);
         } else if (downPressed && isCollision(x, y + step)) {
             y += step;
-            player.setIcon(new ImageIcon("images/player/down.png"));
+            direction = "down";
             player.setBackground(Color.blue);
         } else if (leftPressed && isCollision(x - step, y)) {
             x -= step;
-            player.setIcon(new ImageIcon("images/player/left.png"));
+            direction = "left";
             player.setBackground(Color.blue);
         } else if (rightPressed && isCollision(x + step, y)) {
             x += step;
-            player.setIcon(new ImageIcon("images/player/right.png"));
+            direction = "right";
             player.setBackground(Color.blue);
         } else {
             player.setIcon(new ImageIcon(scaledPlayerImage));
+        }
+
+        switch (direction) {
+            case "down":
+                if (moveDir == 1) {
+                    player.setIcon(new ImageIcon("images/player/standing.png"));
+
+                } else if (moveDir == 2) {
+                    player.setIcon(new ImageIcon("images/player/downRight.png"));
+
+                } else if (moveDir == 3) {
+                    player.setIcon(new ImageIcon("images/player/downLeft.png"));
+
+                }
+                break;
+
+            case "up":
+                if (moveDir == 1) {
+                    //player.setIcon(new ImageIcon("images/player/standing.png"));
+
+                } else if (moveDir == 2) {
+                    //player.setIcon(new ImageIcon("images/player/downRight.png"));
+
+                } else if (moveDir == 3) {
+                    //player.setIcon(new ImageIcon("images/player/downLeft.png"));
+
+                }
+                break;
+
+            case "left":
+                if (moveDir == 1) {
+                    //player.setIcon(new ImageIcon("images/player/standing.png"));
+
+                } else if (moveDir == 2) {
+                    //player.setIcon(new ImageIcon("images/player/downRight.png"));
+
+                } else if (moveDir == 3) {
+                    //player.setIcon(new ImageIcon("images/player/downLeft.png"));
+
+                }
+                break;
+
+            case "right":
+                if (moveDir == 1) {
+                    //player.setIcon(new ImageIcon("images/player/standing.png"));
+
+                } else if (moveDir == 2) {
+                    //player.setIcon(new ImageIcon("images/player/downRight.png"));
+
+                } else if (moveDir == 3) {
+                    //player.setIcon(new ImageIcon("images/player/downLeft.png"));
+
+                }
+                break;
+
+        }
+
+        moveTime++;
+        if (moveTime > (FPS/4)) {
+            if (moveDir == 1) {
+                moveDir = 2;
+            } else if (moveDir == 2) {
+                moveDir = 3;
+            } else if (moveDir == 3) {
+                moveDir = 1;
+            }
+            moveTime = 0;
         }
 
         player.setLocation(x, y);
