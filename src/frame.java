@@ -11,7 +11,7 @@ public class frame extends JFrame implements KeyListener {
 
     int x;
     int y;
-    int step = 10;
+    int step = 6;
     double angleStep = 0;
     boolean upPressed = false;
     boolean downPressed = false;
