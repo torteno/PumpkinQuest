@@ -205,17 +205,24 @@ public class frame extends JFrame implements KeyListener {
                 break;
 
         }
-
         moveTime++;
-        if (moveTime > (FPS/4)) {
-            if (moveDir == 1) {
-                moveDir = 2;
-            } else if (moveDir == 2) {
-                moveDir = 3;
-            } else if (moveDir == 3) {
-                moveDir = 1;
+        if (upPressed == true || downPressed == true || leftPressed == true || rightPressed == true) {
+
+            if (moveTime > (FPS / 4)) {
+                if (moveDir == 1) {
+                    moveDir = 2;
+                } else if (moveDir == 2) {
+                    moveDir = 3;
+                } else if (moveDir == 3) {
+                    moveDir = 1;
+                }
+                moveTime = 0;
             }
-            moveTime = 0;
+        } else {
+            while (moveTime < (FPS / 4)) {
+                moveTime++;
+            }
+            moveDir = 1;
         }
 
         player.setLocation(x, y);
