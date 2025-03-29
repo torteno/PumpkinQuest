@@ -28,8 +28,7 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-    //all timer code was chatgpt, as I have never used timers before and I didn't know it was the fix to a problem
-    Timer timer;
+
 
     frame() {
         super("My Frame!");
@@ -72,13 +71,30 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-        setContentPane(backgroundPanel);
+
         addKeyListener(this);
         setVisible(true);
 
+        int FPS = 60;
+
+        long previousTime = System.nanoTime();
+        double placeholder = 0;
+        long currentTime;
+        double timePerFrame = 1000000000/FPS;
+
+        while (true) {
+            currentTime = System.nanoTime();
+            placeholder += (currentTime - previousTime) / timePerFrame;
+            previousTime = currentTime;
+            if (placeholder >= 1) {
+                playerPosition();
+
+                //insert code here
+                placeholder--;
+            }
+        }
 
 
-        timer = new Timer(30, e -> playerPosition());
     }
 
     private boolean isCollision(int x, int y) {
@@ -158,7 +174,7 @@ public class frame extends JFrame implements KeyListener {
                 //playerPosition();
                 break;
         }
-        timer.start();
+
 
     }
 
@@ -185,7 +201,7 @@ public class frame extends JFrame implements KeyListener {
         }
 
         if (!upPressed && !downPressed && !leftPressed && !rightPressed) {
-            timer.stop();
+
 
             player.setIcon(new ImageIcon(scaledPlayerImage));
 
