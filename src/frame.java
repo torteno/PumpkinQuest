@@ -46,8 +46,8 @@ public class frame extends JFrame implements KeyListener {
 
         player = new JLabel();
         player.setBounds(0, 0, 100, 200);
-        // player.setBackground(Color.red);
-        player.setOpaque(false);
+        player.setBackground(Color.red);
+        player.setOpaque(true);
 
         x = player.getX();
         y = player.getY();
@@ -57,7 +57,7 @@ public class frame extends JFrame implements KeyListener {
 
         ImageIcon icon = new ImageIcon("images/rock.png");
         Image image = icon.getImage();
-        Image scaledImage = image.getScaledInstance(140, 140, Image.SCALE_SMOOTH);
+        Image scaledImage = image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         obstacle = new JLabel(new ImageIcon(scaledImage));
         obstacle.setBounds(300, 600, 100, 100);
 
@@ -96,30 +96,38 @@ public class frame extends JFrame implements KeyListener {
             x -= step / Math.sqrt(2);
             y -= step / Math.sqrt(2);
             player.setIcon(new ImageIcon("images/up_left.png"));
+            player.setBackground(Color.blue);
         } else if (upPressed && rightPressed && isCollision(x + step, y - step)) {
             x += step / Math.sqrt(2);
             y -= step / Math.sqrt(2);
             player.setIcon(new ImageIcon("images/up_right.png"));
+            player.setBackground(Color.blue);
         } else if (downPressed && leftPressed && isCollision(x - step, y + step)) {
             x -= step / Math.sqrt(2);
             y += step / Math.sqrt(2);
             player.setIcon(new ImageIcon("images/down_left.png"));
+            player.setBackground(Color.blue);
         } else if (downPressed && rightPressed && isCollision(x + step, y + step)) {
             x += step / Math.sqrt(2);
             y += step / Math.sqrt(2);
             player.setIcon(new ImageIcon("images/down_right.png"));
+            player.setBackground(Color.blue);
         } else if (upPressed && isCollision(x, y - step)) {
             y -= step;
             player.setIcon(new ImageIcon("images/up.png"));
+            player.setBackground(Color.blue);
         } else if (downPressed && isCollision(x, y + step)) {
             y += step;
             player.setIcon(new ImageIcon("images/down.png"));
+            player.setBackground(Color.blue);
         } else if (leftPressed && isCollision(x - step, y)) {
             x -= step;
             player.setIcon(new ImageIcon("images/left.png"));
+            player.setBackground(Color.blue);
         } else if (rightPressed && isCollision(x + step, y)) {
             x += step;
             player.setIcon(new ImageIcon("images/right.png"));
+            player.setBackground(Color.blue);
         } else {
             player.setIcon(new ImageIcon(scaledPlayerImage));
         }
