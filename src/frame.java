@@ -23,7 +23,7 @@ public class frame extends JFrame implements KeyListener {
     double CoordinateX = 0;
     double CoordinateY = 0;
 
-    Image playerImage = new ImageIcon("images/standing.png").getImage();
+    Image playerImage = new ImageIcon("images/player/standing.png").getImage();
     Image scaledPlayerImage = playerImage.getScaledInstance(100, 200, Image.SCALE_SMOOTH);
 
 
@@ -39,7 +39,7 @@ public class frame extends JFrame implements KeyListener {
         System.out.print("hello");
 
 
-        BackgroundPanel backgroundPanel = new BackgroundPanel("images/forest.png");
+        BackgroundPanel backgroundPanel = new BackgroundPanel("images/background/forest.png");
         backgroundPanel.setLayout(null);
 
 
@@ -54,7 +54,7 @@ public class frame extends JFrame implements KeyListener {
         backgroundPanel.add(player);
 
 
-        ImageIcon icon = new ImageIcon("images/rock.png");
+        ImageIcon icon = new ImageIcon("images/assests/rock.png");
         Image image = icon.getImage();
         Image scaledImage = image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         obstacle = new JLabel(new ImageIcon(scaledImage));
@@ -111,38 +111,38 @@ public class frame extends JFrame implements KeyListener {
         if (upPressed && leftPressed && isCollision(x - step, y - step)) {
             x -= step / Math.sqrt(2);
             y -= step / Math.sqrt(2);
-            player.setIcon(new ImageIcon("images/up_left.png"));
+            player.setIcon(new ImageIcon("images/player/up_left.png"));
             player.setBackground(Color.blue);
         } else if (upPressed && rightPressed && isCollision(x + step, y - step)) {
             x += step / Math.sqrt(2);
             y -= step / Math.sqrt(2);
-            player.setIcon(new ImageIcon("images/up_right.png"));
+            player.setIcon(new ImageIcon("images/player/up_right.png"));
             player.setBackground(Color.blue);
         } else if (downPressed && leftPressed && isCollision(x - step, y + step)) {
             x -= step / Math.sqrt(2);
             y += step / Math.sqrt(2);
-            player.setIcon(new ImageIcon("images/down_left.png"));
+            player.setIcon(new ImageIcon("images/player/down_left.png"));
             player.setBackground(Color.blue);
         } else if (downPressed && rightPressed && isCollision(x + step, y + step)) {
             x += step / Math.sqrt(2);
             y += step / Math.sqrt(2);
-            player.setIcon(new ImageIcon("images/down_right.png"));
+            player.setIcon(new ImageIcon("images/player/down_right.png"));
             player.setBackground(Color.blue);
         } else if (upPressed && isCollision(x, y - step)) {
             y -= step;
-            player.setIcon(new ImageIcon("images/up.png"));
+            player.setIcon(new ImageIcon("images/player/up.png"));
             player.setBackground(Color.blue);
         } else if (downPressed && isCollision(x, y + step)) {
             y += step;
-            player.setIcon(new ImageIcon("images/down.png"));
+            player.setIcon(new ImageIcon("images/player/down.png"));
             player.setBackground(Color.blue);
         } else if (leftPressed && isCollision(x - step, y)) {
             x -= step;
-            player.setIcon(new ImageIcon("images/left.png"));
+            player.setIcon(new ImageIcon("images/player/left.png"));
             player.setBackground(Color.blue);
         } else if (rightPressed && isCollision(x + step, y)) {
             x += step;
-            player.setIcon(new ImageIcon("images/right.png"));
+            player.setIcon(new ImageIcon("images/player/right.png"));
             player.setBackground(Color.blue);
         } else {
             player.setIcon(new ImageIcon(scaledPlayerImage));
