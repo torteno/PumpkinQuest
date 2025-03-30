@@ -19,7 +19,7 @@ public class frame extends JFrame implements KeyListener {
     Map<String, ImageIcon> playerImages = new HashMap<>();
 
     frame() {
-        super("gameFrame");
+        super("Pumpkin Quest");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1500, 1000);
         setLocationRelativeTo(null);
@@ -128,7 +128,7 @@ public class frame extends JFrame implements KeyListener {
 
         String imageName;
         if (moveDir == 1) {
-            imageName = direction+"Standing";
+            imageName = direction + "Standing";
         } else if (moveDir == 2) {
             imageName = direction + "Right";
         } else if (moveDir == 3) {
@@ -138,10 +138,17 @@ public class frame extends JFrame implements KeyListener {
 }
 
 player.setIcon(playerImages.get(imageName));
-
         moveTime++;
-        if (moveTime >= (FPS / 6)) {
-            moveDir = (moveDir % 4) + 1;
+
+        if (upPressed || downPressed || leftPressed || rightPressed) {
+
+            if (moveTime >= (FPS / 5)) {
+                moveDir = (moveDir % 4) + 1;
+                moveTime = 0;
+            }
+        }
+        else if (moveTime >= (FPS / 5)) {
+            moveDir = 1;
             moveTime = 0;
         }
 
@@ -149,9 +156,7 @@ player.setIcon(playerImages.get(imageName));
         player.repaint();
     
 
-    if (!upPressed && !downPressed && !leftPressed && !rightPressed) {
-        player.setIcon(playerImages.get(direction + "Standing"));
-    }
+
 }
 
     @Override
