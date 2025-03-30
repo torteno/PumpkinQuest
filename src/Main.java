@@ -8,9 +8,6 @@ public class Main {
 
         new frame();
 
-        System.out.println("Welcome to Pumpkin Quest!");
-
-
 
     }
 }

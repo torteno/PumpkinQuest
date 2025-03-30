@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 
-//NOTE ALL CODE HERE IS FROM GITHUB COPILOT BECAUSE IW REALLY WANRED TO GET IT WORKING
 
 class BackgroundPanel extends JPanel {
     private Image backgroundImage;
