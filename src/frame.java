@@ -1,13 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class frame extends JFrame implements KeyListener {
 
     JLabel player;
-    JLabel obstacle;
+    JLabel rock;
 
     int x, y;
     int step = 6;
@@ -17,6 +18,7 @@ public class frame extends JFrame implements KeyListener {
     String direction = "down";
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
+    ArrayList<JLabel> obstacles = new ArrayList<>();
 
     frame() {
         super("gameFrame");
@@ -38,14 +40,14 @@ public class frame extends JFrame implements KeyListener {
         x = player.getX();
         y = player.getY();
 
-
-
         ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
-        obstacle = new JLabel(rockIcon);
-        obstacle.setBounds(300, 600, 100, 100);
+        rock = new JLabel(rockIcon);
+        rock.setBounds(300, 600, 100, 100);
+        obstacles.add(rock);
 
-        backgroundPanel.add(obstacle);
-        obstacle.setOpaque(false);
+
+        backgroundPanel.add(rock);
+        rock.setOpaque(false);
         backgroundPanel.add(player);
 
         setContentPane(backgroundPanel);
@@ -58,10 +60,17 @@ public class frame extends JFrame implements KeyListener {
 
     private boolean isCollision(int x, int y) {
         Rectangle playerBounds = player.getBounds();
-        Rectangle obstacleBounds = obstacle.getBounds();
         playerBounds.setLocation(x, y);
-        return playerBounds.intersects(obstacleBounds);
+
+        for (JLabel obstacle : obstacles) {
+            return obstacle.getBounds().intersects(playerBounds);
+        }
+        return false;
     }
+
+
+
+
     private void loadAndScalePlayerImages() {
         String[] imageNames = {"downStanding", "downRight", "downLeft"};
         for (String name : imageNames) {
