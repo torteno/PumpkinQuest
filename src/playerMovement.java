@@ -71,11 +71,11 @@ public class playerMovement {
         if (moveDir == 1) {
             imageName = direction + "Standing";
         } else if (moveDir == 2) {
-            imageName = direction + "Right";
+            imageName = direction + "Fore";
         } else if (moveDir == 3) {
             imageName = direction + "Standing";
         } else {
-            imageName = direction + "Left";
+            imageName = direction + "Back";
         }
 
         player.setIcon(playerImages.get(imageName));
