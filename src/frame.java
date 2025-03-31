@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class frame extends JFrame implements KeyListener {
 
-    JLabel player;
     JLabel rock;
+    JLabel player;
 
     int x, y;
     int step = 6;
@@ -19,6 +19,7 @@ public class frame extends JFrame implements KeyListener {
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
+    playerMovement playerMovementInstance;
 
     frame() {
         super("Pumpkin Quest");
@@ -26,7 +27,6 @@ public class frame extends JFrame implements KeyListener {
         setSize(1500, 1000);
         setLocationRelativeTo(null);
         setResizable(false);
-        System.out.print("hello");
 
         BackgroundPanel backgroundPanel = new BackgroundPanel("images/background/forest.png");
         backgroundPanel.setLayout(null);
@@ -45,7 +45,6 @@ public class frame extends JFrame implements KeyListener {
         rock.setBounds(300, 600, 100, 100);
         obstacles.add(rock);
 
-
         backgroundPanel.add(rock);
         rock.setOpaque(false);
         backgroundPanel.add(player);
@@ -54,22 +53,10 @@ public class frame extends JFrame implements KeyListener {
         addKeyListener(this);
         setVisible(true);
 
+        playerMovementInstance = new playerMovement(player, obstacles, playerImages, x, y, step, FPS, direction, upPressed, downPressed, leftPressed, rightPressed);
         moveDir = 1;
         gameLoop();
     }
-
-    private boolean isCollision(int x, int y) {
-        Rectangle playerBounds = player.getBounds();
-        playerBounds.setLocation(x, y);
-
-        for (JLabel obstacle : obstacles) {
-            return obstacle.getBounds().intersects(playerBounds);
-        }
-        return false;
-    }
-
-
-
 
     private void loadAndScalePlayerImages() {
         String[] imageNames = {"downStanding", "downRight", "downLeft"};
@@ -91,103 +78,30 @@ public class frame extends JFrame implements KeyListener {
             placeholder += (currentTime - previousTime) / timePerFrame;
             previousTime = currentTime;
             if (placeholder >= 1) {
-                playerPosition();
+                playerMovementInstance.playerPosition();
                 placeholder--;
             }
         }
     }
 
-    private void playerPosition() {
-
-        int newX = x, newY = y;
-
-        if (upPressed && leftPressed && isCollision(x - step, y + step)) {
-            newX -= step / Math.sqrt(2);
-            newY -= step / Math.sqrt(2);
-            direction = "up";
-        } else if (upPressed && rightPressed) {
-            newX += step / Math.sqrt(2);
-            newY -= step / Math.sqrt(2);
-            direction = "up";
-        } else if (downPressed && leftPressed) {
-            newX -= step / Math.sqrt(2);
-            newY += step / Math.sqrt(2);
-            direction = "down";
-        } else if (downPressed && rightPressed) {
-            newX += step / Math.sqrt(2);
-            newY += step / Math.sqrt(2);
-            direction = "down";
-        } else if (upPressed) {
-            newY -= step;
-            direction = "up";
-        } else if (downPressed) {
-            newY += step;
-            direction = "down";
-        } else if (leftPressed) {
-            newX -= step;
-            direction = "left";
-        } else if (rightPressed) {
-            newX += step;
-            direction = "right";
-        }
-        if (!isCollision(newX, newY)) {
-            x = newX;
-            y = newY;
-        }
-
-        String imageName;
-        if (moveDir == 1) {
-            imageName = direction + "Standing";
-        } else if (moveDir == 2) {
-            imageName = direction + "Right";
-        } else if (moveDir == 3) {
-            imageName = direction + "Standing";
-        } else {
-            imageName = direction + "Left";
-}
-
-player.setIcon(playerImages.get(imageName));
-        moveTime++;
-
-        if (upPressed || downPressed || leftPressed || rightPressed) {
-
-            if (moveTime >= (FPS / 5)) {
-                moveDir = (moveDir % 4) + 1;
-                moveTime = 0;
-            }
-        }
-        else if (moveTime >= (FPS / 5)) {
-            moveDir = 1;
-            moveTime = 0;
-        }
-
-        player.setLocation(x, y);
-        player.repaint();
-    
-
-
-}
-
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_W -> upPressed = true;
-            case KeyEvent.VK_S -> downPressed = true;
-            case KeyEvent.VK_A -> leftPressed = true;
-            case KeyEvent.VK_D -> rightPressed = true;
+            case KeyEvent.VK_W -> playerMovementInstance.setUpPressed(true);
+            case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(true);
+            case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(true);
+            case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(true);
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_W -> upPressed = false;
-            case KeyEvent.VK_S -> downPressed = false;
-            case KeyEvent.VK_A -> leftPressed = false;
-            case KeyEvent.VK_D -> rightPressed = false;
+            case KeyEvent.VK_W -> playerMovementInstance.setUpPressed(false);
+            case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(false);
+            case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(false);
+            case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(false);
         }
-
-        
     }
 
     @Override
