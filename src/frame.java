@@ -40,7 +40,7 @@ public class frame extends JFrame implements KeyListener {
         x = player.getX();
         y = player.getY();
 
-        ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+        ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
         rock = new JLabel(rockIcon);
         rock.setBounds(300, 600, 100, 100);
         obstacles.add(rock);
@@ -62,7 +62,7 @@ public class frame extends JFrame implements KeyListener {
         String[] imageNames = {"downStanding", "downFore", "downBack"};
         for (String name : imageNames) {
             ImageIcon icon = new ImageIcon("images/player/" + name + ".png");
-            Image image = icon.getImage().getScaledInstance(100, 200, Image.SCALE_SMOOTH);
+            Image image = icon.getImage().getScaledInstance(100, 200, Image.SCALE_DEFAULT);
             playerImages.put(name, new ImageIcon(image));
         }
     }
