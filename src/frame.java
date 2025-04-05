@@ -9,6 +9,7 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel rock;
     JLabel player;
+    JLabel chest;
 
     int x, y;
     int step = 6;
@@ -18,6 +19,7 @@ public class frame extends JFrame implements KeyListener {
     String direction = "down";
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
+    Map<String, ImageIcon> assetsImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
     playerMovement playerMovementInstance;
 
@@ -35,18 +37,26 @@ public class frame extends JFrame implements KeyListener {
 
         player = new JLabel(playerImages.get("downStanding"));
         player.setBounds(0, 0, 100, 200);
-        player.setOpaque(false);
+        player.setOpaque(true);
 
         x = player.getX();
         y = player.getY();
 
         ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
         rock = new JLabel(rockIcon);
-        rock.setBounds(300, 600, 100, 100);
+        rock.setBounds(300, 600, 90, 90);
         obstacles.add(rock);
 
+        ImageIcon chestIcon = new ImageIcon(new ImageIcon("images/assets/chest.png").getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+        chest = new JLabel(chestIcon);
+        chest.setBounds(500, 500, 150, 150);
+        obstacles.add(chest);
+
         backgroundPanel.add(rock);
-        rock.setOpaque(false);
+        rock.setOpaque(true);
+
+        backgroundPanel.add(chest);
+        chest.setOpaque(true);
         backgroundPanel.add(player);
 
         setContentPane(backgroundPanel);
@@ -66,6 +76,15 @@ public class frame extends JFrame implements KeyListener {
             playerImages.put(name, new ImageIcon(image));
         }
     }
+
+    /*private void loadAndScaleAssetImages() {
+        String[] imageNames = {"chest", "rock"};
+        for (String name : imageNames) {
+            ImageIcon icon = new ImageIcon("images/assets/" + name + ".png");
+            Image image = icon.getImage().getScaledInstance(100, 200, Image.SCALE_SMOOTH);
+            assetsImages.put(name, new ImageIcon(image));
+        }
+    } */
 
     private void gameLoop() {
         long previousTime = System.nanoTime();
