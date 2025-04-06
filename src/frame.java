@@ -12,9 +12,10 @@ public class frame extends JFrame implements KeyListener {
 
     int x, y;
     int step = 6;
-    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false;
+    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false;
     int moveTime, moveDir;
     int FPS = 60;
+    int currentHealth = 3, maximumHealth = 3;
     String direction = "down";
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
@@ -80,8 +81,25 @@ public class frame extends JFrame implements KeyListener {
             if (placeholder >= 1) {
                 playerMovementInstance.playerPosition();
                 placeholder--;
+                playerHealth();
             }
         }
+    }
+
+    public void playerHealth() {
+        if (currentHealth <= 0) {
+            System.out.print("You died");
+            gameOver();
+        }
+    }
+
+    public void apple() {
+        currentHealth = maximumHealth;
+        System.out.println("You consumed an apple");
+    }
+
+    public void gameOver() {
+        //do game end code here
     }
 
     @Override
@@ -91,6 +109,7 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(true);
             case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(true);
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(true);
+            case KeyEvent.VK_Q -> qPressed = true;
         }
     }
 
@@ -101,6 +120,7 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(false);
             case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(false);
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(false);
+            case KeyEvent.VK_Q -> qPressed = false;
         }
     }
 
