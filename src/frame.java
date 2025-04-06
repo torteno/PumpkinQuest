@@ -60,7 +60,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
     private void loadAndScalePlayerImages() {
-        String[] imageNames = {"downStanding", "downFore", "downBack"};
+        String[] imageNames = {"downStanding", "downFore", "downBack", "upStanding", "upFore", "upBack"};
         for (String name : imageNames) {
             ImageIcon icon = new ImageIcon("images/player/" + name + ".png");
             Image image = icon.getImage().getScaledInstance(100, 188, Image.SCALE_DEFAULT);
