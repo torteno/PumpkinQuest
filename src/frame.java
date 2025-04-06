@@ -34,7 +34,7 @@ public class frame extends JFrame implements KeyListener {
         loadAndScalePlayerImages();
 
         player = new JLabel(playerImages.get("downStanding"));
-        player.setBounds(0, 0, 100, 200);
+        player.setBounds(0, 0, 100, 188);
         player.setOpaque(false);
 
         x = player.getX();
@@ -62,7 +62,7 @@ public class frame extends JFrame implements KeyListener {
         String[] imageNames = {"downStanding", "downFore", "downBack"};
         for (String name : imageNames) {
             ImageIcon icon = new ImageIcon("images/player/" + name + ".png");
-            Image image = icon.getImage().getScaledInstance(100, 200, Image.SCALE_DEFAULT);
+            Image image = icon.getImage().getScaledInstance(100, 188, Image.SCALE_DEFAULT);
             playerImages.put(name, new ImageIcon(image));
         }
     }
