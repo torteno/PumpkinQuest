@@ -13,15 +13,18 @@ public class frame extends JFrame implements KeyListener {
 
     int x, y;
     int step = 6;
-    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false;
+    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false;
     int moveTime, moveDir;
     int FPS = 60;
+    int currentHealth = 3, maximumHealth = 3;
     String direction = "down";
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
     Map<String, ImageIcon> assetsImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
     playerMovement playerMovementInstance;
+
+
 
     frame() {
         super("Pumpkin Quest");
@@ -42,14 +45,16 @@ public class frame extends JFrame implements KeyListener {
         x = player.getX();
         y = player.getY();
 
-        ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+        ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
         rock = new JLabel(rockIcon);
         rock.setBounds(300, 600, 90, 90);
         obstacles.add(rock);
 
-        ImageIcon chestIcon = new ImageIcon(new ImageIcon("images/assets/chest.png").getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
-        chest = new JLabel(chestIcon);
+
+        chest = new JLabel();
         chest.setBounds(500, 500, 150, 150);
+        ImageIcon chestIcon = new ImageIcon(new ImageIcon("images/assets/chest.png").getImage().getScaledInstance(chest.getWidth(), chest.getHeight(), Image.SCALE_SMOOTH));
+        chest.setIcon(chestIcon);
         obstacles.add(chest);
 
         backgroundPanel.add(rock);
@@ -69,10 +74,10 @@ public class frame extends JFrame implements KeyListener {
     }
 
     private void loadAndScalePlayerImages() {
-        String[] imageNames = {"downStanding", "downRight", "downLeft"};
+        String[] imageNames = {"downStanding", "downFore", "downBack"};
         for (String name : imageNames) {
             ImageIcon icon = new ImageIcon("images/player/" + name + ".png");
-            Image image = icon.getImage().getScaledInstance(100, 200, Image.SCALE_SMOOTH);
+            Image image = icon.getImage().getScaledInstance(100, 200, Image.SCALE_DEFAULT);
             playerImages.put(name, new ImageIcon(image));
         }
     }
@@ -99,9 +104,65 @@ public class frame extends JFrame implements KeyListener {
             if (placeholder >= 1) {
                 playerMovementInstance.playerPosition();
                 placeholder--;
+                playerHealth();
+                displayHeart();
             }
         }
     }
+
+    public void playerHealth() {
+        if (currentHealth <= 0) {
+            System.out.print("You died");
+            gameOver();
+        }
+    }
+
+    public void apple() {
+        currentHealth = maximumHealth;
+        System.out.println("You consumed an apple");
+    }
+
+    public void gameOver() {
+        //do game end code here
+    }
+
+    public void displayHeart() {
+
+
+        ImageIcon heartIcon = new ImageIcon("images/GUI/fullHeart.png");
+        heartIcon = new ImageIcon(heartIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+        JLabel heartLabel = new JLabel(heartIcon);
+        heartLabel.setBounds(10, 10, 50, 50);
+        add(heartLabel);
+        heartLabel.setOpaque(false);
+
+
+        if(currentHealth % 2 == 0) {
+
+            for(int i = 0; i <= currentHealth / 2; i++) {
+
+
+
+
+
+
+            }
+
+
+
+
+        } else {
+
+
+        }
+
+
+
+        revalidate();
+        repaint();
+    }
+
+
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -110,6 +171,7 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(true);
             case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(true);
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(true);
+            case KeyEvent.VK_Q -> qPressed = true;
         }
     }
 
@@ -120,6 +182,7 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(false);
             case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(false);
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(false);
+            case KeyEvent.VK_Q -> qPressed = false;
         }
     }
 
