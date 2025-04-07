@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class frame extends JFrame implements KeyListener {
 
     JLabel rock;
     JLabel player;
-    JLabel chest;
+
+    public Point position;
+    public int screenWidth, screenHeight;
 
     int x, y;
     int step = 6;
@@ -20,13 +23,21 @@ public class frame extends JFrame implements KeyListener {
     String direction = "down";
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
-    Map<String, ImageIcon> assetsImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
     playerMovement playerMovementInstance;
+    Camera CameraInstance;
+    public Point playerWorldPos = new Point(0, 0);
+    public Point rockWorldPos = new Point(50, 50);
+
+
+
 
 
 
     frame() {
+
+
+
         super("Pumpkin Quest");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1500, 1000);
@@ -38,35 +49,40 @@ public class frame extends JFrame implements KeyListener {
 
         loadAndScalePlayerImages();
 
+        Point playerPoint = new Point(0, 0);
+        Point rockpoint = new Point(300, 600);
+
         player = new JLabel(playerImages.get("downStanding"));
-        player.setBounds(0, 0, 100, 200);
-        player.setOpaque(true);
+        player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, 100, 200 );
+        player.setOpaque(false);
 
         x = player.getX();
         y = player.getY();
 
-        ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+        CameraInstance = new Camera(super.getWidth(), super.getHeight());
+
+
+
+
+
+
+
+
+    ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
         rock = new JLabel(rockIcon);
-        rock.setBounds(300, 600, 90, 90);
+        rock.setBounds(300, 600, 100, 100);
         obstacles.add(rock);
 
-
-        chest = new JLabel();
-        chest.setBounds(500, 500, 150, 150);
-        ImageIcon chestIcon = new ImageIcon(new ImageIcon("images/assets/chest.png").getImage().getScaledInstance(chest.getWidth(), chest.getHeight(), Image.SCALE_SMOOTH));
-        chest.setIcon(chestIcon);
-        obstacles.add(chest);
-
         backgroundPanel.add(rock);
-        rock.setOpaque(true);
-
-        backgroundPanel.add(chest);
-        chest.setOpaque(true);
+        rock.setOpaque(false);
         backgroundPanel.add(player);
 
         setContentPane(backgroundPanel);
         addKeyListener(this);
         setVisible(true);
+        JLabel coordinates = new JLabel(rock.getX() + " " + rock.getY());
+        coordinates.setBounds(0, 0, 100, 100);
+        super.add(coordinates);
 
         playerMovementInstance = new playerMovement(player, obstacles, playerImages, x, y, step, FPS, direction, upPressed, downPressed, leftPressed, rightPressed);
         moveDir = 1;
@@ -74,7 +90,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
     private void loadAndScalePlayerImages() {
-        String[] imageNames = {"downStanding", "downFore", "downBack"};
+        String[] imageNames = {"downStanding", "downFore", "downBack", "upStanding", "upFore", "upBack"};
         for (String name : imageNames) {
             ImageIcon icon = new ImageIcon("images/player/" + name + ".png");
             Image image = icon.getImage().getScaledInstance(100, 200, Image.SCALE_DEFAULT);
@@ -82,16 +98,14 @@ public class frame extends JFrame implements KeyListener {
         }
     }
 
-    /*private void loadAndScaleAssetImages() {
-        String[] imageNames = {"chest", "rock"};
-        for (String name : imageNames) {
-            ImageIcon icon = new ImageIcon("images/assets/" + name + ".png");
-            Image image = icon.getImage().getScaledInstance(100, 200, Image.SCALE_SMOOTH);
-            assetsImages.put(name, new ImageIcon(image));
-        }
-    } */
 
-    private void gameLoop() {
+
+
+
+
+
+
+private void gameLoop() {
         long previousTime = System.nanoTime();
         double placeholder = 0;
         long currentTime;
@@ -105,7 +119,10 @@ public class frame extends JFrame implements KeyListener {
                 playerMovementInstance.playerPosition();
                 placeholder--;
                 playerHealth();
-                displayHeart();
+                CameraInstance.position = playerWorldPos;
+                rock.setLocation(CameraInstance.worldToScreen(rockWorldPos));
+
+
             }
         }
     }
@@ -125,44 +142,6 @@ public class frame extends JFrame implements KeyListener {
     public void gameOver() {
         //do game end code here
     }
-
-    public void displayHeart() {
-
-
-        ImageIcon heartIcon = new ImageIcon("images/GUI/fullHeart.png");
-        heartIcon = new ImageIcon(heartIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-        JLabel heartLabel = new JLabel(heartIcon);
-        heartLabel.setBounds(10, 10, 50, 50);
-        add(heartLabel);
-        heartLabel.setOpaque(false);
-
-
-        if(currentHealth % 2 == 0) {
-
-            for(int i = 0; i <= currentHealth / 2; i++) {
-
-
-
-
-
-
-            }
-
-
-
-
-        } else {
-
-
-        }
-
-
-
-        revalidate();
-        repaint();
-    }
-
-
 
     @Override
     public void keyPressed(KeyEvent e) {
