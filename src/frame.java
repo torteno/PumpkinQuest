@@ -41,7 +41,7 @@ public class frame extends JFrame implements KeyListener {
 
         super("Pumpkin Quest");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1500, 1000);
+        setSize(1000, 800);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -54,7 +54,7 @@ public class frame extends JFrame implements KeyListener {
         Point rockpoint = new Point(300, 600);
 
         player = new JLabel(playerImages.get("downStanding"));
-        player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, 100, 180 );
+        player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, 100, 188 );
         player.setOpaque(true);
 
         x = player.getX();
@@ -81,6 +81,7 @@ public class frame extends JFrame implements KeyListener {
         setContentPane(backgroundPanel);
         addKeyListener(this);
         setVisible(true);
+        JLabel coordinates = new JLabel(rock.getX() + " " + rock.getY());
         coordinates.setBounds(0, 0, 100, 100);
         super.add(coordinates);
 
@@ -93,7 +94,7 @@ public class frame extends JFrame implements KeyListener {
         String[] imageNames = {"downStanding", "downFore", "downBack", "upStanding", "upFore", "upBack"};
         for (String name : imageNames) {
             ImageIcon icon = new ImageIcon("images/player/" + name + ".png");
-            Image image = icon.getImage().getScaledInstance(100, 200, Image.SCALE_DEFAULT);
+            Image image = icon.getImage().getScaledInstance(100, 188, Image.SCALE_DEFAULT);
             playerImages.put(name, new ImageIcon(image));
         }
     }
