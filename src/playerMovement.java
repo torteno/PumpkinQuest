@@ -41,7 +41,7 @@ public class playerMovement {
         int newWorldX = playerWorldPos.x;
         int newWorldY = playerWorldPos.y;
 
-        if (upPressed && leftPressed && !isCollision(x - step, y + step)) {
+        if (upPressed && leftPressed && !isCollision(x - step, y - step)) {
             newX -= step / Math.sqrt(2);
             newY -= step / Math.sqrt(2);
             playerWorldPos.x -= step / Math.sqrt(2);
