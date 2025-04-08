@@ -11,8 +11,11 @@ public class playerMovement {
     int x, y, step, FPS, moveTime, moveDir;
     String direction;
     boolean upPressed, downPressed, leftPressed, rightPressed;
+    Point playerWorldPos;
 
-    public playerMovement(JLabel player, ArrayList<JLabel> obstacles, Map<String, ImageIcon> playerImages, int x, int y, int step, int FPS, String direction, boolean upPressed, boolean downPressed, boolean leftPressed, boolean rightPressed) {
+
+
+    public playerMovement(JLabel player, ArrayList<JLabel> obstacles, Map<String, ImageIcon> playerImages, int x, int y, int step, int FPS, String direction, boolean upPressed, boolean downPressed, boolean leftPressed, boolean rightPressed, Point playerWorldPos) {
         this.player = player;
         this.obstacles = obstacles;
         this.playerImages = playerImages;
@@ -27,44 +30,74 @@ public class playerMovement {
         this.downPressed = downPressed;
         this.leftPressed = leftPressed;
         this.rightPressed = rightPressed;
+        this.playerWorldPos = playerWorldPos;
+
+
+
     }
 
     public void playerPosition() {
         int newX = x, newY = y;
+        int newWorldX = playerWorldPos.x;
+        int newWorldY = playerWorldPos.y;
 
         if (upPressed && leftPressed && !isCollision(x - step, y + step)) {
             newX -= step / Math.sqrt(2);
             newY -= step / Math.sqrt(2);
+            playerWorldPos.x -= step / Math.sqrt(2);
+            playerWorldPos.y -= step / Math.sqrt(2);
             direction = "up";
         } else if (upPressed && rightPressed && !isCollision(x + step, y - step)) {
             newX += step / Math.sqrt(2);
             newY -= step / Math.sqrt(2);
+            playerWorldPos.x += step / Math.sqrt(2);
+            playerWorldPos.y -= step / Math.sqrt(2);
             direction = "up";
         } else if (downPressed && leftPressed && !isCollision(x - step, y + step)) {
             newX -= step / Math.sqrt(2);
             newY += step / Math.sqrt(2);
+            playerWorldPos.x -= step / Math.sqrt(2);
+            playerWorldPos.y += step / Math.sqrt(2);
             direction = "down";
         } else if (downPressed && rightPressed && !isCollision(x + step, y + step)) {
             newX += step / Math.sqrt(2);
             newY += step / Math.sqrt(2);
+            playerWorldPos.x += step / Math.sqrt(2);
+            playerWorldPos.y += step / Math.sqrt(2);
             direction = "down";
         } else if (upPressed && !isCollision(x, y - step)) {
             newY -= step;
+            playerWorldPos.y -= step;
             direction = "up";
         } else if (downPressed && !isCollision(x, y + step)) {
             newY += step;
+            playerWorldPos.y += step;
             direction = "down";
         } else if (leftPressed && !isCollision(x - step, y)) {
             newX -= step;
+            playerWorldPos.x -= step;
             direction = "left";
         } else if (rightPressed && !isCollision(x + step, y)) {
             newX += step;
+            playerWorldPos.x += step;
             direction = "right";
         }
 
         if (!isCollision(newX, newY)) {
-            x = newX;
-            y = newY;
+
+
+            playerWorldPos.setLocation(playerWorldPos.x, playerWorldPos.y);
+        } else {
+            if (upPressed) {
+                playerWorldPos.y += step;
+            } else if (downPressed) {
+                playerWorldPos.y -= step;
+            }
+            if (leftPressed) {
+                playerWorldPos.x += step;
+            } else if (rightPressed) {
+                playerWorldPos.x -= step;
+            }
         }
 
         String imageName;
@@ -91,13 +124,12 @@ public class playerMovement {
             moveTime = 0;
         }
 
-        player.setLocation(x, y);
+
         player.repaint();
     }
 
     private boolean isCollision(int x, int y) {
-        Rectangle playerBounds = player.getBounds();
-        playerBounds.setLocation(x, y);
+        Rectangle playerBounds = new Rectangle(x, y - 7, player.getWidth(), player.getHeight() - 7);
 
         for (JLabel obstacle : obstacles) {
             if (obstacle.getBounds().intersects(playerBounds)) {

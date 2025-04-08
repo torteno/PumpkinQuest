@@ -54,7 +54,7 @@ public class frame extends JFrame implements KeyListener {
 
         player = new JLabel(playerImages.get("downStanding"));
         player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, 100, 200 );
-        player.setOpaque(false);
+        player.setOpaque(true);
 
         x = player.getX();
         y = player.getY();
@@ -74,7 +74,7 @@ public class frame extends JFrame implements KeyListener {
         obstacles.add(rock);
 
         backgroundPanel.add(rock);
-        rock.setOpaque(false);
+        rock.setOpaque(true);
         backgroundPanel.add(player);
 
         setContentPane(backgroundPanel);
@@ -84,7 +84,7 @@ public class frame extends JFrame implements KeyListener {
         coordinates.setBounds(0, 0, 100, 100);
         super.add(coordinates);
 
-        playerMovementInstance = new playerMovement(player, obstacles, playerImages, x, y, step, FPS, direction, upPressed, downPressed, leftPressed, rightPressed);
+        playerMovementInstance = new playerMovement(player, obstacles, playerImages, x, y, step, FPS, direction, upPressed, downPressed, leftPressed, rightPressed, playerWorldPos);
         moveDir = 1;
         gameLoop();
     }
@@ -117,6 +117,7 @@ private void gameLoop() {
             previousTime = currentTime;
             if (placeholder >= 1) {
                 playerMovementInstance.playerPosition();
+                player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, player.getWidth(), player.getHeight());
                 placeholder--;
                 playerHealth();
                 CameraInstance.position = playerWorldPos;
