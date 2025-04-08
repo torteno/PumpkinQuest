@@ -28,6 +28,7 @@ public class frame extends JFrame implements KeyListener {
     Camera CameraInstance;
     public Point playerWorldPos = new Point(0, 0);
     public Point rockWorldPos = new Point(50, 50);
+    JLabel coordinates = new JLabel();
 
 
 
@@ -53,7 +54,7 @@ public class frame extends JFrame implements KeyListener {
         Point rockpoint = new Point(300, 600);
 
         player = new JLabel(playerImages.get("downStanding"));
-        player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, 100, 200 );
+        player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, 100, 180 );
         player.setOpaque(true);
 
         x = player.getX();
@@ -80,7 +81,6 @@ public class frame extends JFrame implements KeyListener {
         setContentPane(backgroundPanel);
         addKeyListener(this);
         setVisible(true);
-        JLabel coordinates = new JLabel(rock.getX() + " " + rock.getY());
         coordinates.setBounds(0, 0, 100, 100);
         super.add(coordinates);
 
@@ -121,6 +121,7 @@ private void gameLoop() {
                 placeholder--;
                 playerHealth();
                 CameraInstance.position = playerWorldPos;
+                coordinates.setText(playerWorldPos.getX() + " " + playerWorldPos.getY());
                 rock.setLocation(CameraInstance.worldToScreen(rockWorldPos));
 
 
