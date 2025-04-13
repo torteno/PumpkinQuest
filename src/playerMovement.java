@@ -139,6 +139,10 @@ public class playerMovement {
         return false;
     }
 
+
+
+
+
     public void setUpPressed(boolean upPressed) {
         this.upPressed = upPressed;
     }

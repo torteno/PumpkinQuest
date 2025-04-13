@@ -4,6 +4,10 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.sound.midi.*;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.*;
 
 
 public class frame extends JFrame implements KeyListener {
@@ -33,7 +37,14 @@ public class frame extends JFrame implements KeyListener {
     public Point chestWorldPos = new Point(1000, 2000);
     JLabel coordinates = new JLabel();
 
+    public void Sequencer() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+        File file = new File("music/korok.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
 
+    }
 
 
 
@@ -47,6 +58,13 @@ public class frame extends JFrame implements KeyListener {
         setSize(1000, 800);
         setLocationRelativeTo(null);
         setResizable(false);
+
+
+        try {
+            Sequencer(); // Play the clip when the program starts
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace(); // Handle exceptions
+        }
 
         BackgroundPanel backgroundPanel = new BackgroundPanel("images/background/forest.png");
         backgroundPanel.setLayout(null);
@@ -101,6 +119,9 @@ public class frame extends JFrame implements KeyListener {
         playerMovementInstance = new playerMovement(player, obstacles, playerImages, x, y, step, FPS, direction, upPressed, downPressed, leftPressed, rightPressed, playerWorldPos);
         moveDir = 1;
         gameLoop();
+
+
+
     }
 
     private void loadAndScalePlayerImages() {
@@ -119,11 +140,13 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-private void gameLoop() {
+
+    private void gameLoop() {
         long previousTime = System.nanoTime();
         double placeholder = 0;
         long currentTime;
         double timePerFrame = 1_000_000_000.0 / FPS;
+
 
         while (true) {
             currentTime = System.nanoTime();
@@ -144,6 +167,7 @@ private void gameLoop() {
         }
     }
 
+
     public void playerHealth() {
         if (currentHealth <= 0) {
             System.out.print("You died");
@@ -156,12 +180,29 @@ private void gameLoop() {
         System.out.println("You consumed an apple");
     }
 
+
+    public void chest() {
+
+        if(playerWorldPos == chestWorldPos) {
+            System.out.println("You opened the chest");
+            currentHealth = maximumHealth;
+        } else {
+            System.out.println("You are not close enough to the chest");
+        }
+
+
+    }
+
     public void gameOver() {
         //do game end code here
     }
 
     public int create(int x, int y) {
         return 0;
+    }
+
+    public void interacting() {
+
     }
 
     @Override
@@ -172,6 +213,8 @@ private void gameLoop() {
             case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(true);
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(true);
             case KeyEvent.VK_Q -> qPressed = true;
+            case KeyEvent.VK_R -> apple();
+            case KeyEvent.VK_E -> interacting();
         }
     }
 
