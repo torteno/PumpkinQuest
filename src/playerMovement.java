@@ -129,7 +129,7 @@ public class playerMovement {
     }
 
     private boolean isCollision(int x, int y) {
-        Rectangle playerBounds = new Rectangle(x, y - 7, player.getWidth(), player.getHeight() - 7);
+        Rectangle playerBounds = new Rectangle(x, y, player.getWidth(), player.getHeight());
 
         for (JLabel obstacle : obstacles) {
             if (obstacle.getBounds().intersects(playerBounds)) {
