@@ -42,6 +42,14 @@ public class frame extends JFrame implements KeyListener {
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         Clip clip = AudioSystem.getClip();
         clip.open(audioStream);
+
+
+        float volume = 1f; //adjust volume here, I wil add a slider later but rn I gotta go to dinner
+        FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float dB = (float) (Math.log10(volume) * 20); // Convert volume (0.0 to 1.0) to decibels
+        volumeControl.setValue(dB);
+
+
         clip.start();
 
     }
