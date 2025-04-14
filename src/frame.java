@@ -47,6 +47,9 @@ public class frame extends JFrame implements KeyListener {
     JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png");
     Point rockTwoWorldPos = new Point(-500, -500);
 
+
+
+
     public void Sequencer() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         File file = new File("music/korok.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
@@ -213,6 +216,23 @@ public class frame extends JFrame implements KeyListener {
         }
     }
 
+    public int healthChange(int healthChange) {
+
+        currentHealth += healthChange;
+        for (int i = 0; i <= currentHealth; i++) {
+            JLabel fullHeart = assets(10 + (60 * i), 10, 50, 50, false, "images/GUI/fullHeart.png");
+        }
+        for (int i = 0; i <= maximumHealth; i++) {
+            JLabel fullHeart = assets(10 + (60 * i), 10, 50, 50, false, "images/GUI/fullHeart.png");
+        }
+
+        healthChange +=2;
+
+
+
+
+        return healthChange;
+    }
 
     public void playerHealth() {
         if (currentHealth <= 0) {
