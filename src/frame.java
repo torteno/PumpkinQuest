@@ -216,22 +216,17 @@ public class frame extends JFrame implements KeyListener {
         }
     }
 
-    public int healthChange(int healthChange) {
+    public void healthChange(int healthChange) {
 
         currentHealth += healthChange;
-        for (int i = 0; i <= currentHealth; i++) {
+        for (int i = 0; i == maximumHealth; i++) {
+            JLabel emptyHeart = assets(10 + (60 * i), 10, 50, 50, false, "images/GUI/emptyHeart.png");
+        }
+        for (int i = 0; i == currentHealth; i++) {
             JLabel fullHeart = assets(10 + (60 * i), 10, 50, 50, false, "images/GUI/fullHeart.png");
         }
-        for (int i = 0; i <= maximumHealth; i++) {
-            JLabel fullHeart = assets(10 + (60 * i), 10, 50, 50, false, "images/GUI/fullHeart.png");
-        }
-
-        healthChange +=2;
 
 
-
-
-        return healthChange;
     }
 
     public void playerHealth() {
