@@ -197,7 +197,6 @@ public class frame extends JFrame implements KeyListener {
                 playerMovementInstance.playerPosition();
                 player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, player.getWidth(), player.getHeight());
                 placeholder--;
-                playerHealth();
                 CameraInstance.position = playerWorldPos;
                 coordinates.setText(playerWorldPos.getX() + " " + playerWorldPos.getY());
 
@@ -219,6 +218,13 @@ public class frame extends JFrame implements KeyListener {
     public void healthChange(int healthChange) {
 
         currentHealth += healthChange;
+        if (currentHealth > maximumHealth) {
+            currentHealth = maximumHealth;
+        }
+        if (currentHealth <= 0) {
+            System.out.print("You died");
+            gameOver();
+        }
         for (int i = 0; i == maximumHealth; i++) {
             JLabel emptyHeart = assets(10 + (60 * i), 10, 50, 50, false, "images/GUI/emptyHeart.png");
         }
@@ -227,18 +233,6 @@ public class frame extends JFrame implements KeyListener {
         }
 
 
-    }
-
-    public void playerHealth() {
-        if (currentHealth <= 0) {
-            System.out.print("You died");
-            gameOver();
-        }
-    }
-
-    public void apple() {
-        currentHealth = maximumHealth;
-        System.out.println("You consumed an apple");
     }
 
 
@@ -274,7 +268,6 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(true);
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(true);
             case KeyEvent.VK_Q -> qPressed = true;
-            case KeyEvent.VK_R -> apple();
             case KeyEvent.VK_E -> interacting();
         }
     }
