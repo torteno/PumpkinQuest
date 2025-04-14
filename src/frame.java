@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import javax.sound.midi.*;
 import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
@@ -30,12 +29,16 @@ public class frame extends JFrame implements KeyListener {
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
+    ArrayList<JLabel> passables = new ArrayList<>();
     playerMovement playerMovementInstance;
     Camera CameraInstance;
     public Point playerWorldPos = new Point(0, 0);
     public Point rockWorldPos = new Point(50, 50);
     public Point chestWorldPos = new Point(1000, 2000);
     JLabel coordinates = new JLabel();
+    BackgroundPanel backgroundPanel = new BackgroundPanel("images/background/forest.png");
+    JLabel pebble = assets(0, 0, 100, 100, true, "images/assets/pebble.png");
+    Point pebbleWorldPos = new Point(0, 0);
 
     public void Sequencer() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         File file = new File("music/korok.wav");
@@ -51,6 +54,7 @@ public class frame extends JFrame implements KeyListener {
 
 
         clip.start();
+        clip.loop(10);
 
     }
 
@@ -74,7 +78,7 @@ public class frame extends JFrame implements KeyListener {
             e.printStackTrace(); // Handle exceptions
         }
 
-        BackgroundPanel backgroundPanel = new BackgroundPanel("images/background/forest.png");
+
         backgroundPanel.setLayout(null);
 
         loadAndScalePlayerImages();
@@ -91,6 +95,7 @@ public class frame extends JFrame implements KeyListener {
         y = player.getY();
 
         CameraInstance = new Camera(super.getWidth(), super.getHeight());
+
 
 
 
@@ -142,6 +147,24 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+    public JLabel assets(int x, int y, int width, int height, boolean obstacle, String filePath) {
+        ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
+        JLabel label = new JLabel(Icon);
+        label.setBounds(x, y, width, height);
+        if(obstacle) {
+            obstacles.add(label);
+        } else {
+            passables.add(label);
+        }
+
+        backgroundPanel.add(label);
+        label.setOpaque(false);
+
+
+        return label;
+    }
+
+
 
 
 
@@ -167,8 +190,14 @@ public class frame extends JFrame implements KeyListener {
                 playerHealth();
                 CameraInstance.position = playerWorldPos;
                 coordinates.setText(playerWorldPos.getX() + " " + playerWorldPos.getY());
+
+
+
                 rock.setLocation(CameraInstance.worldToScreen(rockWorldPos));
                 chest.setLocation(CameraInstance.worldToScreen(chestWorldPos));
+                pebble.setLocation(CameraInstance.worldToScreen(pebbleWorldPos));
+
+
 
 
             }
