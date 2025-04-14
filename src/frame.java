@@ -38,14 +38,17 @@ public class frame extends JFrame implements KeyListener {
     JLabel coordinates = new JLabel();
     BackgroundPanel backgroundPanel = new BackgroundPanel("images/background/forest.png");
 
-    JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png");
+    JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", true);
     Point pebbleWorldPos = new Point(1000, 1000);
 
-    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png");
+    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false);
     Point warpWorldPos = new Point(-1000, 1000);
 
-    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png");
+    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false);
     Point rockTwoWorldPos = new Point(-500, -500);
+
+    JLabel rockThird = assets(2500, 2500, 200, 200, false, "images/assets/rock.png",false);
+    Point rockThirdWorldPos = new Point(2500, 2500);
 
     public void Sequencer() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         File file = new File("music/korok.wav");
@@ -154,7 +157,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-    public JLabel assets(int x, int y, int width, int height, boolean obstacle, String filePath) {
+    public JLabel assets(int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque) {
         ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         JLabel label = new JLabel(Icon);
         label.setBounds(x, y, width, height);
@@ -162,6 +165,12 @@ public class frame extends JFrame implements KeyListener {
             obstacles.add(label);
         } else {
             passables.add(label);
+        }
+
+        if(opaque) {
+            label.setOpaque(true);
+        } else {
+            label.setOpaque(false);
         }
 
         backgroundPanel.add(label);
@@ -205,6 +214,7 @@ public class frame extends JFrame implements KeyListener {
                 pebble.setLocation(CameraInstance.worldToScreen(pebbleWorldPos));
                 warp.setLocation(CameraInstance.worldToScreen(warpWorldPos));
                 rockTwo.setLocation(CameraInstance.worldToScreen(rockTwoWorldPos));
+                rockThird.setLocation(CameraInstance.worldToScreen(rockThirdWorldPos));
 
 
 
