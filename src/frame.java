@@ -37,8 +37,15 @@ public class frame extends JFrame implements KeyListener {
     public Point chestWorldPos = new Point(1000, 2000);
     JLabel coordinates = new JLabel();
     BackgroundPanel backgroundPanel = new BackgroundPanel("images/background/forest.png");
-    JLabel pebble = assets(0, 0, 100, 100, true, "images/assets/pebble.png");
-    Point pebbleWorldPos = new Point(0, 0);
+
+    JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png");
+    Point pebbleWorldPos = new Point(1000, 1000);
+
+    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png");
+    Point warpWorldPos = new Point(-1000, 1000);
+
+    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png");
+    Point rockTwoWorldPos = new Point(-500, -500);
 
     public void Sequencer() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         File file = new File("music/korok.wav");
@@ -196,6 +203,8 @@ public class frame extends JFrame implements KeyListener {
                 rock.setLocation(CameraInstance.worldToScreen(rockWorldPos));
                 chest.setLocation(CameraInstance.worldToScreen(chestWorldPos));
                 pebble.setLocation(CameraInstance.worldToScreen(pebbleWorldPos));
+                warp.setLocation(CameraInstance.worldToScreen(warpWorldPos));
+                rockTwo.setLocation(CameraInstance.worldToScreen(rockTwoWorldPos));
 
 
 
