@@ -227,6 +227,14 @@ public class frame extends JFrame implements KeyListener {
         }
     }
 
+
+    public void armorIncrease(double armorInc) {
+        double oldMaximumHealth = maximumHealth;
+        maximumHealth = armorInc;
+        healthChange(maximumHealth-oldMaximumHealth);
+    }
+
+
     public void healthChange(double healthChange) {
 
         currentHealth += healthChange;
