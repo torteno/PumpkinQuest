@@ -38,7 +38,10 @@ public class frame extends JFrame implements KeyListener {
     JLabel coordinates = new JLabel();
     BackgroundPanel backgroundPanel = new BackgroundPanel("images/background/forest.png");
 
-    JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", true);
+    //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
+
+
+    JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false);
     Point pebbleWorldPos = new Point(1000, 1000);
 
     JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false);
@@ -174,7 +177,6 @@ public class frame extends JFrame implements KeyListener {
         }
 
         backgroundPanel.add(label);
-        label.setOpaque(false);
 
 
         return label;
@@ -206,6 +208,7 @@ public class frame extends JFrame implements KeyListener {
                 placeholder--;
                 CameraInstance.position = playerWorldPos;
                 coordinates.setText(playerWorldPos.getX() + " " + playerWorldPos.getY());
+                //healthChange(0);
 
 
 
