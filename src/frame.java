@@ -203,6 +203,7 @@ public class frame extends JFrame implements KeyListener {
             placeholder += (currentTime - previousTime) / timePerFrame;
             previousTime = currentTime;
             if (placeholder >= 1) {
+                interacting();
                 playerMovementInstance.playerPosition();
                 player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, player.getWidth(), player.getHeight());
                 placeholder--;
@@ -274,6 +275,12 @@ public class frame extends JFrame implements KeyListener {
     }
 
     public void interacting() {
+        if(player.getBounds().intersects(warp.getBounds())) {
+            playerWorldPos.setLocation(0, 0);
+
+
+        }
+
 
     }
 
