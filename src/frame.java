@@ -24,7 +24,7 @@ public class frame extends JFrame implements KeyListener {
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false;
     int moveTime, moveDir;
     int FPS = 60;
-    int currentHealth = 3, maximumHealth = 3;
+    double currentHealth = 2.5, maximumHealth = 3.0;
     String direction = "down";
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
@@ -193,6 +193,7 @@ public class frame extends JFrame implements KeyListener {
         double placeholder = 0;
         long currentTime;
         double timePerFrame = 1_000_000_000.0 / FPS;
+        healthChange(0);
 
 
         while (true) {
@@ -222,7 +223,7 @@ public class frame extends JFrame implements KeyListener {
         }
     }
 
-    public void healthChange(int healthChange) {
+    public void healthChange(double healthChange) {
 
         currentHealth += healthChange;
         if (currentHealth > maximumHealth) {
@@ -230,14 +231,19 @@ public class frame extends JFrame implements KeyListener {
         }
         if (currentHealth <= 0) {
             System.out.print("You died");
-            gameOver();
+            //gameOver();
         }
-        for (int i = 0; i == maximumHealth; i++) {
-            JLabel emptyHeart = assets(10 + (60 * i), 10, 50, 50, false, "images/GUI/emptyHeart.png", false);
-        }
-        for (int i = 0; i == currentHealth; i++) {
+        for (int i = 0; i <= currentHealth; i++) {
             JLabel fullHeart = assets(10 + (60 * i), 10, 50, 50, false, "images/GUI/fullHeart.png", false);
         }
+        if (currentHealth % 1.0 != 0) {
+            JLabel halfHeart = assets((int) (40 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false);
+        }
+        for (int i = 0; i <= maximumHealth; i++) {
+            JLabel emptyHeart = assets(10 + (60 * i), 10, 50, 50, false, "images/GUI/emptyHeart.png", false);
+        }
+
+
 
 
     }
