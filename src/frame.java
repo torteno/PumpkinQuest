@@ -21,7 +21,7 @@ public class frame extends JFrame implements KeyListener {
 
     int x, y;
     int step = 6;
-    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false;
+    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false;
     int moveTime, moveDir;
     int FPS = 60;
     double currentHealth = 5.5, maximumHealth = 8.0;
@@ -40,6 +40,8 @@ public class frame extends JFrame implements KeyListener {
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
+
+    JLabel press = assets(175, 600, 640, 160, false, "images/GUI/pressE.png", false);
 
     JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false);
     Point pebbleWorldPos = new Point(1000, 1000);
@@ -129,7 +131,7 @@ public class frame extends JFrame implements KeyListener {
         ImageIcon chestIcon = new ImageIcon(new ImageIcon("images/assets/chest.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
         chest = new JLabel(chestIcon);
         chest.setBounds(1000, 2000, 150, 150);
-        obstacles.add(chest);
+        //obstacles.add(chest);
 
         backgroundPanel.add(chest);
         chest.setOpaque(true);
@@ -286,6 +288,23 @@ public class frame extends JFrame implements KeyListener {
         if(player.getBounds().intersects(warp.getBounds())) {
             playerWorldPos.setLocation(0, 0);
 
+        }
+
+        if(player.getBounds().intersects(chest.getBounds())) {
+
+            press.setVisible(true);
+
+            if(ePressed) {
+                System.out.println("You opened the chest");
+
+
+
+            }
+
+
+        } else {
+            press.setVisible(false);
+
 
         }
 
@@ -300,7 +319,7 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(true);
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(true);
             case KeyEvent.VK_Q -> qPressed = true;
-            case KeyEvent.VK_E -> interacting();
+            case KeyEvent.VK_E -> ePressed = true;
         }
     }
 
@@ -312,6 +331,7 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_A -> playerMovementInstance.setLeftPressed(false);
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(false);
             case KeyEvent.VK_Q -> qPressed = false;
+            case KeyEvent.VK_E -> ePressed = false;
         }
     }
 
