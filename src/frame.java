@@ -26,6 +26,9 @@ public class frame extends JFrame implements KeyListener {
     int FPS = 60;
     double currentHealth = 5.5, maximumHealth = 8.0;
     String direction = "down";
+    double distance;
+    int slope;
+    int b;
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
@@ -55,8 +58,11 @@ public class frame extends JFrame implements KeyListener {
     JLabel rockThird = assets(2500, 2500, 200, 200, false, "images/assets/rock.png",false);
     Point rockThirdWorldPos = new Point(2500, 2500);
 
-    public void Sequencer() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
-        File file = new File("music/korok.wav");
+    JLabel ghost = assets(1000, -1500, 100, 100, false, "images/mob/ghost.png",false);
+    Point ghostWorldPos = new Point(1000, -1500);
+
+    public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+        File file = new File(input);
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         Clip clip = AudioSystem.getClip();
         clip.open(audioStream);
@@ -88,7 +94,7 @@ public class frame extends JFrame implements KeyListener {
 
 
         try {
-            Sequencer(); // Play the clip when the program starts
+            Sequencer("music/korok.wav"); // Play the clip when the program starts
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace(); // Handle exceptions
         }
@@ -221,12 +227,59 @@ public class frame extends JFrame implements KeyListener {
                 warp.setLocation(CameraInstance.worldToScreen(warpWorldPos));
                 rockTwo.setLocation(CameraInstance.worldToScreen(rockTwoWorldPos));
                 rockThird.setLocation(CameraInstance.worldToScreen(rockThirdWorldPos));
+                ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 4);
+                ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
+
+
+
 
 
 
 
             }
         }
+    }
+
+
+    public Point mobMovement(int x, int y, int mobSpeed) {
+
+        distance = (int) Math.sqrt(Math.pow((playerWorldPos.x - x), 2) + Math.pow((playerWorldPos.y - y), 2));
+
+        //step -= mobSpeed;
+
+        if(distance <= 1000 && distance >= 50 && playerWorldPos.x != ghostWorldPos.x) {
+
+            int distanceX = playerWorldPos.x - x;
+            int distanceY = playerWorldPos.y - y;
+
+            slope = (playerWorldPos.y - y) / (playerWorldPos.x - x);
+
+            b = playerWorldPos.y - slope * playerWorldPos.x;
+
+
+            if (distanceX == 0) {
+                // Move vertically only
+                if (playerWorldPos.y > y) {
+                    y += mobSpeed;
+                } else if (playerWorldPos.y < y) {
+                    y -= mobSpeed;
+                }
+            } else {
+                // Use double to avoid integer rounding
+                double slope = (double) distanceY / distanceX;
+                double b = playerWorldPos.y - slope * playerWorldPos.x;
+
+                if (playerWorldPos.x > x) {
+                    x += mobSpeed;
+                } else if (playerWorldPos.x < x) {
+                    x -= mobSpeed;
+                }
+
+                y = (int) (slope * x + b);
+            }
+        }
+
+        return new Point(x, y);
     }
 
 
@@ -276,6 +329,20 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+
+    public void test () {
+
+        if(qPressed) {
+
+            player.setLocation(ghostWorldPos.x, ghostWorldPos.y);
+
+        }
+
+    }
+
+
+
+
     public void gameOver() {
         //do game end code here
     }
@@ -296,6 +363,12 @@ public class frame extends JFrame implements KeyListener {
 
             if(ePressed) {
                 System.out.println("You opened the chest");
+
+                try {
+                    Sequencer("music/jocofullinterview41.wav"); // Play the clip when the program starts
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace(); // Handle exceptions
+                }
 
 
 
