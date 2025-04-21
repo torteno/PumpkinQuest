@@ -33,13 +33,15 @@ public class frame extends JFrame implements KeyListener {
     Map<String, ImageIcon> playerImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
     ArrayList<JLabel> passables = new ArrayList<>();
+    ArrayList<JLabel> tiles = new ArrayList<>();
+    ArrayList<Tile> backgroundTiles = new ArrayList<>();
     playerMovement playerMovementInstance;
     Camera CameraInstance;
     public Point playerWorldPos = new Point(0, 0);
     public Point rockWorldPos = new Point(50, 50);
     public Point chestWorldPos = new Point(1000, 2000);
     JLabel coordinates = new JLabel();
-    BackgroundPanel backgroundPanel = new BackgroundPanel("images/background/forest.png");
+    BackgroundPanel backgroundPanel = new BackgroundPanel(null);
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
@@ -68,7 +70,7 @@ public class frame extends JFrame implements KeyListener {
         clip.open(audioStream);
 
 
-        float volume = 1f; //adjust volume here, I wil add a slider later but rn I gotta go to dinner
+        float volume = 1f; // adjust volume here
         FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         float dB = (float) (Math.log10(volume) * 20); // Convert volume (0.0 to 1.0) to decibels
         volumeControl.setValue(dB);
@@ -101,6 +103,31 @@ public class frame extends JFrame implements KeyListener {
 
 
         backgroundPanel.setLayout(null);
+
+        //Background Tile System - place files named (position)x(position)y.png in the tiles folder
+        int tileSize = 1600; // changes how far apart the tiles are placed
+        File tileDir = new File("images/background/tiles");
+        File[] tileFiles = tileDir.listFiles((dir, name) -> name.matches("\\d+x\\dy\\.png"));
+        if (tileFiles != null) { 
+            for (File tileFile : tileFiles) {
+                String fileName = tileFile.getName();
+                String[] parts = fileName.replace(".png", "").split("x|y");
+                int tileX = Integer.parseInt(parts[0]);
+                int tileY = Integer.parseInt(parts[1]);
+
+                ImageIcon tileIcon = new ImageIcon(new ImageIcon(tileFile.getPath()).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT));
+                JLabel tileLabel = new JLabel(tileIcon);
+                tileLabel.setBounds(0, 0, tileSize, tileSize); // position will be updated in gameLoop
+                tileLabel.setOpaque(false);
+                backgroundPanel.add(tileLabel);
+                
+                Point worldPos = new Point(tileX * tileSize, -tileY * tileSize);
+                backgroundTiles.add(new Tile(tileLabel, worldPos));
+
+            }
+        }
+
+
 
         loadAndScalePlayerImages();
 
@@ -156,6 +183,16 @@ public class frame extends JFrame implements KeyListener {
 
 
 
+    }
+
+    class Tile {
+        JLabel label;
+        Point worldPos;
+    
+        Tile(JLabel label, Point worldPos) {
+            this.label = label;
+            this.worldPos = worldPos;
+        }
     }
 
     private void loadAndScalePlayerImages() {
@@ -219,7 +256,10 @@ public class frame extends JFrame implements KeyListener {
                 coordinates.setText(playerWorldPos.getX() + " " + playerWorldPos.getY());
                 //healthChange(0);
 
-
+                for (Tile tile : backgroundTiles) {
+                    Point screenPos = CameraInstance.worldToScreen(tile.worldPos);
+                    tile.label.setLocation(screenPos);
+                }
 
                 rock.setLocation(CameraInstance.worldToScreen(rockWorldPos));
                 chest.setLocation(CameraInstance.worldToScreen(chestWorldPos));
@@ -230,9 +270,10 @@ public class frame extends JFrame implements KeyListener {
                 ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 4);
                 ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
 
-
-
-
+                backgroundPanel.setComponentZOrder(player, 0);
+                backgroundPanel.setComponentZOrder(ghost, 1);
+                backgroundPanel.setComponentZOrder(rock, 2);
+                backgroundPanel.setComponentZOrder(chest, 3);
 
 
 
@@ -363,14 +404,6 @@ public class frame extends JFrame implements KeyListener {
 
             if(ePressed) {
                 System.out.println("You opened the chest");
-
-                try {
-                    Sequencer("music/jocofullinterview41.wav"); // Play the clip when the program starts
-                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                    e.printStackTrace(); // Handle exceptions
-                }
-
-
 
             }
 
