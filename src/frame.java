@@ -21,7 +21,7 @@ public class frame extends JFrame implements KeyListener {
 
     int x, y;
     int step = 6;
-    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false;
+    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false;
     int moveTime, moveDir;
     int FPS = 60;
     double currentHealth = 5.5, maximumHealth = 8.0;
@@ -29,6 +29,7 @@ public class frame extends JFrame implements KeyListener {
     double distance;
     int slope;
     int b;
+    public static float volume = 1f;
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
@@ -42,39 +43,37 @@ public class frame extends JFrame implements KeyListener {
     public Point chestWorldPos = new Point(1000, 2000);
     JLabel coordinates = new JLabel();
     BackgroundPanel backgroundPanel = new BackgroundPanel(null);
+    static Clip clip;
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
 
-    JLabel press = assets(175, 600, 640, 160, false, "images/GUI/pressE.png", false);
+    JLabel press = assets(175, 600, 640, 160, false, "images/GUI/pressE.png", false, 0);
 
-    JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false);
+    JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 4);
     Point pebbleWorldPos = new Point(1000, 1000);
 
-    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false);
+    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 4);
     Point warpWorldPos = new Point(-1000, 1000);
 
-    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false);
+    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 4);
     Point rockTwoWorldPos = new Point(-500, -500);
 
-    JLabel rockThird = assets(2500, 2500, 200, 200, false, "images/assets/rock.png",false);
+    JLabel rockThird = assets(2500, 2500, 200, 200, false, "images/assets/rock.png", false, 4);
     Point rockThirdWorldPos = new Point(2500, 2500);
 
-    JLabel ghost = assets(1000, -1500, 100, 100, false, "images/mob/ghost.png",false);
+    JLabel ghost = assets(1000, -1500, 100, 100, false, "images/mob/ghost.png", false, 4);
     Point ghostWorldPos = new Point(1000, -1500);
 
-    public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+    public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-        Clip clip = AudioSystem.getClip();
+        clip = AudioSystem.getClip();
         clip.open(audioStream);
 
 
-        float volume = 1f; // adjust volume here
-        FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        float dB = (float) (Math.log10(volume) * 20); // Convert volume (0.0 to 1.0) to decibels
-        volumeControl.setValue(dB);
-
+        //float volume = 1f; // adjust volume here
+        volumeChange(0);
 
         clip.start();
         clip.loop(10);
@@ -82,10 +81,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-
-
     frame() {
-
 
 
         super("Pumpkin Quest");
@@ -108,7 +104,7 @@ public class frame extends JFrame implements KeyListener {
         int tileSize = 1600; // changes how far apart the tiles are placed
         File tileDir = new File("images/background/tiles");
         File[] tileFiles = tileDir.listFiles((dir, name) -> name.matches("\\d+x\\dy\\.png"));
-        if (tileFiles != null) { 
+        if (tileFiles != null) {
             for (File tileFile : tileFiles) {
                 String fileName = tileFile.getName();
                 String[] parts = fileName.replace(".png", "").split("x|y");
@@ -120,13 +116,12 @@ public class frame extends JFrame implements KeyListener {
                 tileLabel.setBounds(0, 0, tileSize, tileSize); // position will be updated in gameLoop
                 tileLabel.setOpaque(false);
                 backgroundPanel.add(tileLabel);
-                
+
                 Point worldPos = new Point(tileX * tileSize, -tileY * tileSize);
                 backgroundTiles.add(new Tile(tileLabel, worldPos));
 
             }
         }
-
 
 
         loadAndScalePlayerImages();
@@ -136,7 +131,7 @@ public class frame extends JFrame implements KeyListener {
         Point chestPoint = new Point(1000, 2000);
 
         player = new JLabel(playerImages.get("downStanding"));
-        player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, 100, 188 );
+        player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, 100, 188);
         player.setOpaque(false);
 
         x = player.getX();
@@ -145,14 +140,7 @@ public class frame extends JFrame implements KeyListener {
         CameraInstance = new Camera(super.getWidth(), super.getHeight());
 
 
-
-
-
-
-
-
-
-    ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+        ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
         rock = new JLabel(rockIcon);
         rock.setBounds(300, 600, 100, 100);
         obstacles.add(rock);
@@ -182,13 +170,12 @@ public class frame extends JFrame implements KeyListener {
         gameLoop();
 
 
-
     }
 
     class Tile {
         JLabel label;
         Point worldPos;
-    
+
         Tile(JLabel label, Point worldPos) {
             this.label = label;
             this.worldPos = worldPos;
@@ -205,17 +192,17 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-    public JLabel assets(int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque) {
+    public JLabel assets(int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque, int zOrder) {
         ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         JLabel label = new JLabel(Icon);
         label.setBounds(x, y, width, height);
-        if(obstacle) {
+        if (obstacle) {
             obstacles.add(label);
         } else {
             passables.add(label);
         }
 
-        if(opaque) {
+        if (opaque) {
             label.setOpaque(true);
         } else {
             label.setOpaque(false);
@@ -224,15 +211,13 @@ public class frame extends JFrame implements KeyListener {
         backgroundPanel.add(label);
 
 
+        int maxZOrder = backgroundPanel.getComponentCount() - 1; // fixed with gpt
+        zOrder = Math.max(0, Math.min(zOrder, maxZOrder)); // fixed with gpt
+        backgroundPanel.setComponentZOrder(label, zOrder);
+
+
         return label;
     }
-
-
-
-
-
-
-
 
 
     private void gameLoop() {
@@ -250,7 +235,7 @@ public class frame extends JFrame implements KeyListener {
             if (placeholder >= 1) {
                 interacting();
                 playerMovementInstance.playerPosition();
-                player.setBounds(super.getWidth()/2 - 50, super.getHeight()/2 - 100, player.getWidth(), player.getHeight());
+                player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
                 placeholder--;
                 CameraInstance.position = playerWorldPos;
                 coordinates.setText(playerWorldPos.getX() + " " + playerWorldPos.getY());
@@ -267,14 +252,13 @@ public class frame extends JFrame implements KeyListener {
                 warp.setLocation(CameraInstance.worldToScreen(warpWorldPos));
                 rockTwo.setLocation(CameraInstance.worldToScreen(rockTwoWorldPos));
                 rockThird.setLocation(CameraInstance.worldToScreen(rockThirdWorldPos));
-                ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 4);
+                ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3);
                 ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
 
                 backgroundPanel.setComponentZOrder(player, 0);
-                backgroundPanel.setComponentZOrder(ghost, 1);
-                backgroundPanel.setComponentZOrder(rock, 2);
-                backgroundPanel.setComponentZOrder(chest, 3);
-
+                backgroundPanel.setComponentZOrder(ghost, 2);
+                backgroundPanel.setComponentZOrder(rock, 3);
+                backgroundPanel.setComponentZOrder(chest, 4);
 
 
             }
@@ -288,7 +272,7 @@ public class frame extends JFrame implements KeyListener {
 
         //step -= mobSpeed;
 
-        if(distance <= 1000 && distance >= 50 && playerWorldPos.x != ghostWorldPos.x) {
+        if (distance <= 1000 && distance >= 50 && playerWorldPos.x != ghostWorldPos.x && playerWorldPos.y != ghostWorldPos.y) {
 
             int distanceX = playerWorldPos.x - x;
             int distanceY = playerWorldPos.y - y;
@@ -342,17 +326,17 @@ public class frame extends JFrame implements KeyListener {
             //gameOver();
         }
         for (int i = 1; i <= currentHealth; i++) {
-            JLabel fullHeart = assets(10 + (60 * (i-1)), 10, 50, 50, false, "images/GUI/fullHeart.png", false);
+            JLabel fullHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/fullHeart.png", false, 0);
+            //backgroundPanel.setComponentZOrder(fullHeart, 0);
         }
         if (currentHealth % 1.0 != 0) {
-            JLabel halfHeart = assets((int) (-20 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false);
+            JLabel halfHeart = assets((int) (-20 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false, 0);
+            //backgroundPanel.setComponentZOrder(halfHeart, 0);
         }
         for (int i = 1; i <= maximumHealth; i++) {
-            JLabel emptyHeart = assets(10 + (60 * (i-1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false);
+            JLabel emptyHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1);
+            //backgroundPanel.setComponentZOrder(emptyHeart, 1);
         }
-
-
-
 
 
     }
@@ -417,6 +401,23 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+
+    public static void volumeChange(float volumeChange) {
+
+        volume += volumeChange;
+        if (volume >= 1f) {
+            volume = 1f;
+        } else if(volume <= 0f) {
+            volume = 0f;
+        }
+
+        System.out.println(volume);
+
+        FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float dB = (float) (Math.log10(volume) * 20); // Convert volume (0.0 to 1.0) to decibels
+        volumeControl.setValue(dB);
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -426,6 +427,8 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(true);
             case KeyEvent.VK_Q -> qPressed = true;
             case KeyEvent.VK_E -> ePressed = true;
+            case KeyEvent.VK_EQUALS -> volumeChange(0.1f);
+            case KeyEvent.VK_MINUS -> volumeChange(-0.1f);
         }
     }
 
@@ -438,6 +441,8 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_D -> playerMovementInstance.setRightPressed(false);
             case KeyEvent.VK_Q -> qPressed = false;
             case KeyEvent.VK_E -> ePressed = false;
+            case KeyEvent.VK_EQUALS -> plusPressed = false;
+            case KeyEvent.VK_MINUS -> minusPressed = false;
         }
     }
 
