@@ -334,6 +334,10 @@ public class frame extends JFrame implements KeyListener {
             System.out.print("You died");
             //gameOver();
         }
+        for (int i = 1; i <= maximumHealth; i++) {
+            JLabel emptyHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1);
+            //backgroundPanel.setComponentZOrder(emptyHeart, 1);
+        }
         for (int i = 1; i <= currentHealth; i++) {
             JLabel fullHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/fullHeart.png", false, 0);
             //backgroundPanel.setComponentZOrder(fullHeart, 0);
@@ -342,10 +346,7 @@ public class frame extends JFrame implements KeyListener {
             JLabel halfHeart = assets((int) (-20 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false, 0);
             //backgroundPanel.setComponentZOrder(halfHeart, 0);
         }
-        for (int i = 1; i <= maximumHealth; i++) {
-            JLabel emptyHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1);
-            //backgroundPanel.setComponentZOrder(emptyHeart, 1);
-        }
+
 
 
     }
