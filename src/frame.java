@@ -62,7 +62,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel rockThird = assets(2500, 2500, 200, 200, false, "images/assets/rock.png", false, 4);
     Point rockThirdWorldPos = new Point(2500, 2500);
 
-    JLabel ghost = assets(1000, -1500, 100, 100, false, "images/mob/ghost.png", false, 4);
+    JLabel ghost = assets(1000, -1500, 100, 100, false, "images/mob/ghost.png", false, 0);
     Point ghostWorldPos = new Point(1000, -1500);
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -241,6 +241,8 @@ public class frame extends JFrame implements KeyListener {
                 coordinates.setText(playerWorldPos.getX() + " " + playerWorldPos.getY());
                 //healthChange(0);
 
+                System.out.println(ghostWorldPos);
+
                 for (Tile tile : backgroundTiles) {
                     Point screenPos = CameraInstance.worldToScreen(tile.worldPos);
                     tile.label.setLocation(screenPos);
@@ -252,7 +254,7 @@ public class frame extends JFrame implements KeyListener {
                 warp.setLocation(CameraInstance.worldToScreen(warpWorldPos));
                 rockTwo.setLocation(CameraInstance.worldToScreen(rockTwoWorldPos));
                 rockThird.setLocation(CameraInstance.worldToScreen(rockThirdWorldPos));
-                ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3);
+                ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500);
                 ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
 
                 backgroundPanel.setComponentZOrder(player, 0);
@@ -266,13 +268,13 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-    public Point mobMovement(int x, int y, int mobSpeed) {
+    public Point mobMovement(int x, int y, int mobSpeed, int followDistance) {
 
         distance = (int) Math.sqrt(Math.pow((playerWorldPos.x - x), 2) + Math.pow((playerWorldPos.y - y), 2));
 
         //step -= mobSpeed;
 
-        if (distance <= 1000 && distance >= 50 && playerWorldPos.x != ghostWorldPos.x && playerWorldPos.y != ghostWorldPos.y) {
+        if (distance <= followDistance && distance >= 200 && playerWorldPos.x != ghostWorldPos.x && playerWorldPos.y != ghostWorldPos.y) {
 
             int distanceX = playerWorldPos.x - x;
             int distanceY = playerWorldPos.y - y;
@@ -284,11 +286,18 @@ public class frame extends JFrame implements KeyListener {
 
             if (distanceX == 0) {
                 // Move vertically only
+
+                //double slope = (double) distanceY;
+                //double b = playerWorldPos.y - slope * playerWorldPos.x;
+
                 if (playerWorldPos.y > y) {
                     y += mobSpeed;
                 } else if (playerWorldPos.y < y) {
                     y -= mobSpeed;
                 }
+
+              //  x = (int) (slope * y + b);
+
             } else {
                 // Use double to avoid integer rounding
                 double slope = (double) distanceY / distanceX;
