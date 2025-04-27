@@ -87,6 +87,7 @@ public class playerMovement {
 
 
             playerWorldPos.setLocation(playerWorldPos.x, playerWorldPos.y);
+
         } else {
             if (upPressed) {
                 playerWorldPos.y += step;

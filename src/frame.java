@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
+import java.util.UUID;
 
 
 public class frame extends JFrame implements KeyListener {
@@ -34,6 +35,16 @@ public class frame extends JFrame implements KeyListener {
     int slope;
     int b;
     public static float volume = 1f;
+    boolean GUIOpen = true;
+
+
+    Map <UUID, JLabel> mob = new HashMap<>();
+    Map <UUID, Integer> MobHealth = new HashMap<>();
+    Map <UUID, Integer> MobDamage = new HashMap<>();
+    Map <UUID, Integer> MobReach = new HashMap<>();
+    Map <UUID, Integer> MobSpeed = new HashMap<>();
+    Map <UUID, Integer> MobFollowDistance = new HashMap<>();
+
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
@@ -49,10 +60,12 @@ public class frame extends JFrame implements KeyListener {
     BackgroundPanel backgroundPanel = new BackgroundPanel(null);
     static Clip clip;
 
+    int swordUpgrade = 0;
+
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
 
-    JLabel press = assets(175, 600, 640, 160, false, "images/GUI/pressE.png", false, 0);
+    JLabel press = assets(175, 600, 640, 160, false, "images/GUI/pressE.png", false, 1);
 
     JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 4);
     Point pebbleWorldPos = new Point(1000, 1000);
@@ -66,8 +79,13 @@ public class frame extends JFrame implements KeyListener {
     JLabel rockThird = assets(2500, 2500, 200, 200, false, "images/assets/rock.png", false, 4);
     Point rockThirdWorldPos = new Point(2500, 2500);
 
-    JLabel ghost = assets(1000, -1500, 100, 100, false, "images/mob/ghost.png", false, 0);
+    JLabel ghost = assets(1000, -1500, 100, 100, false, "images/mob/ghost.png", false, 1);
     Point ghostWorldPos = new Point(1000, -1500);
+
+
+    JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 100, 1, 100, 3, 500);
+    Point ghostTwoWorldPos = new Point(750, 200);
+
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
@@ -95,6 +113,11 @@ public class frame extends JFrame implements KeyListener {
         setResizable(false);
 
 
+
+        Image icon = new ImageIcon("images/mob/ghost").getImage();
+
+        setIconImage(icon);
+
         try {
             Sequencer("music/korok.wav"); // Play the clip when the program starts
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -120,6 +143,7 @@ public class frame extends JFrame implements KeyListener {
                 tileLabel.setBounds(0, 0, tileSize, tileSize); // position will be updated in gameLoop
                 tileLabel.setOpaque(false);
                 backgroundPanel.add(tileLabel);
+                backgroundPanel.setComponentZOrder(tileLabel, 4);
 
                 Point worldPos = new Point(tileX * tileSize, -tileY * tileSize);
                 backgroundTiles.add(new Tile(tileLabel, worldPos));
@@ -131,6 +155,7 @@ public class frame extends JFrame implements KeyListener {
         startScreen.setBounds(0,-10, getWidth(), getHeight());
         startScreen.setOpaque(false);
         backgroundPanel.add(startScreen);
+        backgroundPanel.setComponentZOrder(startScreen, 0);
   
 
         loadAndScalePlayerImages();
@@ -142,10 +167,11 @@ public class frame extends JFrame implements KeyListener {
         player = new JLabel(playerImages.get("downStanding"));
         player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, 100, 188);
         player.setOpaque(false);
+        backgroundPanel.setComponentZOrder(player, 0);
 
         x = player.getX();
         y = player.getY();
-
+        playerWorldPos.setLocation(2360, -678);
         CameraInstance = new Camera(super.getWidth(), super.getHeight());
 
 
@@ -155,6 +181,7 @@ public class frame extends JFrame implements KeyListener {
         obstacles.add(rock);
 
         backgroundPanel.add(rock);
+        backgroundPanel.setComponentZOrder(rock, 2);
         rock.setOpaque(false);
 
 
@@ -166,17 +193,22 @@ public class frame extends JFrame implements KeyListener {
         backgroundPanel.add(chest);
         chest.setOpaque(true);
         backgroundPanel.add(player);
+        backgroundPanel.setComponentZOrder(chest, 1);
 
         setContentPane(backgroundPanel);
         addKeyListener(this);
         setVisible(true);
 
-        coordinates.setBounds(0, 0, 100, 100);
+        coordinates.setBounds(900, 700, 100, 100);
+
         super.add(coordinates);
+
+        backgroundPanel.setComponentZOrder(coordinates, 0);
 
         playerMovementInstance = new playerMovement(player, obstacles, playerImages, x, y, step, FPS, direction, upPressed, downPressed, leftPressed, rightPressed, playerWorldPos);
         moveDir = 1;
         gameLoop();
+
 
 
     }
@@ -247,10 +279,30 @@ public class frame extends JFrame implements KeyListener {
                 player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
                 placeholder--;
                 CameraInstance.position = playerWorldPos;
-                coordinates.setText(playerWorldPos.getX() + " " + playerWorldPos.getY());
+                coordinates.setText((int) playerWorldPos.getX() + " " + (int) playerWorldPos.getY() * -1);
                 //healthChange(0);
 
-                System.out.println(ghostWorldPos);
+                //System.out.println(ghostWorldPos);
+
+                if(!GUIOpen) {
+                    backgroundPanel.setComponentZOrder(player, 0);
+                }
+
+
+                //mob movement testing :/
+                for(Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
+
+                    UUID mobID = entry.getKey();
+                    JLabel mobLabel = entry.getValue();
+
+                    int mobSpeed = MobSpeed.get(mobID);
+                    int mobFollowDistance = MobFollowDistance.get(mobID);
+
+
+                    ghostTwoWorldPos = mobMovement((int) ghostTwoWorldPos.getX(), (int) ghostTwoWorldPos.getY(), mobSpeed, mobFollowDistance);
+                    ghostTwo.setLocation(CameraInstance.worldToScreen(ghostTwoWorldPos));
+                }
+
 
                 for (Tile tile : backgroundTiles) {
                     Point screenPos = CameraInstance.worldToScreen(tile.worldPos);
@@ -266,10 +318,10 @@ public class frame extends JFrame implements KeyListener {
                 ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500);
                 ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
 
-                backgroundPanel.setComponentZOrder(player, 1);
-                backgroundPanel.setComponentZOrder(ghost, 2);
-                backgroundPanel.setComponentZOrder(rock, 3);
-                backgroundPanel.setComponentZOrder(chest, 4);
+                //backgroundPanel.setComponentZOrder(player, 2);
+                //backgroundPanel.setComponentZOrder(ghost, 3);
+               // backgroundPanel.setComponentZOrder(rock, 3);
+                //backgroundPanel.setComponentZOrder(chest, 4);
 
 
             }
@@ -292,6 +344,7 @@ public class frame extends JFrame implements KeyListener {
         });
     
         timer.start();
+        GUIOpen = false;
     }
 
     public Image getFadedImage(String path, float fadeAmount) {
@@ -307,7 +360,6 @@ public class frame extends JFrame implements KeyListener {
 
 
     public Point mobMovement(int x, int y, int mobSpeed, int followDistance) {
-
         distance = (int) Math.sqrt(Math.pow((playerWorldPos.x - x), 2) + Math.pow((playerWorldPos.y - y), 2));
 
         //step -= mobSpeed;
@@ -355,6 +407,26 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+
+    public JLabel mobCreation(int x, int y, int width, int height, String filePath, int zOrder, int health, int damage, int range, int speed, int followDistance) {
+        ImageIcon icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
+        JLabel label = new JLabel(icon);
+        label.setBounds(x, y, width, height);
+        label.setOpaque(false);
+        backgroundPanel.add(label);
+        backgroundPanel.setComponentZOrder(label, zOrder); // for mobs try to use either 1 or 2 idk we can change it later if it overlaps better
+
+        UUID mobID = UUID.randomUUID(); // creates a unique UUID for each mob, do not touch this lmao
+        mob.put(mobID, label);
+        MobDamage.put(mobID, damage);
+        MobHealth.put(mobID, health);
+        MobReach.put(mobID, range);
+        MobSpeed.put(mobID, speed);
+        MobFollowDistance.put(mobID, followDistance);
+        return label;
+    }
+
+
     public void armorIncrease(double armorInc) {
         double oldMaximumHealth = maximumHealth;
         maximumHealth += armorInc;
@@ -374,15 +446,15 @@ public class frame extends JFrame implements KeyListener {
         }
         for (int i = 1; i <= maximumHealth; i++) {
             JLabel emptyHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1);
-            //backgroundPanel.setComponentZOrder(emptyHeart, 1);
+            backgroundPanel.setComponentZOrder(emptyHeart, 1);
         }
         for (int i = 1; i <= currentHealth; i++) {
             JLabel fullHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/fullHeart.png", false, 0);
-            //backgroundPanel.setComponentZOrder(fullHeart, 0);
+            backgroundPanel.setComponentZOrder(fullHeart, 0);
         }
         if (currentHealth % 1.0 != 0) {
             JLabel halfHeart = assets((int) (-20 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false, 0);
-            //backgroundPanel.setComponentZOrder(halfHeart, 0);
+            backgroundPanel.setComponentZOrder(halfHeart, 0);
         }
 
 
