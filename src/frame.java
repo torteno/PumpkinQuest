@@ -7,6 +7,7 @@ import java.util.Map;
 import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
+import java.awt.image.BufferedImage;
 
 
 public class frame extends JFrame implements KeyListener {
@@ -14,6 +15,9 @@ public class frame extends JFrame implements KeyListener {
     JLabel rock;
     JLabel player;
     JLabel chest;
+
+    JLabel startScreen;
+    boolean startScreenVisible = true;
 
 
     public Point position;
@@ -123,6 +127,11 @@ public class frame extends JFrame implements KeyListener {
             }
         }
 
+        startScreen = new JLabel(new ImageIcon(new ImageIcon("images/GUI/startScreen.png").getImage().getScaledInstance(1040, 780, Image.SCALE_DEFAULT)));
+        startScreen.setBounds(0,-10, getWidth(), getHeight());
+        startScreen.setOpaque(false);
+        backgroundPanel.add(startScreen);
+  
 
         loadAndScalePlayerImages();
 
@@ -257,7 +266,7 @@ public class frame extends JFrame implements KeyListener {
                 ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500);
                 ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
 
-                backgroundPanel.setComponentZOrder(player, 0);
+                backgroundPanel.setComponentZOrder(player, 1);
                 backgroundPanel.setComponentZOrder(ghost, 2);
                 backgroundPanel.setComponentZOrder(rock, 3);
                 backgroundPanel.setComponentZOrder(chest, 4);
@@ -265,6 +274,35 @@ public class frame extends JFrame implements KeyListener {
 
             }
         }
+    }
+
+    public void fadeOutStartScreen() {
+        Timer timer = new Timer(30, null);
+        final float[] fadeAmount = {1f};
+    // credit to gpt for using "BufferedImage" to fade images
+        timer.addActionListener(e -> {
+            fadeAmount[0] -= 0.05f;
+            if (fadeAmount[0] <= 0f) {
+                fadeAmount[0] = 0f;
+                backgroundPanel.remove(startScreen);
+                backgroundPanel.repaint();
+                timer.stop();
+            }
+            startScreen.setIcon(new ImageIcon(getFadedImage("images/GUI/startScreen.png", fadeAmount[0])));
+        });
+    
+        timer.start();
+    }
+
+    public Image getFadedImage(String path, float fadeAmount) {
+        ImageIcon icon = new ImageIcon(path);
+        Image original = icon.getImage();
+        BufferedImage faded = new BufferedImage(1040, 780, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = faded.createGraphics();
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadeAmount));
+        g2d.drawImage(original, 0, 0, 1040, 780, null);
+        g2d.dispose();
+        return faded;
     }
 
 
@@ -430,6 +468,11 @@ public class frame extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (startScreenVisible) {
+            startScreenVisible = false;
+            fadeOutStartScreen();
+            return;
+        }
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W -> playerMovementInstance.setUpPressed(true);
             case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(true);
