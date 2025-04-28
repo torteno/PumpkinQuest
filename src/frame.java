@@ -32,8 +32,8 @@ public class frame extends JFrame implements KeyListener {
     double currentHealth = 5.5, maximumHealth = 8.0;
     String direction = "down";
     double distance;
-    int slope;
-    int b;
+    double slope;
+    double b;
     public static float volume = 1f;
     boolean GUIOpen = true;
 
@@ -83,7 +83,7 @@ public class frame extends JFrame implements KeyListener {
     Point ghostWorldPos = new Point(1000, -1500);
 
 
-    JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 100, 1, 100, 3, 500);
+    JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 100, 1, 100, 3, 5000);
     Point ghostTwoWorldPos = new Point(750, 200);
 
 
@@ -279,7 +279,7 @@ public class frame extends JFrame implements KeyListener {
                 player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
                 placeholder--;
                 CameraInstance.position = playerWorldPos;
-                coordinates.setText((int) playerWorldPos.getX() + " " + (int) playerWorldPos.getY() * -1);
+                coordinates.setText((int) playerWorldPos.getX() - 2360 + " " + (int) ((playerWorldPos.getY() + 678) * -1));
                 //healthChange(0);
 
                 //System.out.println(ghostWorldPos);
@@ -360,46 +360,57 @@ public class frame extends JFrame implements KeyListener {
 
 
     public Point mobMovement(int x, int y, int mobSpeed, int followDistance) {
-        distance = (int) Math.sqrt(Math.pow((playerWorldPos.x - x), 2) + Math.pow((playerWorldPos.y - y), 2));
+        distance = Math.sqrt(Math.pow((playerWorldPos.x - x), 2) + Math.pow((playerWorldPos.y - y), 2));
 
         //step -= mobSpeed;
 
-        if (distance <= followDistance && distance >= 200 && playerWorldPos.x != ghostWorldPos.x && playerWorldPos.y != ghostWorldPos.y) {
+        if (distance <= followDistance && distance >= 200 && playerWorldPos.x != ghostWorldPos.x && playerWorldPos.y - ghostWorldPos.y != 0) {
 
-            int distanceX = playerWorldPos.x - x;
-            int distanceY = playerWorldPos.y - y;
+            double distanceX = playerWorldPos.x - x;
+            double distanceY = playerWorldPos.y - y;
 
             slope = (playerWorldPos.y - y) / (playerWorldPos.x - x);
 
             b = playerWorldPos.y - slope * playerWorldPos.x;
 
 
-            if (distanceX == 0) {
-                // Move vertically only
+            if (distanceX != 0) {
 
-                //double slope = (double) distanceY;
-                //double b = playerWorldPos.y - slope * playerWorldPos.x;
+                double slope = distanceY / distanceX;
+                double b = playerWorldPos.y - slope * playerWorldPos.x;
+
+                if(Math.abs(distanceX) > Math.abs(distanceY)) {
+                    if (playerWorldPos.x > x) {
+                        x += mobSpeed;
+                    } else {
+                        x -= mobSpeed;
+                    }
+
+                    y = (int) (slope * x + b);
+                } else {
+
+                    if (playerWorldPos.y > y) {
+                        y += mobSpeed;
+                    } else {
+                        y -= mobSpeed;
+                    }
+
+                    x = (int) ((y - b) / slope);
+
+                }
+
+
+             //   y = (int) (slope * x + b);
+
+
+
+            } else {
 
                 if (playerWorldPos.y > y) {
                     y += mobSpeed;
-                } else if (playerWorldPos.y < y) {
+                } else {
                     y -= mobSpeed;
                 }
-
-              //  x = (int) (slope * y + b);
-
-            } else {
-                // Use double to avoid integer rounding
-                double slope = (double) distanceY / distanceX;
-                double b = playerWorldPos.y - slope * playerWorldPos.x;
-
-                if (playerWorldPos.x > x) {
-                    x += mobSpeed;
-                } else if (playerWorldPos.x < x) {
-                    x -= mobSpeed;
-                }
-
-                y = (int) (slope * x + b);
             }
         }
 
