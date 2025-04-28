@@ -110,7 +110,7 @@ public class frame extends JFrame implements KeyListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 800);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setResizable(true);
 
 
 
@@ -156,7 +156,7 @@ public class frame extends JFrame implements KeyListener {
         startScreen.setOpaque(false);
         backgroundPanel.add(startScreen);
         backgroundPanel.setComponentZOrder(startScreen, 0);
-  
+
 
         loadAndScalePlayerImages();
 
@@ -279,7 +279,13 @@ public class frame extends JFrame implements KeyListener {
                 player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
                 placeholder--;
                 CameraInstance.position = playerWorldPos;
-                coordinates.setText((int) playerWorldPos.getX() - 2360 + " " + (int) ((playerWorldPos.getY() + 678) * -1));
+
+                //uncomment this when we want to submit
+               // coordinates.setText((int) playerWorldPos.getX() - 2360 + " " + (int) ((playerWorldPos.getY() + 678) * -1));
+
+
+                //comment this when we want to submit
+                coordinates.setText((int) playerWorldPos.getX() + " " + (int) playerWorldPos.getY());
                 //healthChange(0);
 
                 //System.out.println(ghostWorldPos);
@@ -342,7 +348,7 @@ public class frame extends JFrame implements KeyListener {
             }
             startScreen.setIcon(new ImageIcon(getFadedImage("images/GUI/startScreen.png", fadeAmount[0])));
         });
-    
+
         timer.start();
         GUIOpen = false;
     }
@@ -369,7 +375,7 @@ public class frame extends JFrame implements KeyListener {
             double distanceX = playerWorldPos.x - x;
             double distanceY = playerWorldPos.y - y;
 
-            slope = (playerWorldPos.y - y) / (playerWorldPos.x - x);
+            slope = (double) (playerWorldPos.y - y) / (playerWorldPos.x - x);
 
             b = playerWorldPos.y - slope * playerWorldPos.x;
 
@@ -411,6 +417,8 @@ public class frame extends JFrame implements KeyListener {
                 } else {
                     y -= mobSpeed;
                 }
+
+
             }
         }
 
