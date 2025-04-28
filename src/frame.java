@@ -29,7 +29,7 @@ public class frame extends JFrame implements KeyListener {
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false;
     int moveTime, moveDir;
     int FPS = 60;
-    double currentHealth = 5.5, maximumHealth = 8.0;
+    double currentHealth = 3.0, maximumHealth = 3.0;
     String direction = "down";
     double distance;
     double slope;
@@ -110,7 +110,7 @@ public class frame extends JFrame implements KeyListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 800);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setResizable(true);
 
 
 
@@ -156,7 +156,7 @@ public class frame extends JFrame implements KeyListener {
         startScreen.setOpaque(false);
         backgroundPanel.add(startScreen);
         backgroundPanel.setComponentZOrder(startScreen, 0);
-  
+
 
         loadAndScalePlayerImages();
 
@@ -266,7 +266,7 @@ public class frame extends JFrame implements KeyListener {
         double placeholder = 0;
         long currentTime;
         double timePerFrame = 1_000_000_000.0 / FPS;
-        healthChange(0);
+
 
 
         while (true) {
@@ -279,7 +279,13 @@ public class frame extends JFrame implements KeyListener {
                 player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
                 placeholder--;
                 CameraInstance.position = playerWorldPos;
-                coordinates.setText((int) playerWorldPos.getX() - 2360 + " " + (int) ((playerWorldPos.getY() + 678) * -1));
+
+                //uncomment this when we want to submit
+               // coordinates.setText((int) playerWorldPos.getX() - 2360 + " " + (int) ((playerWorldPos.getY() + 678) * -1));
+
+
+                //comment this when we want to submit
+                coordinates.setText((int) playerWorldPos.getX() + " " + (int) playerWorldPos.getY());
                 //healthChange(0);
 
                 //System.out.println(ghostWorldPos);
@@ -342,9 +348,10 @@ public class frame extends JFrame implements KeyListener {
             }
             startScreen.setIcon(new ImageIcon(getFadedImage("images/GUI/startScreen.png", fadeAmount[0])));
         });
-    
+
         timer.start();
         GUIOpen = false;
+        healthChange(0);
     }
 
     public Image getFadedImage(String path, float fadeAmount) {
@@ -369,7 +376,7 @@ public class frame extends JFrame implements KeyListener {
             double distanceX = playerWorldPos.x - x;
             double distanceY = playerWorldPos.y - y;
 
-            slope = (playerWorldPos.y - y) / (playerWorldPos.x - x);
+            slope = (double) (playerWorldPos.y - y) / (playerWorldPos.x - x);
 
             b = playerWorldPos.y - slope * playerWorldPos.x;
 
@@ -411,6 +418,8 @@ public class frame extends JFrame implements KeyListener {
                 } else {
                     y -= mobSpeed;
                 }
+
+
             }
         }
 
@@ -447,25 +456,27 @@ public class frame extends JFrame implements KeyListener {
 
     public void healthChange(double healthChange) {
 
-        currentHealth += healthChange;
-        if (currentHealth > maximumHealth) {
-            currentHealth = maximumHealth;
-        }
-        if (currentHealth <= 0) {
-            System.out.print("You died");
-            //gameOver();
-        }
-        for (int i = 1; i <= maximumHealth; i++) {
-            JLabel emptyHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1);
-            backgroundPanel.setComponentZOrder(emptyHeart, 1);
-        }
-        for (int i = 1; i <= currentHealth; i++) {
-            JLabel fullHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/fullHeart.png", false, 0);
-            backgroundPanel.setComponentZOrder(fullHeart, 0);
-        }
-        if (currentHealth % 1.0 != 0) {
-            JLabel halfHeart = assets((int) (-20 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false, 0);
-            backgroundPanel.setComponentZOrder(halfHeart, 0);
+        if (!GUIOpen) {
+            currentHealth += healthChange;
+            if (currentHealth > maximumHealth) {
+                currentHealth = maximumHealth;
+            }
+            if (currentHealth <= 0) {
+                System.out.print("You died");
+                //gameOver();
+            }
+            for (int i = 1; i <= maximumHealth; i++) {
+                JLabel emptyHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1);
+                backgroundPanel.setComponentZOrder(emptyHeart, 1);
+            }
+            for (int i = 1; i <= currentHealth; i++) {
+                JLabel fullHeart = assets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/fullHeart.png", false, 0);
+                backgroundPanel.setComponentZOrder(fullHeart, 0);
+            }
+            if (currentHealth % 1.0 != 0) {
+                JLabel halfHeart = assets((int) (-20 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false, 0);
+                backgroundPanel.setComponentZOrder(halfHeart, 0);
+            }
         }
 
 
