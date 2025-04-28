@@ -36,6 +36,7 @@ public class frame extends JFrame implements KeyListener {
     double b;
     public static float volume = 1f;
     boolean GUIOpen = true;
+    boolean NPCInteracted = false;
 
 
     Map <UUID, JLabel> mob = new HashMap<>();
@@ -555,9 +556,16 @@ public class frame extends JFrame implements KeyListener {
 
     public void NPCInteraction () {
 
-        if (player.getBounds().intersects(NPC.getBounds()) && ePressed) {
-            gotApple.setVisible(true);
+        if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted) {
+            press.setVisible(true);
+            if (player.getBounds().intersects(NPC.getBounds()) && ePressed) {
+                NPCInteracted = true;
+                press.setVisible(false);
+                gotApple.setVisible(true);
+
+            }
         } else {
+            //press.setVisible(false);
             gotApple.setVisible(false);
         }
 
