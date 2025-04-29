@@ -36,6 +36,7 @@ public class frame extends JFrame implements KeyListener {
     double b;
     public static float volume = 0f;
     boolean GUIOpen = true;
+    boolean NPCInteracted = false;
 
 
     Map <UUID, JLabel> mob = new HashMap<>();
@@ -74,6 +75,9 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel press = assets(175, 600, 640, 160, false, "images/GUI/pressE.png", false, 1);
 
+    JLabel gotApple = assets(175, 600, 640, 160, false, "images/text/appleFind.png", false, 1);
+
+
     JLabel pebble = assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 4);
     Point pebbleWorldPos = new Point(1000, 1000);
 
@@ -89,9 +93,13 @@ public class frame extends JFrame implements KeyListener {
     JLabel ghost = assets(1000, -1500, 100, 100, false, "images/mob/ghost.png", false, 1);
     Point ghostWorldPos = new Point(1000, -1500);
 
-
     JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 100, 1, 100, 3, 5000);
     Point ghostTwoWorldPos = new Point(750, 200);
+
+    JLabel NPC = assets(1000,  400, 100, 200, false, "images/GUI/fullHeart.png", false, 1);
+    Point NPCWorldPos = new Point(1000, 400);
+
+
 
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -300,6 +308,7 @@ public class frame extends JFrame implements KeyListener {
             previousTime = currentTime;
             if (placeholder >= 1) {
                 interacting();
+                NPCInteraction();
                 playerMovementInstance.playerPosition();
                 player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
                 placeholder--;
@@ -351,6 +360,7 @@ public class frame extends JFrame implements KeyListener {
                 rockThird.setLocation(CameraInstance.worldToScreen(rockThirdWorldPos));
                 ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500);
                 ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
+                NPC.setLocation(CameraInstance.worldToScreen(NPCWorldPos));
 
 
                 System.out.println(savedDirection);
@@ -642,6 +652,25 @@ public class frame extends JFrame implements KeyListener {
 
         */
     }
+
+
+    public void NPCInteraction () {
+
+        if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted) {
+            press.setVisible(true);
+            if (player.getBounds().intersects(NPC.getBounds()) && ePressed) {
+                NPCInteracted = true;
+                press.setVisible(false);
+                gotApple.setVisible(true);
+
+            }
+        } else {
+            //press.setVisible(false);
+            gotApple.setVisible(false);
+        }
+
+    }
+
 
 
     public static void volumeChange(float volumeChange) {
