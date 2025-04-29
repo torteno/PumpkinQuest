@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class playerMovement {
-
+    String savedDirection;
     JLabel player;
     ArrayList<JLabel> obstacles;
     Map<String, ImageIcon> playerImages;
@@ -83,6 +83,8 @@ public class playerMovement {
             direction = "right";
         }
 
+
+
         if (!isCollision(newX, newY)) {
 
 
@@ -145,18 +147,22 @@ public class playerMovement {
 
 
     public void setUpPressed(boolean upPressed) {
+
         this.upPressed = upPressed;
     }
 
     public void setDownPressed(boolean downPressed) {
+
         this.downPressed = downPressed;
     }
 
     public void setLeftPressed(boolean leftPressed) {
+
         this.leftPressed = leftPressed;
     }
 
     public void setRightPressed(boolean rightPressed) {
+
         this.rightPressed = rightPressed;
     }
 }

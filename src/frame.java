@@ -26,7 +26,7 @@ public class frame extends JFrame implements KeyListener {
 
     int x, y;
     int step = 6;
-    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false;
+    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false;
     int moveTime, moveDir;
     int FPS = 60;
     double currentHealth = 3.0, maximumHealth = 3.0;
@@ -34,7 +34,7 @@ public class frame extends JFrame implements KeyListener {
     double distance;
     double slope;
     double b;
-    public static float volume = 1f;
+    public static float volume = 0f;
     boolean GUIOpen = true;
 
 
@@ -60,10 +60,17 @@ public class frame extends JFrame implements KeyListener {
     BackgroundPanel backgroundPanel = new BackgroundPanel(null);
     static Clip clip;
 
+    JLabel upAttack = new JLabel();
+    JLabel LeftAttack = new JLabel();
+    JLabel downAttack = new JLabel();
+    JLabel rightAttack = new JLabel();
+
+    String savedDirection;
+
+
     int swordUpgrade = 0;
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
-
 
     JLabel press = assets(175, 600, 640, 160, false, "images/GUI/pressE.png", false, 1);
 
@@ -110,7 +117,7 @@ public class frame extends JFrame implements KeyListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 800);
         setLocationRelativeTo(null);
-        setResizable(true);
+        setResizable(false);
 
 
 
@@ -174,6 +181,12 @@ public class frame extends JFrame implements KeyListener {
         playerWorldPos.setLocation(2360, -678);
         CameraInstance = new Camera(super.getWidth(), super.getHeight());
 
+        upAttack = assets(player.getX(), player.getY() - 100, 100, 100, false, "images/equipment/1-Wood.png", false, 1);
+        LeftAttack = assets(player.getX() - 100, player.getY() + 50, 100, 100, false, "images/equipment/1-Wood.png", false, 1);
+        downAttack = assets(player.getX(), player.getY() + 200, 100, 100, false, "images/equipment/1-Wood.png", false, 1);
+        rightAttack = assets(player.getX() + 100, player.getY() + 50, 100, 100, false, "images/equipment/1-Wood.png", false, 1);
+
+
 
         ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
         rock = new JLabel(rockIcon);
@@ -230,6 +243,18 @@ public class frame extends JFrame implements KeyListener {
             Image image = icon.getImage().getScaledInstance(100, 188, Image.SCALE_DEFAULT);
             playerImages.put(name, new ImageIcon(image));
         }
+    }
+
+
+    public void WeaponImageAngled(int degrees) {
+
+        if(swordUpgrade == 1) {
+            ImageIcon icon = new ImageIcon("images/equipment/1-Wood.png");
+            ImageIcon image = new ImageIcon(icon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+
+        }
+
+
     }
 
 
@@ -290,6 +315,9 @@ public class frame extends JFrame implements KeyListener {
 
                 //System.out.println(ghostWorldPos);
 
+
+
+
                 if(!GUIOpen) {
                     backgroundPanel.setComponentZOrder(player, 0);
                 }
@@ -324,6 +352,18 @@ public class frame extends JFrame implements KeyListener {
                 ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500);
                 ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
 
+
+                System.out.println(savedDirection);
+
+
+               /* if(spacePressed == false) {
+                    upAttack.setVisible(false);
+                    LeftAttack.setVisible(false);
+                    downAttack.setVisible(false);
+                    rightAttack.setVisible(false);
+
+
+                } */
                 //backgroundPanel.setComponentZOrder(player, 2);
                 //backgroundPanel.setComponentZOrder(ghost, 3);
                // backgroundPanel.setComponentZOrder(rock, 3);
@@ -501,7 +541,7 @@ public class frame extends JFrame implements KeyListener {
 
         if(qPressed) {
 
-            player.setLocation(ghostWorldPos.x, ghostWorldPos.y);
+            playerWorldPos = new Point(0, 0);
 
         }
 
@@ -543,6 +583,66 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+    public void attacking(String direction, boolean spacePressed) {
+
+
+
+    if(spacePressed) {
+        switch (direction) {
+            case "up" -> upAttack.setVisible(true);
+            case "down" -> downAttack.setVisible(true);
+            case "left" -> LeftAttack.setVisible(true);
+            case "right" -> rightAttack.setVisible(true);
+            default -> {
+                upAttack.setVisible(false);
+                downAttack.setVisible(false);
+                LeftAttack.setVisible(false);
+                rightAttack.setVisible(false);
+            }
+
+        }
+    } else {
+       upAttack.setVisible(false);
+      downAttack.setVisible(false);
+       LeftAttack.setVisible(false);
+      rightAttack.setVisible(false);
+    }
+
+       /* if(spacePressed) {
+            if (direction.equalsIgnoreCase("up")) {
+
+                upAttack.setOpaque(true);
+                backgroundPanel.setComponentZOrder(upAttack, 0);
+
+            } else if (direction.equalsIgnoreCase("down")) {
+
+                downAttack.setOpaque(true);
+                backgroundPanel.setComponentZOrder(downAttack, 0);
+
+            } else if (direction.equalsIgnoreCase("left")) {
+
+                LeftAttack.setOpaque(true);
+                backgroundPanel.setComponentZOrder(LeftAttack, 0);
+
+            } else if (direction.equalsIgnoreCase("right")) {
+
+                rightAttack.setOpaque(true);
+                backgroundPanel.setComponentZOrder(rightAttack, 0);
+
+
+            }
+
+        } else {
+            upAttack.setOpaque(false);
+            downAttack.setOpaque(false);
+            LeftAttack.setOpaque(false);
+            rightAttack.setOpaque(false);
+        }
+
+
+        */
+    }
+
 
     public static void volumeChange(float volumeChange) {
 
@@ -576,6 +676,14 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_E -> ePressed = true;
             case KeyEvent.VK_EQUALS -> volumeChange(0.1f);
             case KeyEvent.VK_MINUS -> volumeChange(-0.1f);
+            case KeyEvent.VK_SPACE -> {
+                savedDirection = playerMovementInstance.direction;
+                attacking(savedDirection, true);
+                spacePressed = true;
+
+            }
+
+
         }
     }
 
@@ -590,6 +698,7 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_E -> ePressed = false;
             case KeyEvent.VK_EQUALS -> plusPressed = false;
             case KeyEvent.VK_MINUS -> minusPressed = false;
+            case KeyEvent.VK_SPACE -> attacking(savedDirection, false);
         }
     }
 
