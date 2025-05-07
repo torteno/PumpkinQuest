@@ -344,7 +344,7 @@ public class frame extends JFrame implements KeyListener {
                     int mobFollowDistance = MobFollowDistance.get(mobID);
 
 
-                    ghostTwoWorldPos = mobMovement((int) ghostTwoWorldPos.getX(), (int) ghostTwoWorldPos.getY(), mobSpeed, mobFollowDistance);
+                    ghostTwoWorldPos = mobMovement((int) ghostTwoWorldPos.getX(), (int) ghostTwoWorldPos.getY(), mobSpeed, mobFollowDistance, ghostTwo);
                     ghostTwo.setLocation(CameraInstance.worldToScreen(ghostTwoWorldPos));
                 }
 
@@ -360,7 +360,7 @@ public class frame extends JFrame implements KeyListener {
                 warp.setLocation(CameraInstance.worldToScreen(warpWorldPos));
                 rockTwo.setLocation(CameraInstance.worldToScreen(rockTwoWorldPos));
                 rockThird.setLocation(CameraInstance.worldToScreen(rockThirdWorldPos));
-                ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500);
+                ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500, ghost);
                 ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
                 NPC.setLocation(CameraInstance.worldToScreen(NPCWorldPos));
 
@@ -418,7 +418,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-    public Point mobMovement(int x, int y, int mobSpeed, int followDistance) {
+    public Point mobMovement(int x, int y, int mobSpeed, int followDistance, JLabel ghostLabel) {
         distance = Math.sqrt(Math.pow((playerWorldPos.x - x), 2) + Math.pow((playerWorldPos.y - y), 2));
 
         //step -= mobSpeed;
@@ -441,8 +441,10 @@ public class frame extends JFrame implements KeyListener {
                 if(Math.abs(distanceX) > Math.abs(distanceY)) {
                     if (playerWorldPos.x > x) {
                         x += mobSpeed;
+                        ghostLabel.setIcon(new ImageIcon("ghostRight.png"));
                     } else {
                         x -= mobSpeed;
+                        ghostLabel.setIcon(new ImageIcon("ghostLeft.png"));
                     }
 
                     y = (int) (slope * x + b);
