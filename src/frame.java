@@ -38,6 +38,7 @@ public class frame extends JFrame implements KeyListener {
     boolean GUIOpen = true;
     boolean NPCInteracted = false;
     int messageDisDelay;
+    int playerDamage = 5;
 
 
 
@@ -46,7 +47,9 @@ public class frame extends JFrame implements KeyListener {
     Map <UUID, Integer> MobDamage = new HashMap<>();
     Map <UUID, Integer> MobReach = new HashMap<>();
     Map <UUID, Integer> MobSpeed = new HashMap<>();
+    Map <UUID, Integer> MobAttackCooldown = new HashMap<>();
     Map <UUID, Integer> MobFollowDistance = new HashMap<>();
+
 
 
     Map<String, ImageIcon> playerImages = new HashMap<>();
@@ -95,7 +98,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel ghost = assets(1000, -1500, 100, 100, false, "images/mob/ghost.png", false, 1);
     Point ghostWorldPos = new Point(1000, -1500);
 
-    JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 100, 1, 100, 3, 5000);
+    JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
     Point ghostTwoWorldPos = new Point(750, 200);
 
     JLabel NPC = assets(1000,  400, 100, 200, false, "images/GUI/fullHeart.png", false, 1);
@@ -128,6 +131,8 @@ public class frame extends JFrame implements KeyListener {
         setSize(1000, 800);
         setLocationRelativeTo(null);
         setResizable(false);
+
+
 
 
 
@@ -178,8 +183,8 @@ public class frame extends JFrame implements KeyListener {
         loadAndScalePlayerImages();
 
         Point playerPoint = new Point(0, 0);
-        Point rockpoint = new Point(300, 600);
         Point chestPoint = new Point(1000, 2000);
+        Point rockpoint = new Point(300, 600);
 
         player = new JLabel(playerImages.get("downStanding"));
         player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, 100, 188);
@@ -189,13 +194,16 @@ public class frame extends JFrame implements KeyListener {
         x = player.getX();
         y = player.getY();
         playerWorldPos.setLocation(2360, -678);
-        CameraInstance = new Camera(super.getWidth(), super.getHeight());
+        CameraInstance = new Camera(super.getWidth(), super.getHeight(), player.getX(), player.getY());
 
-        upAttack = assets(player.getX(), player.getY() - 100, 100, 100, false, "images/equipment/1-Wood.png", false, 1);
-        LeftAttack = assets(player.getX() - 100, player.getY() + 50, 100, 100, false, "images/equipment/1-Wood.png", false, 1);
-        downAttack = assets(player.getX(), player.getY() + 200, 100, 100, false, "images/equipment/1-Wood.png", false, 1);
-        rightAttack = assets(player.getX() + 100, player.getY() + 50, 100, 100, false, "images/equipment/1-Wood.png", false, 1);
-
+        upAttack = assets(player.getX(), player.getY() - 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1);
+        upAttack.setVisible(false);
+        LeftAttack = assets(player.getX() - 75,player.getY() + 50, 100, 100, false, "images/equipment/wood/left_wood.png", false, 1);
+        LeftAttack.setVisible(false);
+        downAttack = assets(player.getX(), player.getY() + 200, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1);
+        downAttack.setVisible(false);
+        rightAttack = assets(player.getX() + 100, player.getY() + 50, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1);
+        rightAttack.setVisible(false);
 
 
         ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
@@ -216,7 +224,7 @@ public class frame extends JFrame implements KeyListener {
         backgroundPanel.add(chest);
         chest.setOpaque(true);
         backgroundPanel.add(player);
-        backgroundPanel.setComponentZOrder(chest, 1);
+        backgroundPanel.setComponentZOrder(chest, 3);
 
         setContentPane(backgroundPanel);
         addKeyListener(this);
@@ -259,7 +267,7 @@ public class frame extends JFrame implements KeyListener {
     public void WeaponImageAngled(int degrees) {
 
         if(swordUpgrade == 1) {
-            ImageIcon icon = new ImageIcon("images/equipment/1-Wood.png");
+            ImageIcon icon = new ImageIcon("images/equipment/right_wood.png");
             ImageIcon image = new ImageIcon(icon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
 
         }
@@ -418,12 +426,80 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+
+    public boolean mobAlive(int mobHealth, UUID mobId) {
+        mobHealth = MobHealth.get(mobId);
+
+        if (mobHealth <= 0) {
+            mobRemove(mobId);
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+
+    public void mobRemove(UUID mobId) {
+
+        JLabel mobLabel = mob.get(mobId);
+        backgroundPanel.remove(mobLabel);
+        mob.remove(mobId);
+        MobHealth.remove(mobId);
+        MobDamage.remove(mobId);
+        MobReach.remove(mobId);
+        MobSpeed.remove(mobId);
+        MobFollowDistance.remove(mobId);
+    }
+
+
+    public void AttackMob(String direction) {
+
+        switch (direction) {
+            case "up" -> {
+
+
+
+                for (Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
+
+                    if(upAttack.getBounds().intersects(entry.getValue().getBounds())) {
+
+                        UUID mobID = entry.getKey();
+                        JLabel mobLabel = entry.getValue();
+
+
+                        int mobHealth = MobHealth.get(mobID);
+
+
+                    }
+                }
+
+            }
+            case "down" -> {
+
+            }
+
+            case "left" -> {
+
+            }
+
+            case "right" -> {
+
+            }
+
+        }
+
+
+
+    }
+
+
     public Point mobMovement(int x, int y, int mobSpeed, int followDistance, JLabel ghostLabel) {
         distance = Math.sqrt(Math.pow((playerWorldPos.x - x), 2) + Math.pow((playerWorldPos.y - y), 2));
 
         //step -= mobSpeed;
 
-        if (distance <= followDistance && distance >= 200 && playerWorldPos.x != ghostWorldPos.x && playerWorldPos.y - ghostWorldPos.y != 0) {
+        if (distance <= followDistance && distance >= 100 && playerWorldPos.x != ghostWorldPos.x && playerWorldPos.y - ghostWorldPos.y != 0) {
 
             double distanceX = playerWorldPos.x - x;
             double distanceY = playerWorldPos.y - y;
@@ -574,7 +650,7 @@ public class frame extends JFrame implements KeyListener {
 
     public void interacting() {
         if(player.getBounds().intersects(warp.getBounds())) {
-            playerWorldPos.setLocation(0, 0);
+            playerWorldPos.setLocation(-50, 0);
 
         }
 
@@ -603,10 +679,34 @@ public class frame extends JFrame implements KeyListener {
 
     if(spacePressed) {
         switch (direction) {
-            case "up" -> upAttack.setVisible(true);
-            case "down" -> downAttack.setVisible(true);
-            case "left" -> LeftAttack.setVisible(true);
-            case "right" -> rightAttack.setVisible(true);
+            case "up" -> {
+                upAttack.setVisible(true);
+                LeftAttack.setVisible(false);
+                downAttack.setVisible(false);
+                rightAttack.setVisible(false);
+                AttackMob("up");
+            }
+            case "down" -> {
+                downAttack.setVisible(true);
+                upAttack.setVisible(false);
+                rightAttack.setVisible(false);
+                LeftAttack.setVisible(false);
+                AttackMob("down");
+            }
+            case "left" ->  {
+                LeftAttack.setVisible(true);
+                upAttack.setVisible(false);
+                downAttack.setVisible(false);
+                rightAttack.setVisible(false);
+                AttackMob("left");
+            }
+            case "right" -> {
+                rightAttack.setVisible(true);
+                upAttack.setVisible(false);
+                downAttack.setVisible(false);
+                LeftAttack.setVisible(false);
+                AttackMob("right");
+            }
             default -> {
                 upAttack.setVisible(false);
                 downAttack.setVisible(false);
