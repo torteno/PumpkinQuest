@@ -78,9 +78,9 @@ public class frame extends JFrame implements KeyListener {
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
-    JLabel press = GUIassets(175, 600, 640, 160, false, "images/GUI/pressE.png", false, 0);
+    JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0);
 
-    JLabel gotApple = GUIassets( 175, 600, 640, 160, false, "images/text/appleFind.png", false, 0);
+    JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 0);
 
     JLabel pebble =  assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 4);
 
