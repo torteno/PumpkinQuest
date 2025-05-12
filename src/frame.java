@@ -88,17 +88,21 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 4);
 
+
     JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 4);
+
 
     JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 4);
 
+
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 4);
 
+
     JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
+    //Point ghostWorldPos = new Point(1000, -1500);
 
     JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
 
-    JLabel ghostThree = mobCreation(-250, 400, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/grandma.png", false, 1);
 
@@ -172,7 +176,7 @@ public class frame extends JFrame implements KeyListener {
             }
         }
 
-        startScreen = new JLabel(new ImageIcon(new ImageIcon("images/GUI/startScreen.png").getImage().getScaledInstance(1040, 780, Image.SCALE_DEFAULT)));
+        startScreen = new JLabel(new ImageIcon(new ImageIcon("").getImage().getScaledInstance(1040, 780, Image.SCALE_DEFAULT)));
         startScreen.setBounds(0,-10, getWidth(), getHeight());
         startScreen.setOpaque(false);
         backgroundPanel.add(startScreen);
@@ -445,36 +449,12 @@ public class frame extends JFrame implements KeyListener {
     }
 
     public void fadeOutStartScreen() {
-        Timer timer = new Timer(30, null);
-        final float[] fadeAmount = {1f};
-    // credit to gpt for using "BufferedImage" to fade images
-        timer.addActionListener(e -> {
-            fadeAmount[0] -= 0.05f;
-            if (fadeAmount[0] <= 0f) {
-                fadeAmount[0] = 0f;
-                backgroundPanel.remove(startScreen);
-                backgroundPanel.repaint();
-                timer.stop();
-            }
-            startScreen.setIcon(new ImageIcon(getFadedImage("images/GUI/startScreen.png", fadeAmount[0])));
-        });
-
-        timer.start();
+    
         GUIOpen = false;
-        healthChange(0);
+      
     }
 
-    public Image getFadedImage(String path, float fadeAmount) {
-        ImageIcon icon = new ImageIcon(path);
-        Image original = icon.getImage();
-        BufferedImage faded = new BufferedImage(1040, 780, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = faded.createGraphics();
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, fadeAmount));
-        g2d.drawImage(original, 0, 0, 1040, 780, null);
-        g2d.dispose();
-        return faded;
-    }
-
+  
 
 
     public boolean mobAlive(int mobHealth, UUID mobId) {
