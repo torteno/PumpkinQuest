@@ -88,21 +88,17 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 4);
 
-
     JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 4);
-
 
     JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 4);
 
-
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 4);
 
-
     JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
-    //Point ghostWorldPos = new Point(1000, -1500);
 
     JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
 
+    JLabel ghostThree = mobCreation(-250, 400, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/grandma.png", false, 1);
 
