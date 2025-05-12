@@ -13,9 +13,9 @@ import java.util.UUID;
 
 public class frame extends JFrame implements KeyListener {
 
-    JLabel rock;
+
     JLabel player;
-    JLabel chest;
+
 
     JLabel startScreen;
     boolean startScreenVisible = true;
@@ -40,9 +40,10 @@ public class frame extends JFrame implements KeyListener {
     int messageDisDelay;
     int playerDamage = 5;
 
-
-    Map<String, Point> mobPoint = new HashMap<>();
+    Map<JLabel, Point> AssetPoint = new HashMap<>();
+    Map<JLabel, Point> mobPoint = new HashMap<>();
     Map <UUID, JLabel> mob = new HashMap<>();
+    Map<JLabel, UUID> reverseMobMap = new HashMap<>();
     Map <UUID, Integer> MobHealth = new HashMap<>();
     Map <UUID, Integer> MobDamage = new HashMap<>();
     Map <UUID, Integer> MobReach = new HashMap<>();
@@ -55,13 +56,12 @@ public class frame extends JFrame implements KeyListener {
     Map<String, ImageIcon> playerImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
     ArrayList<JLabel> passables = new ArrayList<>();
-    ArrayList<JLabel> tiles = new ArrayList<>();
+  //  ArrayList<JLabel> tiles = new ArrayList<>();
     ArrayList<Tile> backgroundTiles = new ArrayList<>();
     playerMovement playerMovementInstance;
     Camera CameraInstance;
     public Point playerWorldPos = new Point(0, 0);
-    public Point rockWorldPos = new Point(50, 50);
-    public Point chestWorldPos = new Point(1000, 2000);
+
     JLabel coordinates = new JLabel();
     BackgroundPanel backgroundPanel = new BackgroundPanel(null);
     static Clip clip;
@@ -78,31 +78,34 @@ public class frame extends JFrame implements KeyListener {
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
-    JLabel press = assets("press",175, 600, 640, 160, false, "images/GUI/pressE.png", false, 0);
+    JLabel press = GUIassets(175, 600, 640, 160, false, "images/GUI/pressE.png", false, 0);
 
-    JLabel gotApple = assets("gotApple", 175, 600, 640, 160, false, "images/text/appleFind.png", false, 0);
+    JLabel gotApple = GUIassets( 175, 600, 640, 160, false, "images/text/appleFind.png", false, 0);
+
+    JLabel pebble =  assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 4);
+
+    JLabel rock =  assets(300, 200, 100, 100, true, "images/assets/rock.png", false, 4);
+
+    JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 4);
 
 
-    JLabel pebble =  assets("pebble", 1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 4);
-    Point pebbleWorldPos = new Point(1000, 1000);
+    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 4);
 
-    JLabel warp = assets("warp", -1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 4);
-    Point warpWorldPos = new Point(-1000, 1000);
 
-    JLabel rockTwo = assets("rockTwo", -500, -500, 200, 200, true, "images/assets/rock.png", false, 4);
-    Point rockTwoWorldPos = new Point(-500, -500);
+    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 4);
 
-    JLabel rockThird = assets("rockThird", 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 4);
-    Point rockThirdWorldPos = new Point(2500, 2500);
 
-    JLabel ghost = assets("ghost", 1000, -1500, 100, 100, false, "images/mob/ghost.png", false, 1);
-    Point ghostWorldPos = new Point(1000, -1500);
+    JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 4);
+
+
+    JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
+    //Point ghostWorldPos = new Point(1000, -1500);
 
     JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
-    Point ghostTwoWorldPos = new Point(750, 200);
 
-    JLabel NPC = assets("npc",1000,  400, 100, 200, false, "images/GUI/fullHeart.png", false, 1);
-    Point NPCWorldPos = new Point(1000, 400);
+
+    JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/grandma.png", false, 1);
+
 
 
 
@@ -196,35 +199,18 @@ public class frame extends JFrame implements KeyListener {
         playerWorldPos.setLocation(2360, -678);
         CameraInstance = new Camera(super.getWidth(), super.getHeight(), player.getX(), player.getY());
 
-        upAttack = assets("up", player.getX(), player.getY() - 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1);
+        upAttack = GUIassets(player.getX(), player.getY() - 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1);
         upAttack.setVisible(false);
-        LeftAttack = assets("left", player.getX() - 75,player.getY() + 50, 100, 100, false, "images/equipment/wood/left_wood.png", false, 1);
+        LeftAttack = GUIassets(player.getX() - 75,player.getY() + 50, 100, 100, false, "images/equipment/wood/left_wood.png", false, 1);
         LeftAttack.setVisible(false);
-        downAttack = assets("down", player.getX(), player.getY() + 200, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1);
+        downAttack = GUIassets(player.getX(), player.getY() + 200, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1);
         downAttack.setVisible(false);
-        rightAttack = assets("right", player.getX() + 100, player.getY() + 50, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1);
+        rightAttack = GUIassets(player.getX() + 100, player.getY() + 50, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1);
         rightAttack.setVisible(false);
 
 
-        ImageIcon rockIcon = new ImageIcon(new ImageIcon("images/assets/rock.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
-        rock = new JLabel(rockIcon);
-        rock.setBounds(300, 600, 100, 100);
-        obstacles.add(rock);
 
-        backgroundPanel.add(rock);
-        backgroundPanel.setComponentZOrder(rock, 2);
-        rock.setOpaque(false);
-
-
-        ImageIcon chestIcon = new ImageIcon(new ImageIcon("images/assets/chest.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
-        chest = new JLabel(chestIcon);
-        chest.setBounds(1000, 2000, 150, 150);
-        //obstacles.add(chest);
-
-        backgroundPanel.add(chest);
-        chest.setOpaque(true);
         backgroundPanel.add(player);
-        backgroundPanel.setComponentZOrder(chest, 3);
 
         setContentPane(backgroundPanel);
         addKeyListener(this);
@@ -276,7 +262,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-    public void createPoint(int x, int y, String assetName) {
+    public void createMobPoint(int x, int y, JLabel assetName) {
 
         Point name = new Point(x, y);
 
@@ -284,8 +270,16 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+    public void createAssetPoint(int x, int y, JLabel assetName) {
 
-    public JLabel assets(String name, int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque, int zOrder) {
+        Point name = new Point(x, y);
+
+        AssetPoint.put(assetName, name);
+
+    }
+
+
+    public JLabel assets(int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque, int zOrder) {
         ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         JLabel label = new JLabel(Icon);
         label.setBounds(x, y, width, height);
@@ -303,8 +297,37 @@ public class frame extends JFrame implements KeyListener {
 
         backgroundPanel.add(label);
 
+        Point assetPoint = new Point(x, y);
+        AssetPoint.put(label, assetPoint);
 
-        createPoint(x, y, name);
+
+
+        int maxZOrder = backgroundPanel.getComponentCount() - 1; // fixed with gpt
+        zOrder = Math.max(0, Math.min(zOrder, maxZOrder)); // fixed with gpt
+        backgroundPanel.setComponentZOrder(label, zOrder);
+
+
+        return label;
+    }
+
+    public JLabel GUIassets(int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque, int zOrder) {
+        ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
+        JLabel label = new JLabel(Icon);
+        label.setBounds(x, y, width, height);
+        if (obstacle) {
+            obstacles.add(label);
+        } else {
+            passables.add(label);
+        }
+
+        if (opaque) {
+            label.setOpaque(true);
+        } else {
+            label.setOpaque(false);
+        }
+
+        backgroundPanel.add(label);
+
 
 
         int maxZOrder = backgroundPanel.getComponentCount() - 1; // fixed with gpt
@@ -355,17 +378,25 @@ public class frame extends JFrame implements KeyListener {
 
 
                 //mob movement testing :/
-                for(Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
+                for(Map.Entry<JLabel, Point> entry : mobPoint.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
 
-                    UUID mobID = entry.getKey();
-                    JLabel mobLabel = entry.getValue();
+                    JLabel mobLabel = entry.getKey();
+                    Point mobPoints = entry.getValue();
 
-                    int mobSpeed = MobSpeed.get(mobID);
-                    int mobFollowDistance = MobFollowDistance.get(mobID);
+                    UUID mobID = reverseMobMap.get(mobLabel);
+
+                    Integer mobSpeed = MobSpeed.get(mobID);
+                    Integer mobFollowDistance = MobFollowDistance.get(mobID);
+
+                    if (mobSpeed == null || mobFollowDistance == null) {  // thanks gpt for this if statement to fix the error
+                        continue; // Skip this mob if data is missing
+                    }
 
 
-                    ghostTwoWorldPos = mobMovement((int) ghostTwoWorldPos.getX(), (int) ghostTwoWorldPos.getY(), mobSpeed, mobFollowDistance);
-                    mobLabel.setLocation(CameraInstance.worldToScreen(ghostTwoWorldPos));
+                        mobPoints = mobMovement((int) mobPoints.getX(), (int) mobPoints.getY(), mobSpeed, mobFollowDistance);
+                    mobPoint.put(mobLabel, mobPoints);
+                    mobLabel.setLocation(CameraInstance.worldToScreen(mobPoints));
+                   // System.out.println("Mob Point: " + mobPoints);
                 }
 
 
@@ -374,18 +405,29 @@ public class frame extends JFrame implements KeyListener {
                     tile.label.setLocation(screenPos);
                 }
 
-                rock.setLocation(CameraInstance.worldToScreen(rockWorldPos));
-                chest.setLocation(CameraInstance.worldToScreen(chestWorldPos));
-                pebble.setLocation(CameraInstance.worldToScreen(pebbleWorldPos));
-                warp.setLocation(CameraInstance.worldToScreen(warpWorldPos));
-                rockTwo.setLocation(CameraInstance.worldToScreen(rockTwoWorldPos));
-                rockThird.setLocation(CameraInstance.worldToScreen(rockThirdWorldPos));
-                ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500);
-                ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
-                NPC.setLocation(CameraInstance.worldToScreen(NPCWorldPos));
+                for(Map.Entry<JLabel, Point> entry : AssetPoint.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
+
+                    JLabel MobLabel = entry.getKey();
+                    Point mobPoint = entry.getValue();
+
+                    MobLabel.setLocation(CameraInstance.worldToScreen(mobPoint));
+                }
 
 
-                System.out.println(savedDirection);
+             //   mobAttack();
+
+              //  rock.setLocation(CameraInstance.worldToScreen(rockWorldPos));
+              //  chest.setLocation(CameraInstance.worldToScreen(chestWorldPos));
+               // pebble.setLocation(CameraInstance.worldToScreen(pebbleWorldPos));
+              //  warp.setLocation(CameraInstance.worldToScreen(warpWorldPos));
+              //  rockTwo.setLocation(CameraInstance.worldToScreen(rockTwoWorldPos));
+              //  rockThird.setLocation(CameraInstance.worldToScreen(rockThirdWorldPos));
+               // ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500);
+              //  ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
+            //    NPC.setLocation(CameraInstance.worldToScreen(NPCWorldPos));
+
+
+
 
 
                /* if(spacePressed == false) {
@@ -456,12 +498,13 @@ public class frame extends JFrame implements KeyListener {
 
         JLabel mobLabel = mob.get(mobId);
         backgroundPanel.remove(mobLabel);
-        mob.remove(mobId);
         MobHealth.remove(mobId);
         MobDamage.remove(mobId);
         MobReach.remove(mobId);
         MobSpeed.remove(mobId);
         MobFollowDistance.remove(mobId);
+        reverseMobMap.remove(mobLabel);
+        mob.remove(mobId);
     }
 
 
@@ -595,7 +638,7 @@ public class frame extends JFrame implements KeyListener {
 
         //step -= mobSpeed;
 
-        if (distance <= followDistance && distance >= 100 && playerWorldPos.x != ghostWorldPos.x && playerWorldPos.y - ghostWorldPos.y != 0) {
+        if (distance <= followDistance && distance >= 100) {
 
             double distanceX = playerWorldPos.x - x;
             double distanceY = playerWorldPos.y - y;
@@ -663,11 +706,17 @@ public class frame extends JFrame implements KeyListener {
 
         UUID mobID = UUID.randomUUID(); // creates a unique UUID for each mob, do not touch this lmao
         mob.put(mobID, label);
+        reverseMobMap.put(label, mobID);
         MobDamage.put(mobID, damage);
         MobHealth.put(mobID, health);
         MobReach.put(mobID, range);
         MobSpeed.put(mobID, speed);
         MobFollowDistance.put(mobID, followDistance);
+
+        Point MobPoint = new Point(x, y);
+        mobPoint.put(label, MobPoint);
+
+
         return label;
     }
 
@@ -686,20 +735,21 @@ public class frame extends JFrame implements KeyListener {
             if (currentHealth > maximumHealth) {
                 currentHealth = maximumHealth;
             }
+
             if (currentHealth <= 0) {
                 System.out.print("You died");
                 //gameOver();
             }
             for (int i = 1; i <= maximumHealth; i++) {
-                JLabel emptyHeart = assets("empty", 10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1);
+                JLabel emptyHeart = GUIassets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1);
                 backgroundPanel.setComponentZOrder(emptyHeart, 1);
             }
             for (int i = 1; i <= currentHealth; i++) {
-                JLabel fullHeart = assets("fullHeart",10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/fullHeart.png", false, 0);
+                JLabel fullHeart = GUIassets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/fullHeart.png", false, 0);
                 backgroundPanel.setComponentZOrder(fullHeart, 0);
             }
             if (currentHealth % 1.0 != 0) {
-                JLabel halfHeart = assets("halfHeart", (int) (-20 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false, 0);
+                JLabel halfHeart = GUIassets((int) (-20 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false, 0);
                 backgroundPanel.setComponentZOrder(halfHeart, 0);
             }
         }
@@ -709,9 +759,41 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+    public void mobAttack() {
+
+        for(Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
+
+            UUID mobID = entry.getKey();
+            JLabel mobLabel = entry.getValue();
+
+            int mobAttackCooldown = MobAttackCooldown.get(mobID);
+            int mobReach = MobReach.get(mobID);
+            int mobDamage = MobDamage.get(mobID);
+            int mobHealth = MobHealth.get(mobID);
+            int distance = (int) Math.sqrt(Math.pow(((playerWorldPos.x - 40) - mobLabel.getX()), 2) + Math.pow(((playerWorldPos.y-50) - mobLabel.getY()), 2));
+
+
+
+            if(distance <= mobReach) {
+                if (mobAttackCooldown <= 0) {
+                    currentHealth -= mobDamage;
+                    MobAttackCooldown.put(mobID, 1000);
+                    System.out.println("You were attacked by a mob");
+                } else {
+                    mobAttackCooldown -= 1;
+                }
+            }
+
+        }
+
+
+
+    }
+
+
     public void chest() {
 
-        if(playerWorldPos == chestWorldPos) {
+        if(player.getBounds().intersects(chest.getBounds())) {
             System.out.println("You opened the chest");
             currentHealth = maximumHealth;
         } else {
