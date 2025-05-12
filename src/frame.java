@@ -107,7 +107,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/grandma.png", false, 1);
 
 
-
+    JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 1);
 
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
