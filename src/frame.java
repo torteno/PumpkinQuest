@@ -78,6 +78,10 @@ public class frame extends JFrame implements KeyListener {
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
+    JLabel startCredits = GUIassets(50, 400, 400, 40, false, "images/GUI/startScreenCredits.png", false, 0);
+    JLabel startPlay = GUIassets(50, 200, 400, 40, false, "images/GUI/startScreenNew.png", false, 0);
+    JLabel startQuit = GUIassets(50, 300, 400, 40, false, "images/GUI/startScreenQuit.png", false, 0);
+
     JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0);
 
     JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 0);
@@ -451,7 +455,7 @@ public class frame extends JFrame implements KeyListener {
     public void fadeOutStartScreen() {
     
         GUIOpen = false;
-      
+      healthChange(0);
     }
 
   
