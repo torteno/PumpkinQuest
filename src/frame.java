@@ -957,13 +957,36 @@ public class frame extends JFrame implements KeyListener {
         volumeControl.setValue(dB);
     }
 
+    int startSelection = 1;
     @Override
     public void keyPressed(KeyEvent e) {
         if (startScreenVisible) {
-            startScreenVisible = false;
-            fadeOutStartScreen();
-            return;
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_DOWN) {
+            startSelection++;
+            if (startSelection > 3) startSelection = 1; 
+        } else if (key == KeyEvent.VK_UP) {
+            startSelection--;
+            if (startSelection < 1) startSelection = 3; 
+        } else if (key == KeyEvent.VK_SPACE) {
+            switch (startSelection) {
+                case 1: 
+                    startScreenVisible = false;
+                    fadeOutStartScreen();
+                    return;
+                case 2: 
+                    //nothing rn
+                    break;
+                case 3: 
+                    System.exit(0);
+                    break;
+            }
         }
+
+        return;
+    
+        } else {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W -> playerMovementInstance.setUpPressed(true);
             case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(true);
@@ -983,7 +1006,7 @@ public class frame extends JFrame implements KeyListener {
 
         }
     }
-
+    }
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -996,9 +1019,9 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_EQUALS -> plusPressed = false;
             case KeyEvent.VK_MINUS -> minusPressed = false;
             case KeyEvent.VK_SPACE -> attacking(savedDirection, false);
-        }
+        
     }
-
+    }
     @Override
     public void keyTyped(KeyEvent e) {}
 }
