@@ -78,42 +78,47 @@ public class frame extends JFrame implements KeyListener {
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
-    JLabel startCredits = GUIassets(50, 400, 400, 40, false, "images/GUI/startScreenCredits.png", false, 0);
-    JLabel startPlay = GUIassets(50, 200, 400, 40, false, "images/GUI/startScreenNew.png", false, 0);
-    JLabel startQuit = GUIassets(50, 300, 400, 40, false, "images/GUI/startScreenQuit.png", false, 0);
+   
 
-    JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0);
+    JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 1);
 
-    JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 0);
+    JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 2);
 
-    JLabel pebble =  assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 4);
+    JLabel pebble =  assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 8);
 
-    JLabel rock =  assets(300, 200, 100, 100, true, "images/assets/rock.png", false, 4);
+    JLabel rock =  assets(300, 200, 100, 100, true, "images/assets/rock.png", false, 8);
 
-    JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 4);
+    JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8);
 
 
-    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 4);
+    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8);
 
 
-    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 4);
+    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 8);
 
 
-    JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 4);
+    JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8);
 
 
-    JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
+    JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 2, 10, 1, 100, 3, 5000);
     //Point ghostWorldPos = new Point(1000, -1500);
 
-    JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 1, 10, 1, 100, 3, 5000);
+    JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 2, 10, 1, 100, 3, 5000);
 
 
-    JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/grandma.png", false, 1);
+    JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/grandma.png", false, 2);
 
 
-    JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 1);
-
-
+    JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 3);
+ 
+    JLabel SScredits = GUIassets(0, 0, 1040, 780, false, "images/GUI/creditsScreen.png", false, 2);
+    JLabel startMenu = GUIassets(0,0, 1000, 1000, false, "images/GUI/placeHolderStart.png", false, 2);
+    JLabel startCredits = GUIassets(100, 300, 400, 40, false, "images/GUI/startScreenCredits.png", false, 1);
+    JLabel startPlay = GUIassets(100, 200, 400, 40, false, "images/GUI/startScreenNew.png", false, 1);
+    JLabel startQuit = GUIassets(100, 400, 400, 40, false, "images/GUI/startScreenQuit.png", false, 1);
+    JLabel currentSelection = GUIassets(25, 192, 60, 60, false, "images/GUI/selectionarrow.png", false, 1);
+   
+    
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
@@ -138,8 +143,6 @@ public class frame extends JFrame implements KeyListener {
         setSize(1000, 800);
         setLocationRelativeTo(null);
         setResizable(false);
-
-
 
 
 
@@ -172,7 +175,7 @@ public class frame extends JFrame implements KeyListener {
                 tileLabel.setBounds(0, 0, tileSize, tileSize); // position will be updated in gameLoop
                 tileLabel.setOpaque(false);
                 backgroundPanel.add(tileLabel);
-                backgroundPanel.setComponentZOrder(tileLabel, 8);
+                backgroundPanel.setComponentZOrder(tileLabel, 10);
 
                 Point worldPos = new Point(tileX * tileSize, -tileY * tileSize);
                 backgroundTiles.add(new Tile(tileLabel, worldPos));
@@ -349,7 +352,7 @@ public class frame extends JFrame implements KeyListener {
         long currentTime;
         double timePerFrame = 1_000_000_000.0 / FPS;
 
-
+        SScredits.setVisible(false);
 
         while (true) {
             currentTime = System.nanoTime();
@@ -958,34 +961,80 @@ public class frame extends JFrame implements KeyListener {
     }
 
     int startSelection = 1;
+    boolean menuAlreadyChanged = false;
+
     @Override
     public void keyPressed(KeyEvent e) {
         if (startScreenVisible) {
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_DOWN) {
+        if (key == KeyEvent.VK_DOWN && !menuAlreadyChanged) {
             startSelection++;
-            if (startSelection > 3) startSelection = 1; 
-        } else if (key == KeyEvent.VK_UP) {
+
+            if (startSelection > 3) { 
+                startSelection = 1;
+            menuAlreadyChanged = true;
+            }
+        } if (key == KeyEvent.VK_UP && !menuAlreadyChanged) {
             startSelection--;
-            if (startSelection < 1) startSelection = 3; 
-        } else if (key == KeyEvent.VK_SPACE) {
+
+            if (startSelection < 1) {
+                startSelection = 3;
+            menuAlreadyChanged = true;
+        }
+    }
+
+
+        if (startSelection == 1) {
+            currentSelection.setLocation(25,192);
+        } else if (startSelection == 2) {
+            currentSelection.setLocation(25,292);
+        } else if (startSelection == 3) {
+            currentSelection.setLocation(25,392);
+        }
+        
+    
+        if (key == KeyEvent.VK_SPACE) {
             switch (startSelection) {
                 case 1: 
+                    startPlay.setVisible(false);
+                    startCredits.setVisible(false);
+                    startQuit.setVisible(false);
+                    startMenu.setVisible(false);
+                    SScredits.setVisible(false);
+                    currentSelection.setVisible(false);
                     startScreenVisible = false;
                     fadeOutStartScreen();
+                    
                     return;
                 case 2: 
-                    //nothing rn
-                    break;
+                    if (SScredits.isVisible() == false) {
+                        SScredits.setVisible(true);
+                        startMenu.setVisible(false);
+                        startPlay.setVisible(false);
+                        startCredits.setVisible(false);
+                        startQuit.setVisible(false);
+                        currentSelection.setVisible(false);
+                    } else {
+                        SScredits.setVisible(false);
+                        startMenu.setVisible(true);
+                        startPlay.setVisible(true);
+                        startCredits.setVisible(true);
+                        startQuit.setVisible(true);
+                        currentSelection.setVisible(true);
+                    }
+                    
+                    return;
                 case 3: 
                     System.exit(0);
+
                     break;
             }
         }
 
         return;
     
+
         } else {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W -> playerMovementInstance.setUpPressed(true);
@@ -1009,6 +1058,11 @@ public class frame extends JFrame implements KeyListener {
     }
     @Override
     public void keyReleased(KeyEvent e) {
+
+        int key = e.getKeyCode();
+            if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_UP) {
+            menuAlreadyChanged = false;
+    }
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W -> playerMovementInstance.setUpPressed(false);
             case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(false);
