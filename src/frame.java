@@ -106,7 +106,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 2, 10, 1, 100, 3, 5000);
 
 
-    JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/grandma.png", false, 2);
+    JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2);
 
 
     JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 3);
@@ -785,18 +785,6 @@ public class frame extends JFrame implements KeyListener {
 
 
     }
-
-
-    public void test () {
-
-        if(qPressed) {
-
-            playerWorldPos = new Point(0, 0);
-
-        }
-
-    }
-
 
 
 
