@@ -921,7 +921,7 @@ public class frame extends JFrame implements KeyListener {
                 press.setVisible(false);
                 //gotApple.setVisible(true);
                 NPCDialogue(1);
-                NPCInteracted = true;
+
 
                 messageDisDelay = 0;
 
@@ -943,6 +943,7 @@ public class frame extends JFrame implements KeyListener {
         switch (NPCNumber) {
 
             case 1: {
+                NPCInteracted = false;
                 while (!NPCInteracted) {
                     GrandmaNPC1.setVisible(true);
 
@@ -950,7 +951,7 @@ public class frame extends JFrame implements KeyListener {
                         GrandmaNPC1.setVisible(false);
                         GrandmaNPC2.setVisible(true);
                     }
-
+                    NPCInteracted = true;
                 }
 
             }
