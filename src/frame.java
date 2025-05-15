@@ -117,8 +117,10 @@ public class frame extends JFrame implements KeyListener {
     JLabel startPlay = GUIassets(100, 200, 400, 40, false, "images/GUI/startScreenNew.png", false, 1);
     JLabel startQuit = GUIassets(100, 400, 400, 40, false, "images/GUI/startScreenQuit.png", false, 1);
     JLabel currentSelection = GUIassets(25, 192, 60, 60, false, "images/GUI/selectionarrow.png", false, 1);
-   
-    
+
+    JLabel GrandmaNPC1 = GUIassets(150, 600, 400, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 2);
+    JLabel GrandmaNPC2 = GUIassets(150, 600, 400, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 2);
+
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
@@ -214,6 +216,9 @@ public class frame extends JFrame implements KeyListener {
         downAttack.setVisible(false);
         rightAttack = GUIassets(player.getX() + 100, player.getY() + 50, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1);
         rightAttack.setVisible(false);
+
+        GrandmaNPC1.setVisible(false);
+        GrandmaNPC2.setVisible(false);
 
 
 
@@ -912,9 +917,11 @@ public class frame extends JFrame implements KeyListener {
             press.setVisible(true);
 
             if (player.getBounds().intersects(NPC.getBounds()) && ePressed) {
-                NPCInteracted = true;
+
                 press.setVisible(false);
-                gotApple.setVisible(true);
+                //gotApple.setVisible(true);
+                NPCDialogue(1);
+                NPCInteracted = true;
 
                 messageDisDelay = 0;
 
@@ -931,6 +938,29 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+    public void NPCDialogue (int NPCNumber) {
+
+        switch (NPCNumber) {
+
+            case 1: {
+                while (!NPCInteracted) {
+                    GrandmaNPC1.setVisible(true);
+
+                    if (!ePressed) {
+                        GrandmaNPC1.setVisible(false);
+                        GrandmaNPC2.setVisible(true);
+                    }
+
+                }
+
+            }
+            case 2: {
+
+            }
+
+        }
+
+    }
 
     public static void volumeChange(float volumeChange) {
 
