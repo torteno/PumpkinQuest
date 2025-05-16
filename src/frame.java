@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Time;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
 import java.util.UUID;
+import java.time.*;
 
 
 public class frame extends JFrame implements KeyListener {
@@ -50,6 +53,14 @@ public class frame extends JFrame implements KeyListener {
     Map <UUID, Integer> MobSpeed = new HashMap<>();
     Map <UUID, Integer> MobAttackCooldown = new HashMap<>();
     Map <UUID, Integer> MobFollowDistance = new HashMap<>();
+    Map <UUID, Double> MobDistance = new HashMap<>();
+    Map <UUID, Long> MobAttackCurrentCoolDown = new HashMap<>();
+    Map <UUID, LocalDateTime> TimeMobAttacked = new HashMap<>();
+    Map <UUID, Duration> TimeSinceMobAttacked = new HashMap<>();
+
+
+
+
 
 
 
@@ -100,10 +111,10 @@ public class frame extends JFrame implements KeyListener {
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8);
 
 
-    JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 2, 10, 1, 100, 3, 5000);
+    JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 2, 10, 1, 100, 3, 5000, 3);
     //Point ghostWorldPos = new Point(1000, -1500);
 
-    JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 2, 10, 1, 100, 3, 5000);
+    JLabel ghostTwo = mobCreation(750, 200, 100, 100, "images/mob/ghost.png", 2, 10, 1, 100, 3, 5000,3);
 
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2);
@@ -174,8 +185,9 @@ public class frame extends JFrame implements KeyListener {
                 JLabel tileLabel = new JLabel(tileIcon);
                 tileLabel.setBounds(0, 0, tileSize, tileSize); // position will be updated in gameLoop
                 tileLabel.setOpaque(false);
-                backgroundPanel.add(tileLabel);
                 backgroundPanel.setComponentZOrder(tileLabel, 10);
+                backgroundPanel.add(tileLabel);
+
 
                 Point worldPos = new Point(tileX * tileSize, -tileY * tileSize);
                 backgroundTiles.add(new Tile(tileLabel, worldPos));
@@ -398,13 +410,13 @@ public class frame extends JFrame implements KeyListener {
                     if (mobSpeed == null || mobFollowDistance == null) {  // thanks gpt for this if statement to fix the error
                         continue; // Skip this mob if data is missing
                     }
-
-
                         mobPoints = mobMovement((int) mobPoints.getX(), (int) mobPoints.getY(), mobSpeed, mobFollowDistance);
                     mobPoint.put(mobLabel, mobPoints);
                     mobLabel.setLocation(CameraInstance.worldToScreen(mobPoints));
                    // System.out.println("Mob Point: " + mobPoints);
                 }
+
+
 
 
                 for (Tile tile : backgroundTiles) {
@@ -420,8 +432,12 @@ public class frame extends JFrame implements KeyListener {
                     MobLabel.setLocation(CameraInstance.worldToScreen(mobPoint));
                 }
 
+                try {
+                    mobAttack();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-             //   mobAttack();
 
               //  rock.setLocation(CameraInstance.worldToScreen(rockWorldPos));
               //  chest.setLocation(CameraInstance.worldToScreen(chestWorldPos));
@@ -679,7 +695,7 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-    public JLabel mobCreation(int x, int y, int width, int height, String filePath, int zOrder, int health, int damage, int range, int speed, int followDistance) {
+    public JLabel mobCreation(int x, int y, int width, int height, String filePath, int zOrder, int health, int damage, int range, int speed, int followDistance, int attackCooldown) {
         ImageIcon icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         JLabel label = new JLabel(icon);
         label.setBounds(x, y, width, height);
@@ -695,6 +711,7 @@ public class frame extends JFrame implements KeyListener {
         MobReach.put(mobID, range);
         MobSpeed.put(mobID, speed);
         MobFollowDistance.put(mobID, followDistance);
+        MobAttackCooldown.put(mobID, attackCooldown);
 
         Point MobPoint = new Point(x, y);
         mobPoint.put(label, MobPoint);
@@ -744,33 +761,48 @@ public class frame extends JFrame implements KeyListener {
 
     public void mobAttack() {
 
-        for(Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
+        for (Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
 
             UUID mobID = entry.getKey();
             JLabel mobLabel = entry.getValue();
 
-            int mobAttackCooldown = MobAttackCooldown.get(mobID);
-            int mobReach = MobReach.get(mobID);
-            int mobDamage = MobDamage.get(mobID);
-            int mobHealth = MobHealth.get(mobID);
-            int distance = (int) Math.sqrt(Math.pow(((playerWorldPos.x - 40) - mobLabel.getX()), 2) + Math.pow(((playerWorldPos.y-50) - mobLabel.getY()), 2));
+            int mobAttackCooldown = MobAttackCooldown.getOrDefault(mobID, 0);
+            int mobReach = MobReach.getOrDefault(mobID, 0);
+            int mobDamage = MobDamage.getOrDefault(mobID, 0);
+            long mobCooldown = MobAttackCurrentCoolDown.getOrDefault(mobID, Long.valueOf(0));
+            LocalDateTime timeSinceAttack = TimeMobAttacked.getOrDefault(mobID, LocalDateTime.MIN);
+            double mobDistance = MobDistance.getOrDefault(mobID, Double.MAX_VALUE);
+            Duration durationMobAttack = TimeSinceMobAttacked.getOrDefault(mobID, Duration.ZERO);
+
+            Point mobWorldPos = mobPoint.get(mobLabel);
+            double distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - mobWorldPos.getX()), 2) + Math.pow(((playerWorldPos.y - 50) - mobWorldPos.getY()), 2));
 
 
+            mobDistance = distance;
+            MobDistance.put(mobID, mobDistance);
+            System.out.println("Mob Distance: " + mobDistance + "Mob Cooldown: " + mobCooldown);
 
-            if(distance <= mobReach) {
-                if (mobAttackCooldown <= 0) {
-                    currentHealth -= mobDamage;
-                    MobAttackCooldown.put(mobID, 1000);
+
+            durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now());
+
+            mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS)));
+
+            MobAttackCurrentCoolDown.put(mobID, mobCooldown);
+
+
+            if (mobDistance <= mobReach) {
+                durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now());
+                mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS)));
+                if (mobCooldown >= (long) mobAttackCooldown) {
+                    healthChange(-mobDamage);
+                    TimeMobAttacked.put(mobID, LocalDateTime.now());
+                    timeSinceAttack = LocalDateTime.now();
                     System.out.println("You were attacked by a mob");
-                } else {
-                    mobAttackCooldown -= 1;
+                    TimeMobAttacked.put(mobID, LocalDateTime.now());
+                    MobAttackCurrentCoolDown.put(mobID, 0L);
                 }
             }
-
         }
-
-
-
     }
 
 
