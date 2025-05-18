@@ -41,6 +41,10 @@ public class frame extends JFrame implements KeyListener {
     int messageDisDelay;
     int playerDamage = 5;
 
+    int currentDialogueIndex = -1;
+    boolean dialogueActive = false;
+    JLabel[] dialogueImages;
+
     Map<UUID, Point> mobSpawnPoint = new HashMap<>();
     Map<JLabel, Point> AssetPoint = new HashMap<>();
     Map<JLabel, Point> mobPoint = new HashMap<>();
@@ -398,6 +402,30 @@ public class frame extends JFrame implements KeyListener {
                 //healthChange(0);
 
                 //System.out.println(ghostWorldPos);
+
+                if (dialogueActive) {
+                    press.setVisible(false);
+                    if (ePressed) {
+                        ePressed = false;
+
+                        // Hide current image
+                        if (currentDialogueIndex < dialogueImages.length) {
+                            dialogueImages[currentDialogueIndex].setVisible(false);
+                        }
+
+                        currentDialogueIndex++;
+
+                        // Show next image or end dialogue
+                        if (currentDialogueIndex < dialogueImages.length) {
+                            dialogueImages[currentDialogueIndex].setVisible(true);
+                        } else {
+                            // End of dialogue
+                            dialogueActive = false;
+                            NPCInteracted = true;
+                        }
+                    }
+                }
+
 
 
                 if (!GUIOpen) {
@@ -1039,54 +1067,34 @@ public class frame extends JFrame implements KeyListener {
         if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted) {
             press.setVisible(true);
 
-            if (player.getBounds().intersects(NPC.getBounds()) && ePressed) {
-
-                press.setVisible(false);
-                //gotApple.setVisible(true);
-                NPCDialogue(1);
-
-
-                messageDisDelay = 0;
-
-
-            }
-        } else {
-            messageDisDelay++;
-            //press.setVisible(false);
-            if (messageDisDelay >= 60) {
-                gotApple.setVisible(false);
+            if (ePressed && !dialogueActive) {
+                startDialogue(1); // Start FSM
+                ePressed = false; // Prevent skipping first image
             }
         }
 
     }
 
 
-    public void NPCDialogue (int NPCNumber) {
+    public void startDialogue(int NPCNumber) {
+        dialogueActive = true;
+        currentDialogueIndex = 0;
 
         switch (NPCNumber) {
+            case 1 -> {
+                dialogueImages = new JLabel[] {
+                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 0, false),
+                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 0, false)
+                };
 
-            case 1: {
-
-                for (int i = 0; i < 5; i++) {
-                    GrandmaNPC1.setVisible(true);
-                    while (ePressed) {
-                        System.out.println("hello");
-                    }
-                    if (!ePressed) {
-                        GrandmaNPC1.setVisible(false);
-                        GrandmaNPC2.setVisible(true);
-                    }
-                    NPCInteracted = true;
+                for (JLabel label : dialogueImages) {
+                    label.setVisible(false);
 
                 }
 
+                dialogueImages[0].setVisible(true);
             }
-            case 2: {
-
-            }
-
         }
-
     }
 
     public static void volumeChange(float volumeChange) {
