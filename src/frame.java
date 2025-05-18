@@ -888,7 +888,7 @@ public class frame extends JFrame implements KeyListener {
 
             mobDistance = distance;
             MobDistance.put(mobID, mobDistance);
-            System.out.println("Mob Distance: " + mobDistance + "Mob Cooldown: " + mobCooldown);
+            //System.out.println("Mob Distance: " + mobDistance + "Mob Cooldown: " + mobCooldown);
 
 
             durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now());
