@@ -43,6 +43,10 @@ public class frame extends JFrame implements KeyListener {
     int messageDisDelay;
     int playerDamage = 5;
 
+    int currentDialogueIndex = -1;
+    boolean dialogueActive = false;
+    JLabel[] dialogueImages;
+
     Map<JLabel, Point> AssetPoint = new HashMap<>();
     Map<JLabel, Point> mobPoint = new HashMap<>();
     Map <UUID, JLabel> mob = new HashMap<>();
@@ -93,7 +97,7 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 1);
 
-    JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 2);
+    //JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 2);
 
     JLabel pebble =  assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 8);
 
@@ -129,8 +133,6 @@ public class frame extends JFrame implements KeyListener {
     JLabel startQuit = GUIassets(100, 400, 400, 40, false, "images/GUI/startScreenQuit.png", false, 1);
     JLabel currentSelection = GUIassets(25, 192, 60, 60, false, "images/GUI/selectionarrow.png", false, 1);
 
-    JLabel GrandmaNPC1 = GUIassets(150, 600, 400, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 2);
-    JLabel GrandmaNPC2 = GUIassets(150, 600, 400, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 2);
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
@@ -229,8 +231,7 @@ public class frame extends JFrame implements KeyListener {
         rightAttack = GUIassets(player.getX() + 100, player.getY() + 50, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1);
         rightAttack.setVisible(false);
 
-        GrandmaNPC1.setVisible(false);
-        GrandmaNPC2.setVisible(false);
+
 
 
 
@@ -393,7 +394,28 @@ public class frame extends JFrame implements KeyListener {
 
                 //System.out.println(ghostWorldPos);
 
+                if (dialogueActive) {
+                    press.setVisible(false);
+                    if (ePressed) {
+                        ePressed = false;
 
+                        // Hide current image
+                        if (currentDialogueIndex < dialogueImages.length) {
+                            dialogueImages[currentDialogueIndex].setVisible(false);
+                        }
+
+                        currentDialogueIndex++;
+
+                        // Show next image or end dialogue
+                        if (currentDialogueIndex < dialogueImages.length) {
+                            dialogueImages[currentDialogueIndex].setVisible(true);
+                        } else {
+                            // End of dialogue
+                            dialogueActive = false;
+                            NPCInteracted = true;
+                        }
+                    }
+                }
 
 
                 if(!GUIOpen) {
@@ -785,7 +807,7 @@ public class frame extends JFrame implements KeyListener {
 
             mobDistance = distance;
             MobDistance.put(mobID, mobDistance);
-            System.out.println("Mob Distance: " + mobDistance + "Mob Cooldown: " + mobCooldown);
+            //System.out.println("Mob Distance: " + mobDistance + "Mob Cooldown: " + mobCooldown);
 
 
             durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now());
@@ -948,52 +970,38 @@ public class frame extends JFrame implements KeyListener {
         if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted) {
             press.setVisible(true);
 
-            if (player.getBounds().intersects(NPC.getBounds()) && ePressed) {
-
-                press.setVisible(false);
-                //gotApple.setVisible(true);
-                NPCDialogue(1);
-
-
-                messageDisDelay = 0;
-
-
-            }
-        } else {
-            messageDisDelay++;
-            //press.setVisible(false);
-            if (messageDisDelay >= 60) {
-                gotApple.setVisible(false);
+            if (ePressed && !dialogueActive) {
+                startDialogue(1); // Start FSM
+                ePressed = false; // Prevent skipping first image
             }
         }
 
     }
 
 
-    public void NPCDialogue (int NPCNumber) {
+    public void startDialogue(int NPCNumber) {
+        dialogueActive = true;
+        currentDialogueIndex = 0;
 
         switch (NPCNumber) {
+            case 1 -> {
+                dialogueImages = new JLabel[] {
+                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 0),
+                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 0)
+                };
 
-            case 1: {
-                NPCInteracted = false;
-                while (!NPCInteracted) {
-                    GrandmaNPC1.setVisible(true);
+                for (JLabel label : dialogueImages) {
+                    label.setVisible(false);
 
-                    if (!ePressed) {
-                        GrandmaNPC1.setVisible(false);
-                        GrandmaNPC2.setVisible(true);
-                    }
-                    NPCInteracted = true;
                 }
 
+                dialogueImages[0].setVisible(true);
             }
-            case 2: {
-
-            }
-
         }
-
     }
+
+
+
 
     public static void volumeChange(float volumeChange) {
 
