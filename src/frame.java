@@ -111,7 +111,7 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
 
-    JLabel respawnPointOne = assets( 2500, -900, 200, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
+    JLabel respawnPointOne = assets( 2475, -975, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
     JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 2, 10, 0.5, 300, 3, 600, 3);
     //Point ghostWorldPos = new Point(1000, -1500);
