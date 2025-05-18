@@ -27,7 +27,7 @@ public class frame extends JFrame implements KeyListener {
 
     int x, y;
     int step = 6;
-    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false;
+    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
     int FPS = 60;
     double currentHealth = 3.0, maximumHealth = 3.0;
@@ -76,6 +76,7 @@ public class frame extends JFrame implements KeyListener {
     Camera CameraInstance;
     public Point playerWorldPos = new Point(0, 0);
     public Point SpawnPoint = new Point(2360, -678);
+    public Point debugPoint = new Point(0, 0);
 
     JLabel coordinates = new JLabel();
     BackgroundPanel backgroundPanel = new BackgroundPanel(null);
@@ -889,6 +890,7 @@ public class frame extends JFrame implements KeyListener {
             mobDistance = distance;
             MobDistance.put(mobID, mobDistance);
             //System.out.println("Mob Distance: " + mobDistance + "Mob Cooldown: " + mobCooldown);
+          //  System.out.println("Mob Distance: " + mobDistance + "Mob Cooldown: " + mobCooldown);
 
 
             durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now());
@@ -1113,6 +1115,25 @@ public class frame extends JFrame implements KeyListener {
         volumeControl.setValue(dB);
     }
 
+
+    public void debug() {
+
+        if(kPressed) {
+            System.out.println("First Position: " + playerWorldPos);
+            debugPoint.setLocation(playerWorldPos);
+        }
+
+
+        if(lPressed) {
+            System.out.println(Math.abs(playerWorldPos.getX() + debugPoint.getY()) + "," + Math.abs(playerWorldPos.getY() + debugPoint.getX()));
+        }
+
+
+
+    }
+
+
+
     int startSelection = 1;
     boolean menuAlreadyChanged = false;
 
@@ -1216,6 +1237,15 @@ public class frame extends JFrame implements KeyListener {
 
             }
 
+            case KeyEvent.VK_K -> {
+                kPressed = true;
+                debug();
+            }
+            case KeyEvent.VK_L -> {
+                lPressed = true;
+                debug();
+            }
+
 
         }
     }
@@ -1237,7 +1267,9 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_EQUALS -> plusPressed = false;
             case KeyEvent.VK_MINUS -> minusPressed = false;
             case KeyEvent.VK_SPACE -> attacking(savedDirection, false);
-        
+            case KeyEvent.VK_K -> kPressed = false;
+            case KeyEvent.VK_L -> lPressed = false;
+
     }
     }
     @Override
