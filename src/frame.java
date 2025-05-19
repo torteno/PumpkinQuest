@@ -27,7 +27,7 @@ public class frame extends JFrame implements KeyListener {
 
     int x, y;
     int step = 6;
-    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, enterPressed = false, escPressed = false;
+    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, pPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
     int FPS = 60;
     double currentHealth = 3.0, maximumHealth = 3.0;
@@ -67,6 +67,7 @@ public class frame extends JFrame implements KeyListener {
 
 
 
+
     Map<String, ImageIcon> playerImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
     ArrayList<JLabel> passables = new ArrayList<>();
@@ -91,6 +92,8 @@ public class frame extends JFrame implements KeyListener {
     String savedDirection;
 
 
+    boolean debugMode = false;
+    boolean placeCooldown = false;
     int swordUpgrade = 0;
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
@@ -138,6 +141,8 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel GrandmaNPC1 = GUIassets(150, 600, 800, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 2, false);
     JLabel GrandmaNPC2 = GUIassets(150, 600, 400, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 2, false);
+
+
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
@@ -253,6 +258,8 @@ public class frame extends JFrame implements KeyListener {
         moveDir = 1;
 
         SScredits.setVisible(false);
+
+
 
 
         gameLoop();
@@ -1114,9 +1121,15 @@ public class frame extends JFrame implements KeyListener {
         float dB = (float) (Math.log10(volume) * 20); // Convert volume (0.0 to 1.0) to decibels
         volumeControl.setValue(dB);
     }
+    JLabel debugChest = GUIassets(1000/2, 800/2, 150, 150,  false, "images/assets/chest.png", false, 8, false);
+    JLabel debugRock = GUIassets(1000/2, 800/2, 100, 100,  false, "images/assets/rock.png", false, 8, false);
+    JLabel debugwarpStone = GUIassets(1000/2, 800/2, 200, 200, false, "images/assets/warpstone.png", false, 8, false);
+    JLabel debugRespawnPoint = GUIassets(1000/2, 800/2,150, 200, false, "images/assets/RespawnPoint.png", false, 8 , false);
 
 
     public void debug() {
+
+
 
         if(kPressed) {
             System.out.println("First Position: " + playerWorldPos);
@@ -1126,6 +1139,57 @@ public class frame extends JFrame implements KeyListener {
 
         if(lPressed) {
             System.out.println(Math.abs(playerWorldPos.getX() + debugPoint.getY()) + "," + Math.abs(playerWorldPos.getY() + debugPoint.getX()));
+        }
+
+        if(pPressed && onePressed && !placeCooldown) {
+            placeCooldown = true;
+            JLabel debugRock = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 100, 100,  false, "images/assets/rock.png", false, 8, true);
+            System.out.println("JLabel + Rock" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/rock.png\", false, 8, true);");
+        } else if(pPressed && twoPressed && !placeCooldown) {
+            placeCooldown = true;
+            JLabel debugChest = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 150, 150,  false, "images/assets/chest.png", false, 8, true);
+            System.out.println("JLabel Chest" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 200, 200,  true, \"images/assets/chest.png\", false, 8, true);");
+
+        } else if(pPressed && threePressed && !placeCooldown) {
+            placeCooldown = true;
+            JLabel debugRespawnPoint = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 150, 200,  false, "images/assets/RespawnPoint.png", false, 8, true);
+            System.out.println("JLabel RespawnPoint" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 150, 200,  true, \"images/assets/respawnPoint.png\", false, 8, false);");
+
+        } else if(pPressed && fourPressed && !placeCooldown) {
+            placeCooldown = true;
+            JLabel debugwarpStone = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 200, 200,  false, "images/assets/warpStone.png", false, 8, true);
+            System.out.println("JLabel Stone" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/warpStone.png\", false, 8, true);");
+
+        }
+
+        if(onePressed) {
+
+            debugRock.setVisible(true);
+            debugChest.setVisible(false);
+            debugRespawnPoint.setVisible(false);
+            debugwarpStone.setVisible(false);
+
+
+        } else if(twoPressed) {
+
+            debugChest.setVisible(true);
+            debugRock.setVisible(false);
+            debugRespawnPoint.setVisible(false);
+            debugwarpStone.setVisible(false);
+
+        } else if(threePressed) {
+
+            debugRespawnPoint.setVisible(true);
+            debugChest.setVisible(false);
+            debugRock.setVisible(false);
+            debugwarpStone.setVisible(false);
+
+        } else if(fourPressed) {
+            debugwarpStone.setVisible(true);
+            debugChest.setVisible(false);
+            debugRock.setVisible(false);
+            debugRespawnPoint.setVisible(false);
+
         }
 
 
@@ -1246,6 +1310,44 @@ public class frame extends JFrame implements KeyListener {
                 debug();
             }
 
+            case KeyEvent.VK_1 -> {
+                onePressed = true;
+                twoPressed = false;
+                threePressed = false;
+                fourPressed = false;
+                debug();
+
+            }
+            case KeyEvent.VK_2 -> {
+                onePressed = false;
+                twoPressed = true;
+                threePressed = false;
+                fourPressed = false;
+                debug();
+
+            }
+            case KeyEvent.VK_3 -> {
+                onePressed = false;
+                twoPressed = false;
+                threePressed = true;
+                fourPressed = false;
+                debug();
+
+            }
+            case KeyEvent.VK_4 -> {
+                onePressed = false;
+                twoPressed = false;
+                threePressed = false;
+                fourPressed = true;
+                debug();
+
+            }
+            case KeyEvent.VK_P -> {
+                pPressed = true;
+                debug();
+
+            }
+
 
         }
     }
@@ -1269,6 +1371,28 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_SPACE -> attacking(savedDirection, false);
             case KeyEvent.VK_K -> kPressed = false;
             case KeyEvent.VK_L -> lPressed = false;
+            case KeyEvent.VK_P -> {
+                debug();
+                pPressed = false;
+                placeCooldown = false;
+            }
+         /*   case KeyEvent.VK_1 -> {
+                placeCooldown = false;
+                debug();
+            }
+            case KeyEvent.VK_2 -> {
+                placeCooldown = false;
+                debug();
+            }
+            case KeyEvent.VK_3 -> {
+                placeCooldown = false;
+                debug();
+            }
+            case KeyEvent.VK_4 -> {
+                placeCooldown = false;
+                debug();
+            } */
+
 
     }
     }
