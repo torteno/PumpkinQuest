@@ -1144,7 +1144,7 @@ public class frame extends JFrame implements KeyListener {
         if(pPressed && onePressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugRock = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 100, 100,  false, "images/assets/rock.png", false, 8, true);
-            System.out.println("JLabel + Rock" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/rock.png\", false, 8, true);");
+            System.out.println("JLabel Rock" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/rock.png\", false, 8, true);");
         } else if(pPressed && twoPressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugChest = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 150, 150,  false, "images/assets/chest.png", false, 8, true);
