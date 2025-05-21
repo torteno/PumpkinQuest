@@ -142,6 +142,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel GrandmaNPC1 = GUIassets(150, 600, 800, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 2, false);
     JLabel GrandmaNPC2 = GUIassets(150, 600, 400, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 2, false);
 
+    JLabel NPCBackground = GUIassets(-150, 470, 1200, 370, false, "images/NPC/NPCDialogueBackground.png", false, 1, false);
 
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -430,6 +431,7 @@ public class frame extends JFrame implements KeyListener {
                             // End of dialogue
                             dialogueActive = false;
                             NPCInteracted = true;
+                            NPCBackground.setVisible(false);
                         }
                     }
                 }
@@ -1090,7 +1092,10 @@ public class frame extends JFrame implements KeyListener {
         currentDialogueIndex = 0;
 
         switch (NPCNumber) {
-            case 1 -> {
+            case 1 : {
+                NPCBackground.setVisible(true);
+
+
                 dialogueImages = new JLabel[] {
                         GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 0, false),
                         GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 0, false)
@@ -1102,6 +1107,7 @@ public class frame extends JFrame implements KeyListener {
                 }
 
                 dialogueImages[0].setVisible(true);
+
             }
         }
     }
