@@ -40,6 +40,12 @@ public class frame extends JFrame implements KeyListener {
     boolean NPCInteracted = false;
     int messageDisDelay;
     int playerDamage = 5;
+    int scrollTime = 0;
+    int lineComplete = 0;
+    int lineNumber = 1;
+    int scrollPixels = 30;  // instead of 30
+
+
 
     int currentDialogueIndex = -1;
     boolean dialogueActive = false;
@@ -139,10 +145,13 @@ public class frame extends JFrame implements KeyListener {
     JLabel startQuit = GUIassets(100, 400, 400, 40, false, "images/GUI/startScreenQuit.png", false, 1, true);
     JLabel currentSelection = GUIassets(25, 192, 60, 60, false, "images/GUI/selectionarrow.png", false, 1, true);
 
-    JLabel GrandmaNPC1 = GUIassets(150, 600, 800, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 2, false);
-    JLabel GrandmaNPC2 = GUIassets(150, 600, 400, 400, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 2, false);
 
-    JLabel NPCBackground = GUIassets(-150, 470, 1200, 370, false, "images/NPC/NPCDialogueBackground.png", false, 1, false);
+    JLabel NPCBackground = GUIassets(-150, 470, 1200, 370, false, "images/NPC/NPCDialogueBackground.png", false, 2, false);
+
+    JLabel NPCScroller1 = GUIassets(-150, 590, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
+    JLabel NPCScroller2 = GUIassets(-150, 615, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
+    JLabel NPCScroller3 = GUIassets(-150, 640, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
+    JLabel NPCScroller4 = GUIassets(-150, 665, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
 
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -238,8 +247,7 @@ public class frame extends JFrame implements KeyListener {
         downAttack = GUIassets(player.getX(), player.getY() + 200, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false);
         rightAttack = GUIassets(player.getX() + 100, player.getY() + 50, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1, false);
 
-        GrandmaNPC1.setVisible(false);
-        GrandmaNPC2.setVisible(false);
+
 
 
 
@@ -413,6 +421,8 @@ public class frame extends JFrame implements KeyListener {
                 //System.out.println(ghostWorldPos);
 
                 if (dialogueActive) {
+
+
                     press.setVisible(false);
                     if (ePressed) {
                         ePressed = false;
@@ -427,11 +437,17 @@ public class frame extends JFrame implements KeyListener {
                         // Show next image or end dialogue
                         if (currentDialogueIndex < dialogueImages.length) {
                             dialogueImages[currentDialogueIndex].setVisible(true);
+
+
                         } else {
                             // End of dialogue
                             dialogueActive = false;
                             NPCInteracted = true;
                             NPCBackground.setVisible(false);
+                            NPCScroller1.setVisible(false);
+                            NPCScroller2.setVisible(false);
+                            NPCScroller3.setVisible(false);
+                            NPCScroller4.setVisible(false);
                         }
                     }
                 }
@@ -1088,6 +1104,11 @@ public class frame extends JFrame implements KeyListener {
 
 
     public void startDialogue(int NPCNumber) {
+        NPCScroller1.setVisible(true);
+        NPCScroller2.setVisible(true);
+        NPCScroller3.setVisible(true);
+        NPCScroller4.setVisible(true);
+
         dialogueActive = true;
         currentDialogueIndex = 0;
 
@@ -1097,8 +1118,8 @@ public class frame extends JFrame implements KeyListener {
 
 
                 dialogueImages = new JLabel[] {
-                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 0, false),
-                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 0, false)
+                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 1, false),
+                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 1, false)
                 };
 
                 for (JLabel label : dialogueImages) {
@@ -1111,6 +1132,38 @@ public class frame extends JFrame implements KeyListener {
             }
         }
     }
+
+
+/*
+    JLabel[] NPCscrollers = {NPCScroller1, NPCScroller2, NPCScroller3, NPCScroller4};
+
+    public void NPCDialogueScroll() {
+        if (lineNumber < 1 || lineNumber > 4) return;
+
+        JLabel currentScroller = NPCscrollers[lineNumber - 1];
+
+        if (lineComplete <= 31) {
+            if (scrollTime >= (FPS / 5)) {
+                int fullWidth = 1000;
+                int pixelsHidden = scrollPixels * lineComplete;
+                int newWidth = Math.max(0, fullWidth - pixelsHidden);
+
+                currentScroller.setBounds(-100 + pixelsHidden, 590 + ((lineNumber - 1) * 25), newWidth, 30);  // move X right
+
+                scrollTime = 0;
+                lineComplete++;
+            } else {
+                scrollTime++;
+            }
+
+        } else {
+            currentScroller.setVisible(false);
+            lineComplete = 0;
+            lineNumber++;
+            if (lineNumber > 4) lineNumber = 1;
+        }
+    }
+*/
 
     public static void volumeChange(float volumeChange) {
 
