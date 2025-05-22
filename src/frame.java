@@ -426,7 +426,7 @@ public class frame extends JFrame implements KeyListener {
                 if (dialogueActive) {
 
 
-                    press.setVisible(false);
+                    //press.setVisible(false);
                     if (ePressed) {
                         ePressed = false;
 
@@ -1101,6 +1101,8 @@ public class frame extends JFrame implements KeyListener {
             press.setVisible(true);
 
             if (ePressed && !dialogueActive) {
+                NPCInteracted = true;
+                press.setVisible(false);
                 startDialogue(1); // Start FSM
                 ePressed = false; // Prevent skipping first image
             }
