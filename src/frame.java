@@ -112,31 +112,35 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 2, false);
 
-    JLabel pebble =  assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 8, true);
+    //JLabel pebble =  assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 8, true);
 
-    JLabel rock =  assets(300, 200, 100, 100, true, "images/assets/rock.png", false, 8, true);
+   // JLabel rock =  assets(300, 200, 100, 100, true, "images/assets/rock.png", false, 8, true);
 
-    JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
-
-
-    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
+   JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
 
 
-    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 8, true);
+   JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
 
 
-    JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
+   // JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 8, true);
 
-    JLabel respawnPointOne = assets( 2475, -975, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
-    JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 2, 10, 0.5, 300, 3, 600, 3);
-    //Point ghostWorldPos = new Point(1000, -1500);
+    //JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
 
-    JLabel ghostTwo = mobCreation(750, 200, 200, 200, "images/mob/ghost.png", 2, 10, 0.5, 300, 3, 600,3);
+    JLabel respawnPointOne = assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
+    JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600, 3);
+    JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost3 = mobCreation(2500, -4450, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost4 = mobCreation(2100, 5500, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost5 = mobCreation(2800, -6300, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost6 = mobCreation(4100, -6000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost7 = mobCreation(4400, -5100, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost8 = mobCreation(4650, -4150, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost9 = mobCreation(5000, -2800, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost10 = mobCreation(4800, -2000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
-
 
     JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 3 , false);
  
@@ -146,7 +150,6 @@ public class frame extends JFrame implements KeyListener {
     JLabel startPlay = GUIassets(100, 200, 400, 40, false, "images/GUI/startScreenNew.png", false, 1, true);
     JLabel startQuit = GUIassets(100, 400, 400, 40, false, "images/GUI/startScreenQuit.png", false, 1, true);
     JLabel currentSelection = GUIassets(25, 192, 60, 60, false, "images/GUI/selectionarrow.png", false, 1, true);
-
 
     JLabel NPCBackground = GUIassets(-150, 470, 1200, 370, false, "images/NPC/NPCDialogueBackground.png", false, 2, false);
 
