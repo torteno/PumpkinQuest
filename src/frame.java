@@ -40,11 +40,13 @@ public class frame extends JFrame implements KeyListener {
     boolean NPCInteracted = false;
     int messageDisDelay;
     int playerDamage = 5;
+
+    /*
     int scrollTime = 0;
     int lineComplete = 0;
     int lineNumber = 1;
     int scrollPixels = 30;  // instead of 30
-
+    */
 
 
     int currentDialogueIndex = -1;
@@ -148,11 +150,12 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel NPCBackground = GUIassets(-150, 470, 1200, 370, false, "images/NPC/NPCDialogueBackground.png", false, 2, false);
 
+    /*
     JLabel NPCScroller1 = GUIassets(-150, 590, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     JLabel NPCScroller2 = GUIassets(-150, 615, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     JLabel NPCScroller3 = GUIassets(-150, 640, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     JLabel NPCScroller4 = GUIassets(-150, 665, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
-
+    */
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
@@ -444,10 +447,13 @@ public class frame extends JFrame implements KeyListener {
                             dialogueActive = false;
                             NPCInteracted = true;
                             NPCBackground.setVisible(false);
-                            NPCScroller1.setVisible(false);
+
+                            /* NPCScroller1.setVisible(false);
                             NPCScroller2.setVisible(false);
                             NPCScroller3.setVisible(false);
                             NPCScroller4.setVisible(false);
+
+                             */
                         }
                     }
                 }
@@ -1104,10 +1110,13 @@ public class frame extends JFrame implements KeyListener {
 
 
     public void startDialogue(int NPCNumber) {
+        /*
         NPCScroller1.setVisible(true);
         NPCScroller2.setVisible(true);
         NPCScroller3.setVisible(true);
         NPCScroller4.setVisible(true);
+
+         */
 
         dialogueActive = true;
         currentDialogueIndex = 0;
