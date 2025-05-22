@@ -38,7 +38,6 @@ public class frame extends JFrame implements KeyListener {
     public static float volume = 0f;
     boolean GUIOpen = true;
     boolean NPCInteracted = false;
-    boolean chestLooted = false;
     int messageDisDelay;
     int playerDamage = 5;
 
@@ -53,7 +52,6 @@ public class frame extends JFrame implements KeyListener {
     int currentDialogueIndex = -1;
     boolean dialogueActive = false;
     JLabel[] dialogueImages;
-    //JLabel[] chestImages;
 
     Map<UUID, Point> mobSpawnPoint = new HashMap<>();
     Map<JLabel, Point> AssetPoint = new HashMap<>();
@@ -114,46 +112,35 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 2, false);
 
-    JLabel pebble =  assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 8, true);
-
-    JLabel rock =  assets(300, 200, 100, 100, true, "images/assets/rock.png", false, 8, true);
+   JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
 
 
-    JLabel [] chestImages = new JLabel[] {
-        assets(1000, -1500, 825, 300, false, "images/assets/chest.png", false, 1, true),
-        assets(750, 200, 825, 300, false, "images/assets/chest.png", false, 1, true)
-    };
+   JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
 
+    JLabel treebarrier = assets(2900, -5800, 600, 7500, true, "images/assets/manymanytrees.png", false, 8, true);
+    JLabel respawnPointOne = assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
-
-    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
-
-
-    JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 8, true);
-
-
-    JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
-
-    JLabel respawnPointOne = assets( 2475, -975, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
-
-    JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 2, 10, 0.5, 300, 3, 600, 3);
-    //Point ghostWorldPos = new Point(1000, -1500);
-
-    JLabel ghostTwo = mobCreation(750, 200, 200, 200, "images/mob/ghost.png", 2, 10, 0.5, 300, 3, 600,3);
-
+    JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600, 3);
+    JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost3 = mobCreation(2500, -4450, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost4 = mobCreation(2100, 5500, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost5 = mobCreation(2800, -6300, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost6 = mobCreation(4100, -6000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost7 = mobCreation(4400, -5100, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost8 = mobCreation(4650, -4150, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost9 = mobCreation(5000, -2800, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost10 = mobCreation(4800, -2000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
 
-
     JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 3 , false);
  
-    JLabel SScredits = GUIassets(0, 0, 1040, 780, false, "images/GUI/creditsScreen.png", false, 2, true);
+    JLabel SScredits = GUIassets(0, 0, 1040, 780,false, "images/GUI/creditsScreen.png", false, 2, true);
     JLabel startMenu = GUIassets(0,0, 1000, 1000, false, "images/GUI/placeHolderStart.png", false, 2, true);
     JLabel startCredits = GUIassets(100, 300, 400, 40, false, "images/GUI/startScreenCredits.png", false, 1, true);
     JLabel startPlay = GUIassets(100, 200, 400, 40, false, "images/GUI/startScreenNew.png", false, 1, true);
     JLabel startQuit = GUIassets(100, 400, 400, 40, false, "images/GUI/startScreenQuit.png", false, 1, true);
     JLabel currentSelection = GUIassets(25, 192, 60, 60, false, "images/GUI/selectionarrow.png", false, 1, true);
-
 
     JLabel NPCBackground = GUIassets(-150, 470, 1200, 370, false, "images/NPC/NPCDialogueBackground.png", false, 2, false);
 
@@ -163,6 +150,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel NPCScroller3 = GUIassets(-150, 640, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     JLabel NPCScroller4 = GUIassets(-150, 665, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     */
+
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
@@ -416,7 +404,7 @@ public class frame extends JFrame implements KeyListener {
             previousTime = currentTime;
             if (placeholder >= 1) {
                 interacting();
-
+                NPCInteraction();
                 //player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
 
 
@@ -882,7 +870,7 @@ public class frame extends JFrame implements KeyListener {
                 System.out.print("You died");
                 playerWorldPos.setLocation(SpawnPoint);
                 healthChange(maximumHealth);
-
+                //gameOver();
             }
             for (int i = 1; i <= maximumHealth; i++) {
                 JLabel emptyHeart = GUIassets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1, true);
@@ -954,13 +942,29 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+    public void chest() {
+
+        if(player.getBounds().intersects(chest.getBounds())) {
+            System.out.println("You opened the chest");
+            currentHealth = maximumHealth;
+        } else {
+            System.out.println("You are not close enough to the chest");
+        }
+
+
+    }
+
+
+
+    public void gameOver() {
+        //do game end code here
+    }
+
+    public int create(int x, int y) {
+        return 0;
+    }
 
     public void interacting() {
-
-        chest();
-        NPCInteraction();
-
-
         if(player.getBounds().intersects(warp.getBounds())) {
             playerWorldPos.setLocation(-50, 0);
 
@@ -968,99 +972,38 @@ public class frame extends JFrame implements KeyListener {
 
 
         if(player.getBounds().intersects(respawnPointOne.getBounds())) {
+
+
+
             if(ePressed) {
+
                 SpawnPoint.setLocation(2360, -678);
+
             }
+
         }
 
-    }
+        if(player.getBounds().intersects(chest.getBounds())) {
 
-
-    public void NPCInteraction () {
-
-        if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted) {
             press.setVisible(true);
 
-            if (ePressed && !dialogueActive) {
-                NPCInteracted = true;
-                press.setVisible(false);
-                startDialogue(1); // Start FSM
-                ePressed = false; // Prevent skipping first image
-            }
-        }
-
-    }
-
-
-
-    public void chest () {
-
-        for (int i = 0; i < chestImages.length; i++) {
-
-            if (player.getBounds().intersects((chestImages[i]).getBounds()) && !chestLooted && ePressed) {
-
-                switch (i) {
-
-                    case 0 : {
-                        System.out.println("You found an apple!");
-                        healthChange(3);
-                        chestLooted = true;
-
-                        break;
-                    }
-                    case 1 : {
-                        System.out.println("You found a stone sword");
-                        playerDamage = 2;
-                        chestLooted = true;
-
-                        break;
-                    }
-                    case 2 : {
-                        System.out.println("You found a iron sword");
-                        playerDamage = 3;
-                        chestLooted = true;
-
-                        break;
-                    }
-                    case 3 : {
-                        System.out.println("You found a gold sword");
-                        playerDamage = 4;
-                        chestLooted = true;
-
-                        break;
-                    }
-                    case 4 : {
-                        System.out.println("You found a ruby sword");
-                        playerDamage = 6;
-                        chestLooted = true;
-
-                        break;
-                    }
-                    case 5 : {
-                        System.out.println("You found a emerald sword");
-                        playerDamage = 8;
-                        chestLooted = true;
-
-                        break;
-                    }
-                    case 6 : {
-                        System.out.println("You found a diamond sword");
-                        playerDamage = 10;
-                        chestLooted = true;
-
-                        break;
-                    }
-                }
+            if(ePressed) {
+                System.out.println("You opened the chest");
 
             }
 
+        } else {
+            press.setVisible(false);
+
+
         }
 
+
+
+
+
+
     }
-
-
-
-
 
     public void attacking(String direction, boolean spacePressed) {
 
@@ -1147,7 +1090,20 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+    public void NPCInteraction () {
 
+        if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted) {
+            press.setVisible(true);
+
+            if (ePressed && !dialogueActive) {
+                NPCInteracted = true;
+                press.setVisible(false);
+                startDialogue(1); // Start FSM
+                ePressed = false; // Prevent skipping first image
+            }
+        }
+
+    }
 
 
     public void startDialogue(int NPCNumber) {
@@ -1239,7 +1195,6 @@ public class frame extends JFrame implements KeyListener {
     public void debug() {
 
 
-
         if(kPressed) {
             System.out.println("First Position: " + playerWorldPos);
             debugPoint.setLocation(playerWorldPos);
@@ -1253,21 +1208,21 @@ public class frame extends JFrame implements KeyListener {
         if(pPressed && onePressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugRock = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 100, 100,  false, "images/assets/rock.png", false, 8, true);
-            System.out.println("JLabel Rock" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/rock.png\", false, 8, true);");
+            System.out.println("JLabel Rock" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/rock.png\", false, 8, true);");
         } else if(pPressed && twoPressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugChest = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 150, 150,  false, "images/assets/chest.png", false, 8, true);
-            System.out.println("JLabel Chest" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 200, 200,  true, \"images/assets/chest.png\", false, 8, true);");
+            System.out.println("JLabel Chest" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 200, 200,  true, \"images/assets/chest.png\", false, 8, true);");
 
         } else if(pPressed && threePressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugRespawnPoint = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 150, 200,  false, "images/assets/RespawnPoint.png", false, 8, true);
-            System.out.println("JLabel RespawnPoint" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 150, 200,  true, \"images/assets/respawnPoint.png\", false, 8, false);");
+            System.out.println("JLabel RespawnPoint" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 150, 200,  true, \"images/assets/respawnPoint.png\", false, 8, false);");
 
         } else if(pPressed && fourPressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugwarpStone = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 200, 200,  false, "images/assets/warpStone.png", false, 8, true);
-            System.out.println("JLabel Stone" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/warpStone.png\", false, 8, true);");
+            System.out.println("JLabel Stone" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/warpStone.png\", false, 8, true);");
 
         }
 
