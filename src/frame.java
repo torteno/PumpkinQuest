@@ -112,21 +112,12 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 2, false);
 
-    //JLabel pebble =  assets(1000, 1000, 1000, 1000, true, "images/assets/pebble.png", false, 8, true);
-
-   // JLabel rock =  assets(300, 200, 100, 100, true, "images/assets/rock.png", false, 8, true);
-
    JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
 
 
    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
 
-
-   // JLabel rockTwo = assets(-500, -500, 200, 200, true, "images/assets/rock.png", false, 8, true);
-
-
-    //JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
-
+    JLabel treebarrier = assets(2900, -5800, 600, 7500, true, "images/assets/manymanytrees.png", false, 8, true);
     JLabel respawnPointOne = assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600, 3);
