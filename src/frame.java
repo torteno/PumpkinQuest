@@ -129,10 +129,11 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel respawnPointOne = assets( 2475, -975, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
-    JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghost.png", 2, 10, 0.5, 300, 3, 600, 3);
+    JLabel ghost = mobCreation(1000, -1500, 100, 100, "images/mob/ghostLeft.png", 2, 10, 0.5, 300, 3, 600, 3);
     //Point ghostWorldPos = new Point(1000, -1500);
 
-    JLabel ghostTwo = mobCreation(750, 200, 200, 200, "images/mob/ghost.png", 2, 10, 0.5, 300, 3, 600,3);
+    JLabel ghostTwo = mobCreation(750, 200, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 300, 3, 600,3);
+    JLabel ghostBIGBOY = mobCreation(750, 200, 800, 800, "images/mob/ghostLeft.png", 2, 10, 0.5, 300, 3, 600,3);
 
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
@@ -140,7 +141,7 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 3 , false);
  
-    JLabel SScredits = GUIassets(0, 0, 1040, 780, false, "images/GUI/creditsScreen.png", false, 2, true);
+    JLabel SScredits = GUIassets(0, 0, 1040, 780,false, "images/GUI/creditsScreen.png", false, 2, true);
     JLabel startMenu = GUIassets(0,0, 1000, 1000, false, "images/GUI/placeHolderStart.png", false, 2, true);
     JLabel startCredits = GUIassets(100, 300, 400, 40, false, "images/GUI/startScreenCredits.png", false, 1, true);
     JLabel startPlay = GUIassets(100, 200, 400, 40, false, "images/GUI/startScreenNew.png", false, 1, true);
@@ -156,6 +157,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel NPCScroller3 = GUIassets(-150, 640, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     JLabel NPCScroller4 = GUIassets(-150, 665, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     */
+
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
@@ -1200,7 +1202,6 @@ public class frame extends JFrame implements KeyListener {
     public void debug() {
 
 
-
         if(kPressed) {
             System.out.println("First Position: " + playerWorldPos);
             debugPoint.setLocation(playerWorldPos);
@@ -1214,21 +1215,21 @@ public class frame extends JFrame implements KeyListener {
         if(pPressed && onePressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugRock = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 100, 100,  false, "images/assets/rock.png", false, 8, true);
-            System.out.println("JLabel Rock" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/rock.png\", false, 8, true);");
+            System.out.println("JLabel Rock" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/rock.png\", false, 8, true);");
         } else if(pPressed && twoPressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugChest = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 150, 150,  false, "images/assets/chest.png", false, 8, true);
-            System.out.println("JLabel Chest" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 200, 200,  true, \"images/assets/chest.png\", false, 8, true);");
+            System.out.println("JLabel Chest" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 200, 200,  true, \"images/assets/chest.png\", false, 8, true);");
 
         } else if(pPressed && threePressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugRespawnPoint = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 150, 200,  false, "images/assets/RespawnPoint.png", false, 8, true);
-            System.out.println("JLabel RespawnPoint" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 150, 200,  true, \"images/assets/respawnPoint.png\", false, 8, false);");
+            System.out.println("JLabel RespawnPoint" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 150, 200,  true, \"images/assets/respawnPoint.png\", false, 8, false);");
 
         } else if(pPressed && fourPressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugwarpStone = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 200, 200,  false, "images/assets/warpStone.png", false, 8, true);
-            System.out.println("JLabel Stone" + UUID.randomUUID() + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/warpStone.png\", false, 8, true);");
+            System.out.println("JLabel Stone" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/warpStone.png\", false, 8, true);");
 
         }
 
