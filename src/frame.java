@@ -117,7 +117,7 @@ public class frame extends JFrame implements KeyListener {
 
    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
 
-    JLabel treebarrier = assets(2900, -5800, 600, 7500, true, "images/assets/manymanytrees.png", false, 8, true);
+    JLabel treebarrier = assets(2775, -5800, 590, 7500, true, "images/assets/manymanytrees.png", false, 8, true);
     JLabel respawnPointOne = assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600, 3);
