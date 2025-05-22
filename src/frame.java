@@ -38,6 +38,7 @@ public class frame extends JFrame implements KeyListener {
     public static float volume = 0f;
     boolean GUIOpen = true;
     boolean NPCInteracted = false;
+    boolean chestLooted = false;
     int messageDisDelay;
     int playerDamage = 5;
 
@@ -119,6 +120,11 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel treebarrier = assets(2775, -5800, 590, 7500, true, "images/assets/manymanytrees.png", false, 8, true);
     JLabel respawnPointOne = assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
+
+    JLabel[] chestImages = new JLabel[] {
+        GUIassets(1000, 500, 825, 300, false, "images/assets/chest.png", false, 1, false),
+        GUIassets(1500, 900, 825, 300, false, "images/assets/chest.png", false, 1, false)
+    };
 
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600, 3);
     JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
@@ -942,29 +948,13 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-    public void chest() {
-
-        if(player.getBounds().intersects(chest.getBounds())) {
-            System.out.println("You opened the chest");
-            currentHealth = maximumHealth;
-        } else {
-            System.out.println("You are not close enough to the chest");
-        }
-
-
-    }
-
-
-
-    public void gameOver() {
-        //do game end code here
-    }
-
-    public int create(int x, int y) {
-        return 0;
-    }
 
     public void interacting() {
+
+        chest();
+        NPCInteraction();
+
+
         if(player.getBounds().intersects(warp.getBounds())) {
             playerWorldPos.setLocation(-50, 0);
 
@@ -972,38 +962,97 @@ public class frame extends JFrame implements KeyListener {
 
 
         if(player.getBounds().intersects(respawnPointOne.getBounds())) {
-
-
-
             if(ePressed) {
-
                 SpawnPoint.setLocation(2360, -678);
-
             }
-
         }
-
-        if(player.getBounds().intersects(chest.getBounds())) {
-
-            press.setVisible(true);
-
-            if(ePressed) {
-                System.out.println("You opened the chest");
-
-            }
-
-        } else {
-            press.setVisible(false);
-
-
-        }
-
-
-
-
-
 
     }
+
+
+    public void NPCInteraction () {
+
+        if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted) {
+            press.setVisible(true);
+
+            if (ePressed && !dialogueActive) {
+                NPCInteracted = true;
+                press.setVisible(false);
+                startDialogue(1); // Start FSM
+                ePressed = false; // Prevent skipping first image
+            }
+        }
+
+    }
+
+
+
+    public void chest () {
+
+        for (int i = 0; i < chestImages.length; i++) {
+
+            if (player.getBounds().intersects((chestImages[i]).getBounds()) && !chestLooted && ePressed) {
+
+                switch (i) {
+
+                    case 0 : {
+                        System.out.println("You found an apple!");
+                        healthChange(3);
+                        chestLooted = true;
+
+                        break;
+                    }
+                    case 1 : {
+                        System.out.println("You found a stone sword");
+                        playerDamage = 2;
+                        chestLooted = true;
+
+                        break;
+                    }
+                    case 2 : {
+                        System.out.println("You found a iron sword");
+                        playerDamage = 3;
+                        chestLooted = true;
+
+                        break;
+                    }
+                    case 3 : {
+                        System.out.println("You found a gold sword");
+                        playerDamage = 4;
+                        chestLooted = true;
+
+                        break;
+                    }
+                    case 4 : {
+                        System.out.println("You found a ruby sword");
+                        playerDamage = 6;
+                        chestLooted = true;
+
+                        break;
+                    }
+                    case 5 : {
+                        System.out.println("You found a emerald sword");
+                        playerDamage = 8;
+                        chestLooted = true;
+
+                        break;
+                    }
+                    case 6 : {
+                        System.out.println("You found a diamond sword");
+                        playerDamage = 10;
+                        chestLooted = true;
+
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+
 
     public void attacking(String direction, boolean spacePressed) {
 
@@ -1090,20 +1139,6 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-    public void NPCInteraction () {
-
-        if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted) {
-            press.setVisible(true);
-
-            if (ePressed && !dialogueActive) {
-                NPCInteracted = true;
-                press.setVisible(false);
-                startDialogue(1); // Start FSM
-                ePressed = false; // Prevent skipping first image
-            }
-        }
-
-    }
 
 
     public void startDialogue(int NPCNumber) {
