@@ -122,8 +122,9 @@ public class frame extends JFrame implements KeyListener {
     JLabel respawnPointOne = assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
     JLabel[] chestImages = new JLabel[] {
-        GUIassets(1000, 500, 825, 300, false, "images/assets/chest.png", false, 1, false),
-        GUIassets(1500, 900, 825, 300, false, "images/assets/chest.png", false, 1, false)
+        assets(2250, -3000, 200, 200, false, "images/assets/chest.png", false, 8, true),
+        assets(2250, -3600, 200, 200, false, "images/assets/chest.png", false, 8, true)
+
     };
 
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600, 3);
@@ -988,6 +989,8 @@ public class frame extends JFrame implements KeyListener {
                 startDialogue(1); // Start FSM
                 ePressed = false; // Prevent skipping first image
             }
+        } else {
+            press.setVisible(false);
         }
 
     }
