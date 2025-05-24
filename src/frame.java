@@ -139,7 +139,14 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
 
-    JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 3 , false);
+    JLabel waterBarrier = assets(0, 900, 4800, 800, false, "", false, 3 , false);
+    JLabel lakeBarrier1 = assets(5400, -5875, 1975, 600, true, "",false, 3, false);
+    JLabel lakeBarrier2 = assets(5200, -5225, 2175,250, true, "", false, 3, false);
+    JLabel lakeBarrier3 = assets(5000, -5475, 1550,2000, true, "", false, 3, false);
+    JLabel lakeBarrier4 = assets(5400, -3875, 1650,2200, true, "", false, 3, false);
+    JLabel lakeBarrier5 = assets(5600, -1875, 1550,760, true, "", false, 3, false);
+    JLabel lakeBarrier6 = assets(6450, -4475, 700,560, true, "", false, 3, false);
+
  
     JLabel SScredits = GUIassets(0, 0, 1040, 780,false, "images/GUI/creditsScreen.png", false, 2, true);
     JLabel startMenu = GUIassets(0,0, 1000, 1000, false, "images/GUI/placeHolderStart.png", false, 2, true);
