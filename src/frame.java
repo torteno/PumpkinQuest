@@ -127,16 +127,16 @@ public class frame extends JFrame implements KeyListener {
 
     };
 
-    JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600, 3);
-    JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
-    JLabel ghost3 = mobCreation(2500, -4450, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
-    JLabel ghost4 = mobCreation(2100, 5500, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
-    JLabel ghost5 = mobCreation(2800, -6300, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
-    JLabel ghost6 = mobCreation(4100, -6000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
-    JLabel ghost7 = mobCreation(4400, -5100, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
-    JLabel ghost8 = mobCreation(4650, -4150, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
-    JLabel ghost9 = mobCreation(5000, -2800, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,3);
-    JLabel ghost10 = mobCreation(4800, -2000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,3);
+    JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600, 1);
+    JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,1);
+    JLabel ghost3 = mobCreation(2500, -4450, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,1);
+    JLabel ghost4 = mobCreation(2100, 5500, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,1);
+    JLabel ghost5 = mobCreation(2800, -6300, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,1);
+    JLabel ghost6 = mobCreation(4100, -6000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,1);
+    JLabel ghost7 = mobCreation(4400, -5100, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,1);
+    JLabel ghost8 = mobCreation(4650, -4150, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,1);
+    JLabel ghost9 = mobCreation(5000, -2800, 200, 200, "images/mob/ghostRight.png", 2, 10, 0.5, 200, 3, 600,1);
+    JLabel ghost10 = mobCreation(4800, -2000, 200, 200, "images/mob/ghostLeft.png", 2, 10, 0.5, 200, 3, 600,1);
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
 
@@ -951,6 +951,10 @@ public class frame extends JFrame implements KeyListener {
                     TimeMobAttacked.put(mobID, LocalDateTime.now());
                     MobAttackCurrentCoolDown.put(mobID, 0L);
                 }
+            }
+            else {
+               TimeMobAttacked.put(mobID, LocalDateTime.now());
+                MobAttackCurrentCoolDown.put(mobID, 0L);
             }
         }
     }
