@@ -266,7 +266,14 @@ public class frame extends JFrame implements KeyListener {
     JLabel Tree3151693 = assets(3539 , -7116, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree3696520 = assets(3201 , -7165, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree6080178 = assets(2554 , -7211, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
-
+    JLabel Tree9418599 = assets(1999 , -6179, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9764304 = assets(2215 , -5087, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4471253 = assets(1962 , -4612, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8636901 = assets(2216 , -4053, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2557818 = assets(1690 , -3446, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5265643 = assets(2298 , -3403, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7954813 = assets(2071 , -2780, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8448378 = assets(1895 , -2085, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
 
 
 
@@ -1433,6 +1440,8 @@ public class frame extends JFrame implements KeyListener {
     JLabel debugwarpStone = GUIassets(1000/2, 800/2, 200, 200, false, "images/assets/warpstone.png", false, 8, false);
     JLabel debugRespawnPoint = GUIassets(1000/2, 800/2,150, 200, false, "images/assets/RespawnPoint.png", false, 8 , false);
     JLabel debugTree = GUIassets(1000/2, 800/2, 200, 300, false, "images/assets/tree.png", false, 8, false);
+    JLabel debugHouse = GUIassets(1000/2, 800/2, 400, 400, false, "images/assets/houses/house.png", false, 8, false);
+    JLabel debugHouseTwo = GUIassets(1000/2, 800/2, 400, 400, false, "images/assets/houses/houseTwo.png", false, 8, false);
 
     public void debug() {
 
@@ -1470,6 +1479,14 @@ public class frame extends JFrame implements KeyListener {
             placeCooldown = true;
             JLabel debugTree = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 200, 300,  false, "images/assets/tree.png", false, 8, true);
             System.out.println("JLabel Tree" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 200, 300,  debugMode, \"images/assets/tree.png\", false, 8, true);");
+        } else if(pPressed && sixPressed && !placeCooldown) {
+            placeCooldown = true;
+            JLabel debugHouse = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 400, 400,  false, "images/assets/houses/house.png", false, 8, true);
+            System.out.println("JLabel House" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 400, 400,  debugMode, \"images/assets/houses/house.png\", false, 8, true);");
+        } else if(pPressed && sevenPressed && !placeCooldown) {
+            placeCooldown = true;
+            JLabel debugHouseTwo = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 400, 400,  false, "images/assets/houses/houseTwo.png", false, 8, true);
+            System.out.println("JLabel House Two" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 400, 400,  debugMode, \"images/assets/houses/houseTwo.png\", false, 8, true);");
         }
 
         if(onePressed) {
@@ -1479,7 +1496,8 @@ public class frame extends JFrame implements KeyListener {
             debugRespawnPoint.setVisible(false);
             debugwarpStone.setVisible(false);
             debugTree.setVisible(false);
-
+            debugHouse.setVisible(false);
+            debugHouseTwo.setVisible(false);
 
         } else if(twoPressed) {
 
@@ -1488,6 +1506,8 @@ public class frame extends JFrame implements KeyListener {
             debugRespawnPoint.setVisible(false);
             debugwarpStone.setVisible(false);
             debugTree.setVisible(false);
+            debugHouse.setVisible(false);
+            debugHouseTwo.setVisible(false);
 
         } else if(threePressed) {
 
@@ -1496,6 +1516,8 @@ public class frame extends JFrame implements KeyListener {
             debugRock.setVisible(false);
             debugwarpStone.setVisible(false);
             debugTree.setVisible(false);
+            debugHouse.setVisible(false);
+            debugHouseTwo.setVisible(false);
 
         } else if(fourPressed) {
             debugwarpStone.setVisible(true);
@@ -1503,6 +1525,8 @@ public class frame extends JFrame implements KeyListener {
             debugRock.setVisible(false);
             debugRespawnPoint.setVisible(false);
             debugTree.setVisible(false);
+            debugHouse.setVisible(false);
+            debugHouseTwo.setVisible(false);
 
         } else if(fivePressed) {
             debugTree.setVisible(true);
@@ -1510,6 +1534,26 @@ public class frame extends JFrame implements KeyListener {
             debugRock.setVisible(false);
             debugRespawnPoint.setVisible(false);
             debugwarpStone.setVisible(false);
+            debugHouse.setVisible(false);
+            debugHouseTwo.setVisible(false);
+
+        } else if(sixPressed) {
+            debugHouse.setVisible(true);
+            debugHouseTwo.setVisible(false);
+            debugRock.setVisible(false);
+            debugChest.setVisible(false);
+            debugRespawnPoint.setVisible(false);
+            debugwarpStone.setVisible(false);
+            debugTree.setVisible(false);
+
+        } else if(sevenPressed) {
+            debugHouseTwo.setVisible(true);
+            debugHouse.setVisible(false);
+            debugRock.setVisible(false);
+            debugChest.setVisible(false);
+            debugRespawnPoint.setVisible(false);
+            debugwarpStone.setVisible(false);
+            debugTree.setVisible(false);
 
         }
 
