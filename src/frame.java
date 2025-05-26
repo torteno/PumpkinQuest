@@ -38,7 +38,7 @@ public class frame extends JFrame implements KeyListener {
     public static float volume = 0f;
     boolean GUIOpen = true;
     boolean NPCInteracted = false;
-    boolean chestLooted = false;
+    boolean[] chestLooted = new boolean[7];
     int messageDisDelay;
     int playerDamage = 5;
 
@@ -1005,56 +1005,56 @@ public class frame extends JFrame implements KeyListener {
 
         for (int i = 0; i < chestImages.length; i++) {
 
-            if (player.getBounds().intersects((chestImages[i]).getBounds()) && !chestLooted && ePressed) {
+            if (player.getBounds().intersects((chestImages[i]).getBounds()) && !chestLooted[i] && ePressed) {
 
                 switch (i) {
 
                     case 0 : {
                         System.out.println("You found an apple!");
                         healthChange(3);
-                        chestLooted = true;
+                        chestLooted[0] = true;
 
                         break;
                     }
                     case 1 : {
                         System.out.println("You found a stone sword");
                         playerDamage = 2;
-                        chestLooted = true;
+                        chestLooted[1] = true;
 
                         break;
                     }
                     case 2 : {
                         System.out.println("You found a iron sword");
                         playerDamage = 3;
-                        chestLooted = true;
+                        chestLooted[2] = true;
 
                         break;
                     }
                     case 3 : {
                         System.out.println("You found a gold sword");
                         playerDamage = 4;
-                        chestLooted = true;
+                        chestLooted[3] = true;
 
                         break;
                     }
                     case 4 : {
                         System.out.println("You found a ruby sword");
                         playerDamage = 6;
-                        chestLooted = true;
+                        chestLooted[4] = true;
 
                         break;
                     }
                     case 5 : {
                         System.out.println("You found a emerald sword");
                         playerDamage = 8;
-                        chestLooted = true;
+                        chestLooted[5] = true;
 
                         break;
                     }
                     case 6 : {
                         System.out.println("You found a diamond sword");
                         playerDamage = 10;
-                        chestLooted = true;
+                        chestLooted[6] = true;
 
                         break;
                     }
