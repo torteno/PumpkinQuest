@@ -113,7 +113,7 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 2, false);
 
-   JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
+   //JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
 
 
    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
@@ -122,8 +122,8 @@ public class frame extends JFrame implements KeyListener {
     JLabel respawnPointOne = assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
     JLabel[] chestImages = new JLabel[] {
-        assets(2250, -3000, 200, 200, false, "images/assets/chest.png", false, 8, true),
-        assets(2250, -3600, 200, 200, false, "images/assets/chest.png", false, 8, true)
+        assets(3880, -525, 150, 150, false, "images/assets/chest.png", false, 8, true),
+        assets(6000, -465, 150, 150, false, "images/assets/chest.png", false, 8, true)
 
     };
 
