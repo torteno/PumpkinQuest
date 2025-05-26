@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Array;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class frame extends JFrame implements KeyListener {
 
     int x, y;
     int step = 6;
-    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, pPressed = false, enterPressed = false, escPressed = false;
+    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
     int FPS = 60;
     double currentHealth = 3.0, maximumHealth = 3.0;
@@ -69,6 +70,8 @@ public class frame extends JFrame implements KeyListener {
     Map <UUID, Long> MobAttackCurrentCoolDown = new HashMap<>();
     Map <UUID, LocalDateTime> TimeMobAttacked = new HashMap<>();
     Map <UUID, Duration> TimeSinceMobAttacked = new HashMap<>();
+    Map<JLabel, String[]> mobFrameAnimationFrames = new HashMap<>();
+    Map<JLabel, Point> playerpastPosition = new HashMap<>();
 
 
 
@@ -76,7 +79,7 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-
+    ArrayList<Point> playerPastPoints = new ArrayList<>();
     Map<String, ImageIcon> playerImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
     ArrayList<JLabel> passables = new ArrayList<>();
@@ -101,7 +104,7 @@ public class frame extends JFrame implements KeyListener {
     String savedDirection;
 
 
-    boolean debugMode = false;
+    boolean debugMode = true; // false to enable, true to disable
     boolean placeCooldown = false;
     int swordUpgrade = 0;
 
@@ -118,7 +121,7 @@ public class frame extends JFrame implements KeyListener {
 
    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
 
-    JLabel treebarrier = assets(2775, -5800, 590, 7500, true, "images/assets/manymanytrees.png", false, 8, true);
+    JLabel treebarrier = assets(2775, -5800, 590, 7500, debugMode, "images/assets/manymanytrees.png", false, 8, true);
     JLabel respawnPointOne = assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
 
     JLabel[] chestImages = new JLabel[] {
@@ -148,21 +151,24 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
 
-    JLabel waterBarrier = assets(0, 900, 4800, 800, false, "", false, 3 , false);
-    JLabel lakeBarrier1 = assets(5400, -5875, 1975, 600, true, "",false, 3, false);
-    JLabel lakeBarrier2 = assets(5200, -5225, 2175,250, true, "", false, 3, false);
-    JLabel lakeBarrier3 = assets(5000, -5475, 1550,2000, true, "", false, 3, false);
-    JLabel lakeBarrier4 = assets(5400, -3875, 1650,2200, true, "", false, 3, false);
-    JLabel lakeBarrier5 = assets(5600, -1875, 1550,760, true, "", false, 3, false);
-    JLabel lakeBarrier6 = assets(6450, -4475, 700,560, true, "", false, 3, false);
+    JLabel waterBarrier = assets(0, 900, 4800, 800, debugMode, "", false, 3 , false);
+    JLabel lakeBarrier1 = assets(5400, -5875, 1975, 600, debugMode, "",false, 3, false);
+    JLabel lakeBarrier2 = assets(5200, -5225, 2175,250, debugMode, "", false, 3, false);
+    JLabel lakeBarrier3 = assets(5000, -5475, 1550,2000, debugMode, "", false, 3, false);
+    JLabel lakeBarrier4 = assets(5400, -3875, 1650,2200, debugMode, "", false, 3, false);
+    JLabel lakeBarrier5 = assets(5600, -1875, 1550,760, debugMode, "", false, 3, false);
+    JLabel lakeBarrier6 = assets(6450, -4475, 700,560, debugMode, "", false, 3, false);
 
- 
+
+    //JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 3 , false);
+
     JLabel SScredits = GUIassets(0, 0, 1040, 780,false, "images/GUI/creditsScreen.png", false, 2, true);
     JLabel startMenu = GUIassets(0,0, 1000, 1000, false, "images/GUI/placeHolderStart.png", false, 2, true);
     JLabel startCredits = GUIassets(100, 300, 400, 40, false, "images/GUI/startScreenCredits.png", false, 1, true);
     JLabel startPlay = GUIassets(100, 200, 400, 40, false, "images/GUI/startScreenNew.png", false, 1, true);
     JLabel startQuit = GUIassets(100, 400, 400, 40, false, "images/GUI/startScreenQuit.png", false, 1, true);
     JLabel currentSelection = GUIassets(25, 192, 60, 60, false, "images/GUI/selectionarrow.png", false, 1, true);
+
 
     JLabel NPCBackground = GUIassets(-150, 470, 1200, 370, false, "images/NPC/NPCDialogueBackground.png", false, 2, false);
 
@@ -172,6 +178,100 @@ public class frame extends JFrame implements KeyListener {
     JLabel NPCScroller3 = GUIassets(-150, 640, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     JLabel NPCScroller4 = GUIassets(-150, 665, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     */
+
+    JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
+
+    JLabel Tree4889782 = assets(2798 , -6603, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9823986 = assets(2990 , -6603, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2257050 = assets(3446 , -6492, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3531412 = assets(2606 , -7302, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4317160 = assets(2691 , -7282, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6214228 = assets(2769 , -7303, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7714919 = assets(2880 , -7252, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree641695 = assets(2988 , -7252, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8584396 = assets(3102 , -7252, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2992229 = assets(3222 , -7252, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7997346 = assets(3342 , -7252, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6868632 = assets(3390 , -7183, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8823881 = assets(3486 , -7183, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9384217 = assets(3612 , -7183, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7521373 = assets(3738 , -7138, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4432626 = assets(3858 , -7093, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1369880 = assets(4014 , -7048, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9374114 = assets(4196 , -7080, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6561023 = assets(4124 , -7080, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9620677 = assets(3950 , -7080, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7597664 = assets(4276 , -7040, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4897421 = assets(4434 , -7039, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9855444 = assets(4382 , -7071, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5370506 = assets(4522 , -7091, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7482388 = assets(4618 , -7139, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2091158 = assets(4736 , -7134, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9563150 = assets(4816 , -7079, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6195529 = assets(4996 , -7079, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1550825 = assets(4922 , -7107, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4562546 = assets(5096 , -7107, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3177897 = assets(5188 , -7139, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5863615 = assets(5394 , -7099, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1612034 = assets(5304 , -7099, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2492666 = assets(5502 , -7099, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1640866 = assets(5616 , -7099, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8252251 = assets(5700 , -7135, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6678393 = assets(5790 , -7147, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4057316 = assets(5892 , -7120, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2815489 = assets(6000 , -7120, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9625092 = assets(6138 , -7090, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6826323 = assets(6278 , -7080, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6125837 = assets(6422 , -7080, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree735368 = assets(6526 , -6995, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6209566 = assets(6710 , -6930, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4396413 = assets(6834 , -6760, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4489681 = assets(6884 , -6597, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1592387 = assets(6920 , -6342, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4402511 = assets(6936 , -6208, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8895579 = assets(6952 , -6110, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9975981 = assets(6888 , -6433, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3301276 = assets(6744 , -6775, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2190578 = assets(6597 , -6883, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9239238 = assets(6320 , -6969, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5717459 = assets(6198 , -7057, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6658485 = assets(5999 , -7020, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9444391 = assets(5845 , -7028, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4559396 = assets(5710 , -7040, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2578459 = assets(5542 , -7040, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2607422 = assets(5350 , -7040, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1630222 = assets(5194 , -7040, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2704923 = assets(5062 , -7040, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4277952 = assets(4888 , -7040, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1928685 = assets(4716 , -7030, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6180223 = assets(4606 , -7010, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3773204 = assets(4156 , -7010, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1103873 = assets(3474 , -7210, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree793133 = assets(3294 , -7210, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3271991 = assets(3114 , -7210, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4537717 = assets(2946 , -7210, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1279115 = assets(2826 , -7210, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8047198 = assets(2712 , -7210, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3090544 = assets(2576 , -7266, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8473991 = assets(2506 , -7286, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2018106 = assets(4401 , -7003, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7844071 = assets(6111 , -7018, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9780511 = assets(6425 , -6933, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5236789 = assets(6242 , -6948, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8103832 = assets(6891 , -6307, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4290940 = assets(6807 , -6613, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8243648 = assets(6657 , -6787, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2904261 = assets(4015 , -7028, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4418733 = assets(3375 , -7138, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3151693 = assets(3539 , -7116, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3696520 = assets(3201 , -7165, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6080178 = assets(2554 , -7211, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+
+
+
+
+
+
 
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -845,6 +945,66 @@ public class frame extends JFrame implements KeyListener {
 
 
 
+    public Point ProjectTile(int x, int y, int projectileSpeed, int followDistance, Point playerPoint) {
+        distance = Math.sqrt(Math.pow(((playerPoint.x - 40) - x), 2) + Math.pow(((playerPoint.y-50) - y), 2));
+
+        //step -= mobSpeed;
+
+        if (distance <= followDistance) {
+
+            double distanceX = playerPoint.x - x;
+            double distanceY = playerPoint.y - y;
+
+            slope = (double) (playerPoint.y - y) / (playerPoint.x - x);
+
+            b = playerPoint.y - slope * playerPoint.x;
+
+
+            if (distanceX != 0) {
+
+                double slope = distanceY / distanceX;
+                double b = playerPoint.y - slope * playerPoint.x;
+
+
+                if(Math.abs(distanceX) > Math.abs(distanceY)) {
+                    if (playerPoint.x > x) {
+                        x += projectileSpeed;
+
+                    } else {
+                        x -= projectileSpeed;
+                    }
+
+                    y = (int) (slope * x + b);
+                } else {
+
+                    if (playerPoint.y > y) {
+                        y += projectileSpeed;
+                    } else {
+                        y -= projectileSpeed;
+                    }
+
+                    x = (int) ((y - b) / slope);
+
+                }
+
+
+            } else {
+
+                if (playerWorldPos.y > y) {
+                    y += projectileSpeed;
+                } else {
+                    y -= projectileSpeed;
+                }
+
+
+            }
+        }
+
+        return new Point(x, y);
+    }
+
+
+
     public JLabel mobCreation(int x, int y, int width, int height, String filePath, int zOrder, int health, double damage, int range, int speed, int followDistance, int attackCooldown) {
         ImageIcon icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         JLabel label = new JLabel(icon);
@@ -1161,6 +1321,31 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+    public String AnimationCore(String[] arrayImages, int timeBetweenImages) {
+        String currentImage = "";
+
+        int maxArrayLenength = arrayImages.length - 1;
+
+        LocalDateTime lastImageSwitchTime = LocalDateTime.now();
+
+        Duration timeSinceLastImage = Duration.between(lastImageSwitchTime, LocalDateTime.now());
+
+      //  mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS)));
+
+
+
+        for(int i = 0; i < arrayImages.length; i++) {
+
+
+
+        }
+
+
+
+        return currentImage;
+    }
+
+
 
 
     public void startDialogue(int NPCNumber) {
@@ -1247,7 +1432,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel debugRock = GUIassets(1000/2, 800/2, 100, 100,  false, "images/assets/rock.png", false, 8, false);
     JLabel debugwarpStone = GUIassets(1000/2, 800/2, 200, 200, false, "images/assets/warpstone.png", false, 8, false);
     JLabel debugRespawnPoint = GUIassets(1000/2, 800/2,150, 200, false, "images/assets/RespawnPoint.png", false, 8 , false);
-
+    JLabel debugTree = GUIassets(1000/2, 800/2, 200, 300, false, "images/assets/tree.png", false, 8, false);
 
     public void debug() {
 
@@ -1265,22 +1450,26 @@ public class frame extends JFrame implements KeyListener {
         if(pPressed && onePressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugRock = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 100, 100,  false, "images/assets/rock.png", false, 8, true);
-            System.out.println("JLabel Rock" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/rock.png\", false, 8, true);");
+            System.out.println("JLabel Rock" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  debugMode, \"images/assets/rock.png\", false, 8, true);");
         } else if(pPressed && twoPressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugChest = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 150, 150,  false, "images/assets/chest.png", false, 8, true);
-            System.out.println("JLabel Chest" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 200, 200,  true, \"images/assets/chest.png\", false, 8, true);");
+            System.out.println("JLabel Chest" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 200, 200,  debugMode, \"images/assets/chest.png\", false, 8, true);");
 
         } else if(pPressed && threePressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugRespawnPoint = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 150, 200,  false, "images/assets/RespawnPoint.png", false, 8, true);
-            System.out.println("JLabel RespawnPoint" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 150, 200,  true, \"images/assets/respawnPoint.png\", false, 8, false);");
+            System.out.println("JLabel RespawnPoint" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 150, 200,  debugMode, \"images/assets/respawnPoint.png\", false, 8, false);");
 
         } else if(pPressed && fourPressed && !placeCooldown) {
             placeCooldown = true;
             JLabel debugwarpStone = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 200, 200,  false, "images/assets/warpStone.png", false, 8, true);
-            System.out.println("JLabel Stone" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  true, \"images/assets/warpStone.png\", false, 8, true);");
+            System.out.println("JLabel Stone" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 100, 100,  debugMode, \"images/assets/warpStone.png\", false, 8, true);");
 
+        } else if(pPressed && fivePressed && !placeCooldown) {
+            placeCooldown = true;
+            JLabel debugTree = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 200, 300,  false, "images/assets/tree.png", false, 8, true);
+            System.out.println("JLabel Tree" + (int) (Math.random() * (10000000 - 1) + 1) + " = assets(" + (int) playerWorldPos.getX() + " , " + (int) playerWorldPos.getY() + ", 200, 300,  debugMode, \"images/assets/tree.png\", false, 8, true);");
         }
 
         if(onePressed) {
@@ -1289,6 +1478,7 @@ public class frame extends JFrame implements KeyListener {
             debugChest.setVisible(false);
             debugRespawnPoint.setVisible(false);
             debugwarpStone.setVisible(false);
+            debugTree.setVisible(false);
 
 
         } else if(twoPressed) {
@@ -1297,6 +1487,7 @@ public class frame extends JFrame implements KeyListener {
             debugRock.setVisible(false);
             debugRespawnPoint.setVisible(false);
             debugwarpStone.setVisible(false);
+            debugTree.setVisible(false);
 
         } else if(threePressed) {
 
@@ -1304,12 +1495,21 @@ public class frame extends JFrame implements KeyListener {
             debugChest.setVisible(false);
             debugRock.setVisible(false);
             debugwarpStone.setVisible(false);
+            debugTree.setVisible(false);
 
         } else if(fourPressed) {
             debugwarpStone.setVisible(true);
             debugChest.setVisible(false);
             debugRock.setVisible(false);
             debugRespawnPoint.setVisible(false);
+            debugTree.setVisible(false);
+
+        } else if(fivePressed) {
+            debugTree.setVisible(true);
+            debugChest.setVisible(false);
+            debugRock.setVisible(false);
+            debugRespawnPoint.setVisible(false);
+            debugwarpStone.setVisible(false);
 
         }
 
@@ -1436,6 +1636,11 @@ public class frame extends JFrame implements KeyListener {
                 twoPressed = false;
                 threePressed = false;
                 fourPressed = false;
+                fivePressed = false;
+                sixPressed = false;
+                sevenPressed = false;
+                eightPressed = false;
+                ninePressed = false;
                 debug();
 
             }
@@ -1444,6 +1649,11 @@ public class frame extends JFrame implements KeyListener {
                 twoPressed = true;
                 threePressed = false;
                 fourPressed = false;
+                fivePressed = false;
+                sixPressed = false;
+                sevenPressed = false;
+                eightPressed = false;
+                ninePressed = false;
                 debug();
 
             }
@@ -1452,6 +1662,11 @@ public class frame extends JFrame implements KeyListener {
                 twoPressed = false;
                 threePressed = true;
                 fourPressed = false;
+                fivePressed = false;
+                sixPressed = false;
+                sevenPressed = false;
+                eightPressed = false;
+                ninePressed = false;
                 debug();
 
             }
@@ -1460,9 +1675,80 @@ public class frame extends JFrame implements KeyListener {
                 twoPressed = false;
                 threePressed = false;
                 fourPressed = true;
+                fivePressed = false;
+                sixPressed = false;
+                sevenPressed = false;
+                eightPressed = false;
+                ninePressed = false;
                 debug();
 
             }
+            case KeyEvent.VK_5 -> {
+                onePressed = false;
+                twoPressed = false;
+                threePressed = false;
+                fourPressed = false;
+                fivePressed = true;
+                sixPressed = false;
+                sevenPressed = false;
+                eightPressed = false;
+                ninePressed = false;
+                debug();
+
+            }
+            case KeyEvent.VK_6 -> {
+                onePressed = false;
+                twoPressed = false;
+                threePressed = false;
+                fourPressed = false;
+                fivePressed = false;
+                sixPressed = true;
+                sevenPressed = false;
+                eightPressed = false;
+                ninePressed = false;
+                debug();
+
+            }
+            case KeyEvent.VK_7 -> {
+                onePressed = false;
+                twoPressed = false;
+                threePressed = false;
+                fourPressed = false;
+                fivePressed = false;
+                sixPressed = false;
+                sevenPressed = true;
+                eightPressed = false;
+                ninePressed = false;
+                debug();
+
+            }
+            case KeyEvent.VK_8 -> {
+                onePressed = false;
+                twoPressed = false;
+                threePressed = false;
+                fourPressed = false;
+                fivePressed = false;
+                sixPressed = false;
+                sevenPressed = false;
+                eightPressed = true;
+                ninePressed = false;
+                debug();
+
+            }
+            case KeyEvent.VK_9 -> {
+                onePressed = false;
+                twoPressed = false;
+                threePressed = false;
+                fourPressed = false;
+                fivePressed = false;
+                sixPressed = false;
+                sevenPressed = false;
+                eightPressed = false;
+                ninePressed = true;
+                debug();
+
+            }
+
             case KeyEvent.VK_P -> {
                 pPressed = true;
                 debug();
