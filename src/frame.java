@@ -42,6 +42,7 @@ public class frame extends JFrame implements KeyListener {
     boolean GUIOpen = true;
     boolean NPCInteracted = false;
     boolean[] chestLooted = new boolean[7];
+    boolean[] pressChestOn = new boolean[7];
     int messageDisDelay;
     int playerDamage = 5;
     String moveDirection = "down";
@@ -118,9 +119,11 @@ public class frame extends JFrame implements KeyListener {
 
    
 
-    JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 1, false);
+    JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 2, false);
+    JLabel pressChest = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 2, false);
 
-    JLabel gotApple = GUIassets( 175, 700, 640, 160, false, "images/text/appleFind.png", false, 2, false);
+
+    JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 2, false);
 
    //JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
 
@@ -132,9 +135,11 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel[] chestImages = new JLabel[] {
         assets(3880, -525, 150, 150, false, "images/assets/chest.png", false, 8, true),
+        assets(1708 , -2861, 200, 200,  false, "images/assets/chest.png", false, 8, true),
         assets(6000, -465, 150, 150, false, "images/assets/chest.png", false, 8, true)
 
-    };
+
+};
 
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600, 1);
     JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
@@ -363,6 +368,8 @@ public class frame extends JFrame implements KeyListener {
     JLabel HouseTwo9396074 = assets(7628, -3758, 600, 600,  debugMode, "images/assets/houses/houseTwo.png", false, 8, true);
     JLabel HouseTwo6064984 = assets(7907 , -4356, 600, 600,  debugMode, "images/assets/houses/houseTwo.png", false, 8, true);
     JLabel HouseTwo924866 = assets(8508 , -1141, 600, 600,  debugMode, "images/assets/houses/houseTwo.png", false, 8, true);
+    JLabel HouseTwo7756268 = assets(1808 , -2580, 400, 400,  debugMode, "images/assets/houses/houseTwo.png", false, 8, true);
+
 
 // ALL for the maze
     JLabel LittleBush4476318 = assets(10904 , -486, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
@@ -1557,18 +1564,21 @@ public class frame extends JFrame implements KeyListener {
 
         for (int i = 0; i < chestImages.length; i++) {
 
+
             if (player.getBounds().intersects((chestImages[i]).getBounds()) && !chestLooted[i] && ePressed) {
 
                 switch (i) {
 
                     case 0 : {
-                        System.out.println("You found an apple!");
+                        pressChest.setVisible(false);
+                        gotApple.setVisible(true);
                         healthChange(3);
                         chestLooted[0] = true;
 
                         break;
                     }
                     case 1 : {
+                        pressChest.setVisible(false);
                         System.out.println("You found a stone sword");
                         playerDamage = 2;
                         chestLooted[1] = true;
@@ -1576,6 +1586,8 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 2 : {
+                        pressChest.setVisible(false);
+
                         System.out.println("You found a iron sword");
                         playerDamage = 3;
                         chestLooted[2] = true;
@@ -1583,6 +1595,8 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 3 : {
+                        pressChest.setVisible(false);
+
                         System.out.println("You found a gold sword");
                         playerDamage = 4;
                         chestLooted[3] = true;
@@ -1590,6 +1604,8 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 4 : {
+                        pressChest.setVisible(false);
+
                         System.out.println("You found a ruby sword");
                         playerDamage = 6;
                         chestLooted[4] = true;
@@ -1597,6 +1613,8 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 5 : {
+                        pressChest.setVisible(false);
+
                         System.out.println("You found a emerald sword");
                         playerDamage = 8;
                         chestLooted[5] = true;
@@ -1604,6 +1622,8 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 6 : {
+                        pressChest.setVisible(false);
+
                         System.out.println("You found a diamond sword");
                         playerDamage = 10;
                         chestLooted[6] = true;
@@ -1612,7 +1632,15 @@ public class frame extends JFrame implements KeyListener {
                     }
                 }
 
+            } else if (player.getBounds().intersects((chestImages[i]).getBounds()) && !chestLooted[i] && !pressChestOn[i]) {
+                pressChest.setVisible(true);
+                pressChestOn[i] = true;
             }
+            else if (!(player.getBounds().intersects((chestImages[i]).getBounds())) && !chestLooted[i] && pressChestOn[i]) {
+                pressChest.setVisible(false);
+                pressChestOn[i] = false;
+            }
+
 
         }
 
