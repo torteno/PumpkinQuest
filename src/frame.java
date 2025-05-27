@@ -30,6 +30,8 @@ public class frame extends JFrame implements KeyListener {
     int step = 6;
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
+    int tortlesMoveTime;
+    int tortlesMoveDir;
     int FPS = 60;
     double currentHealth = 3.0, maximumHealth = 3.0;
     String direction = "down";
@@ -42,6 +44,9 @@ public class frame extends JFrame implements KeyListener {
     boolean[] chestLooted = new boolean[7];
     int messageDisDelay;
     int playerDamage = 5;
+    String moveDirection = "down";
+    int tortlesMoveDirection = 0;
+    int tortlesDirection = 0;
 
     /*
     int scrollTime = 0;
@@ -81,6 +86,7 @@ public class frame extends JFrame implements KeyListener {
 
     ArrayList<Point> playerPastPoints = new ArrayList<>();
     Map<String, ImageIcon> playerImages = new HashMap<>();
+    Map<String, ImageIcon> tortlesImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
     ArrayList<JLabel> passables = new ArrayList<>();
   //  ArrayList<JLabel> tiles = new ArrayList<>();
@@ -148,6 +154,9 @@ public class frame extends JFrame implements KeyListener {
     JLabel slime4= mobCreation(5350, -555, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime5= mobCreation(5560, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime6= mobCreation(5750, -555, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
+
+    JLabel tortles = mobCreation(0, 0, 100, 188, "images/mob/tortles/downStanding.png", 2, 100, 0.5, 150, 2, 800,1);
+
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
 
@@ -354,6 +363,7 @@ public class frame extends JFrame implements KeyListener {
 
 
         loadAndScalePlayerImages();
+        loadAndScaleTortlesImages();
 
         Point playerPoint = new Point(0, 0);
         Point chestPoint = new Point(1000, 2000);
@@ -418,6 +428,15 @@ public class frame extends JFrame implements KeyListener {
             ImageIcon icon = new ImageIcon("images/player/" + name + ".png");
             Image image = icon.getImage().getScaledInstance(100, 188, Image.SCALE_DEFAULT);
             playerImages.put(name, new ImageIcon(image));
+        }
+    }
+
+    private void loadAndScaleTortlesImages() {
+        String[] imageNames = {"downStanding", "downFore", "downBack", "upStanding", "upFore", "upBack", "rightStanding", "rightFore", "rightBack", "leftStanding", "leftFore", "leftBack"};
+        for (String name : imageNames) {
+            ImageIcon icon = new ImageIcon("images/mob/tortles/" + name + ".png");
+            Image image = icon.getImage().getScaledInstance(100, 188, Image.SCALE_DEFAULT);
+            tortlesImages.put(name, new ImageIcon(image));
         }
     }
 
@@ -589,7 +608,7 @@ public class frame extends JFrame implements KeyListener {
                 }
 
 
-                //mob movement testing :/
+
                 for (Map.Entry<JLabel, Point> entry : mobPoint.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
 
                     JLabel mobLabel = entry.getKey();
@@ -605,7 +624,12 @@ public class frame extends JFrame implements KeyListener {
                     if (mobSpeed == null || mobFollowDistance == null) {  // thanks gpt for this if statement to fix the error
                         continue; // Skip this mob if data is missing
                     }
-                    mobPoints = mobMovement((int) mobPoints.getX(), (int) mobPoints.getY(), mobSpeed, mobFollowDistance, mobSpawnpoint);
+
+                    if(mobLabel == tortles) {
+                        mobPoints = TortlesMovement((int) mobPoints.getX(), (int) mobPoints.getY(), mobSpeed, mobFollowDistance, mobSpawnpoint);
+                    } else {
+                        mobPoints = mobMovement((int) mobPoints.getX(), (int) mobPoints.getY(), mobSpeed, mobFollowDistance, mobSpawnpoint);
+                    }
                     mobPoint.put(mobLabel, mobPoints);
                     mobLabel.setLocation(CameraInstance.worldToScreen(mobPoints));
                     // System.out.println("Mob Point: " + mobPoints);
@@ -843,6 +867,7 @@ public class frame extends JFrame implements KeyListener {
 
         //step -= mobSpeed;
 
+
         if (distance <= followDistance && distance >= 100) {
 
             double distanceX = playerWorldPos.x - x;
@@ -951,6 +976,176 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+    public Point TortlesMovement(int x, int y, int mobSpeed, int followDistance, Point spawnPoint) {
+        distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - x), 2) + Math.pow(((playerWorldPos.y-50) - y), 2));
+
+        //step -= mobSpeed;
+
+        double distanceX = playerWorldPos.x - x;
+        double distanceY = playerWorldPos.y - y;
+
+        if (distance <= followDistance && distance >= 100) {
+
+            distanceX = playerWorldPos.x - x;
+            distanceY = playerWorldPos.y - y;
+
+            slope = (double) (playerWorldPos.y - y) / (playerWorldPos.x - x);
+
+            b = playerWorldPos.y - slope * playerWorldPos.x;
+
+
+            if (distanceX != 0) {
+
+                double slope = distanceY / distanceX;
+                double b = playerWorldPos.y - slope * playerWorldPos.x;
+
+
+                if(Math.abs(distanceX) > Math.abs(distanceY)) {
+                    if (playerWorldPos.x > x) {
+                        x += mobSpeed;
+
+
+                    } else {
+                        x -= mobSpeed;
+
+                    }
+
+                    y = (int) (slope * x + b);
+                } else {
+
+                    if (playerWorldPos.y > y) {
+                        y += mobSpeed;
+                    } else {
+                        y -= mobSpeed;
+                    }
+
+                    x = (int) ((y - b) / slope);
+
+                }
+
+
+                //   y = (int) (slope * x + b);
+
+
+
+            } else {
+
+                if (playerWorldPos.y > y) {
+                    y += mobSpeed;
+                } else {
+                    y -= mobSpeed;
+                }
+
+
+            }
+        } else if(distance >= 200) {
+            double distanceSpawnPointX = spawnPoint.x - x;
+            double distanceSpawnPointY = spawnPoint.y - y;
+
+            slope = (double) (spawnPoint.y - y) / (spawnPoint.x - x);
+
+            b = spawnPoint.y - slope * spawnPoint.x;
+
+
+            if (distanceSpawnPointX != 0) {
+
+                double slope = distanceSpawnPointY / distanceSpawnPointX;
+                double b = spawnPoint.y - slope * spawnPoint.x;
+
+
+                if (Math.abs(distanceSpawnPointX) > Math.abs(distanceSpawnPointY)) {
+                    if (spawnPoint.x > x) {
+                        x += mobSpeed;
+
+                    } else {
+                        x -= mobSpeed;
+                    }
+
+                    y = (int) (slope * x + b);
+                } else {
+
+                    if (spawnPoint.y > y) {
+                        y += mobSpeed;
+                    } else {
+                        y -= mobSpeed;
+                    }
+
+                    x = (int) ((y - b) / slope);
+
+                }
+
+
+                //   y = (int) (slope * x + b);
+
+
+            } else {
+
+                if (spawnPoint.y > y) {
+                    y += mobSpeed;
+                } else {
+                    y -= mobSpeed;
+                }
+
+
+            }
+        }
+
+      //  if(distanceX < 100 || distanceY < 100) {
+
+         //   moveDirection = 0; // Not moving
+
+    //    } else {
+
+            if (Math.abs(distanceX) >= Math.abs(distanceY)) {
+                if (playerWorldPos.getX() >= tortles.getX()) {
+                    moveDirection = "right"; // Moving right
+                } else {
+                    moveDirection = "left"; // Moving left
+                }
+            } else {
+                if (playerWorldPos.getY() >= tortles.getY()) {
+                    moveDirection = "down"; // Moving down
+                } else {
+                    moveDirection = "up"; // Moving up
+                }
+            }
+      //  }
+
+
+        String imageTortlesName;
+        if (tortlesMoveDirection == 1) {
+             imageTortlesName = moveDirection + "Standing";
+        } else if (tortlesMoveDirection == 2) {
+            imageTortlesName = moveDirection + "Fore";
+        } else if (tortlesMoveDirection == 3) {
+            imageTortlesName = moveDirection + "Standing";
+        } else {
+            imageTortlesName = moveDirection + "Back";
+        }
+
+
+        tortles.setIcon(tortlesImages.get(imageTortlesName));
+        tortlesMoveTime++;
+
+        if (distance > 100 || distance < -100) {
+            if (tortlesMoveTime >= (FPS / 5)) {
+                tortlesMoveDirection = (tortlesMoveDirection % 4) + 1;
+                tortlesMoveTime = 0;
+            }
+        } else if (tortlesMoveTime >= (FPS / 5)) {
+            tortlesMoveDirection = 1;
+            tortlesMoveTime = 0;
+        }
+
+
+        tortles.repaint();
+
+
+
+        return new Point(x, y);
+    }
+
+
 
     public Point ProjectTile(int x, int y, int projectileSpeed, int followDistance, Point playerPoint) {
         distance = Math.sqrt(Math.pow(((playerPoint.x - 40) - x), 2) + Math.pow(((playerPoint.y-50) - y), 2));
@@ -1013,6 +1208,33 @@ public class frame extends JFrame implements KeyListener {
 
 
     public JLabel mobCreation(int x, int y, int width, int height, String filePath, int zOrder, int health, double damage, int range, int speed, int followDistance, int attackCooldown) {
+        ImageIcon icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
+        JLabel label = new JLabel(icon);
+        label.setBounds(x, y, width, height);
+        label.setOpaque(false);
+        backgroundPanel.add(label);
+        backgroundPanel.setComponentZOrder(label, zOrder); // for mobs try to use either 1 or 2 idk we can change it later if it overlaps better
+
+        UUID mobID = UUID.randomUUID(); // creates a unique UUID for each mob, do not touch this lmao
+        mob.put(mobID, label);
+        reverseMobMap.put(label, mobID);
+        MobDamage.put(mobID, damage);
+        MobHealth.put(mobID, health);
+        MobReach.put(mobID, range);
+        MobSpeed.put(mobID, speed);
+        MobFollowDistance.put(mobID, followDistance);
+        MobAttackCooldown.put(mobID, attackCooldown);
+
+        Point MobPoint = new Point(x, y);
+        mobPoint.put(label, MobPoint);
+
+        mobSpawnPoint.put(mobID, new Point(MobPoint));
+
+
+        return label;
+    }
+
+    public JLabel mobCreation(int x, int y, int width, int height, String filePath, int zOrder, int health, double damage, int range, int speed, int followDistance, int attackCooldown, boolean isTortles) {
         ImageIcon icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         JLabel label = new JLabel(icon);
         label.setBounds(x, y, width, height);
