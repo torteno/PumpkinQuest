@@ -137,9 +137,15 @@ public class frame extends JFrame implements KeyListener {
         assets(3880, -525, 150, 150, false, "images/assets/chest.png", false, 8, true),
         assets(1708 , -2861, 200, 200,  false, "images/assets/chest.png", false, 8, true),
         assets(6000, -465, 150, 150, false, "images/assets/chest.png", false, 8, true)
-
-
 };
+
+    JLabel stoneSword = GUIassets( 80, 600, 896, 224, false, "images/assets/SwordText/CharacterSword1.png", false, 2, false);
+    JLabel ironSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword2.png", false, 2, false);
+    JLabel goldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword3.png", false, 2, false);
+    JLabel rubySword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword4.png", false, 2, false);
+    JLabel emeraldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword5.png", false, 2, false);
+    JLabel diamondSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword6.png", false, 2, false);
+
 
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600, 1);
     JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
@@ -1501,6 +1507,7 @@ public class frame extends JFrame implements KeyListener {
                     case 1 : {
                         pressChest.setVisible(false);
                         System.out.println("You found a stone sword");
+                        stoneSword.setVisible(true);
                         playerDamage = 2;
                         chestLooted[1] = true;
 
@@ -1508,7 +1515,7 @@ public class frame extends JFrame implements KeyListener {
                     }
                     case 2 : {
                         pressChest.setVisible(false);
-
+                        ironSword.setVisible(true);
                         System.out.println("You found a iron sword");
                         playerDamage = 3;
                         chestLooted[2] = true;
@@ -1517,7 +1524,7 @@ public class frame extends JFrame implements KeyListener {
                     }
                     case 3 : {
                         pressChest.setVisible(false);
-
+                        goldSword.setVisible(true);
                         System.out.println("You found a gold sword");
                         playerDamage = 4;
                         chestLooted[3] = true;
@@ -1526,7 +1533,7 @@ public class frame extends JFrame implements KeyListener {
                     }
                     case 4 : {
                         pressChest.setVisible(false);
-
+                        rubySword.setVisible(true);
                         System.out.println("You found a ruby sword");
                         playerDamage = 6;
                         chestLooted[4] = true;
@@ -1535,7 +1542,7 @@ public class frame extends JFrame implements KeyListener {
                     }
                     case 5 : {
                         pressChest.setVisible(false);
-
+                        emeraldSword.setVisible(true);
                         System.out.println("You found a emerald sword");
                         playerDamage = 8;
                         chestLooted[5] = true;
@@ -1544,7 +1551,7 @@ public class frame extends JFrame implements KeyListener {
                     }
                     case 6 : {
                         pressChest.setVisible(false);
-
+                        diamondSword.setVisible(true);
                         System.out.println("You found a diamond sword");
                         playerDamage = 10;
                         chestLooted[6] = true;
