@@ -136,25 +136,30 @@ public class frame extends JFrame implements KeyListener {
 
     };
 
-    JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 200, 3, 600, 1);
-    JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost3 = mobCreation(2500, -4450, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost4 = mobCreation(2100, 5500, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost5 = mobCreation(2800, -6300, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost6 = mobCreation(4100, -6000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost7 = mobCreation(4400, -5100, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost8 = mobCreation(4450, -4150, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost9 = mobCreation(5000, -2800, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost10 = mobCreation(4800, -2000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost11 = mobCreation(4005, -2645, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 200, 3, 600,1);
-    JLabel ghost12 = mobCreation(4085, -1700, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 200, 3, 600,1);
+    JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600, 1);
+    JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost3 = mobCreation(2500, -4450, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost4 = mobCreation(2100, 5500, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost5 = mobCreation(2800, -6300, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost6 = mobCreation(4100, -6000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost7 = mobCreation(4400, -5100, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost8 = mobCreation(4450, -4150, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost9 = mobCreation(5000, -2800, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost10 = mobCreation(4800, -2000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost11 = mobCreation(4005, -2645, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel ghost12 = mobCreation(4085, -1700, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600,1);
     JLabel slime1= mobCreation(4685, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime2= mobCreation(4810, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime3= mobCreation(5105, -455, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime4= mobCreation(5350, -555, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime5= mobCreation(5560, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime6= mobCreation(5750, -555, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
-
+    JLabel slime7= mobCreation(4785, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
+    JLabel slime8= mobCreation(4910, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
+    JLabel slime9= mobCreation(5205, -455, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
+    JLabel slime10= mobCreation(5450, -555, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
+    JLabel slime11= mobCreation(5660, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
+    
     JLabel tortles = mobCreation(0, 0, 100, 188, "images/mob/tortles/downStanding.png", 2, 100, 0.5, 150, 2, 800,1);
 
 
@@ -285,8 +290,12 @@ public class frame extends JFrame implements KeyListener {
     JLabel Tree8448378 = assets(1895 , -2085, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
 
 
-
-
+    JLabel House6307983 = assets(7843 , -1214, 600, 600,  debugMode, "images/assets/houses/house.png", false, 8, true);
+    JLabel House6347268 = assets(7877 , -2268, 600, 600,  debugMode, "images/assets/houses/house.png", false, 8, true);
+    JLabel House5613608 = assets(7715 , -3102, 600, 600,  debugMode, "images/assets/houses/house.png", false, 8, true);
+    JLabel HouseTwo9396074 = assets(7628, -3758, 600, 600,  debugMode, "images/assets/houses/houseTwo.png", false, 8, true);
+    JLabel HouseTwo6064984 = assets(7907 , -4356, 600, 600,  debugMode, "images/assets/houses/houseTwo.png", false, 8, true);
+    JLabel HouseTwo924866 = assets(8508 , -1141, 600, 600,  debugMode, "images/assets/houses/houseTwo.png", false, 8, true);
 
 
 
