@@ -170,7 +170,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel currentSelection = GUIassets(25, 192, 60, 60, false, "images/GUI/selectionarrow.png", false, 1, true);
 
 
-    JLabel NPCBackground = GUIassets(-150, 470, 1200, 370, false, "images/NPC/NPCDialogueBackground.png", false, 2, false);
+    JLabel NPCBackground = GUIassets(-170, 370, 1320, 500, false, "images/NPC/NPCDialogueBackground.png", false, 2, false);
 
     /*
     JLabel NPCScroller1 = GUIassets(-150, 590, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
@@ -1373,8 +1373,19 @@ public class frame extends JFrame implements KeyListener {
 
 
                 dialogueImages = new JLabel[] {
-                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 1, false),
-                        GUIassets(50, 500, 825, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 1, false)
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue3.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue4.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue5.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue6.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue7.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue8.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue9.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue10.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue11.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue12.png", false, 1, false)
+
                 };
 
                 for (JLabel label : dialogueImages) {
