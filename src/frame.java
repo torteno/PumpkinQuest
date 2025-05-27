@@ -1647,6 +1647,7 @@ public class frame extends JFrame implements KeyListener {
         chest();
         NPCInteraction();
         portalInteraction();
+
         TextDisappearing();
 
 
