@@ -48,6 +48,9 @@ public class frame extends JFrame implements KeyListener {
     String moveDirection = "down";
     int tortlesMoveDirection = 0;
     int tortlesDirection = 0;
+    boolean textDisappear = false;
+    int swordNumber = 0;
+    int textDisappearTime = 0;
 
     /*
     int scrollTime = 0;
@@ -139,12 +142,12 @@ public class frame extends JFrame implements KeyListener {
         assets(6000, -465, 150, 150, false, "images/assets/chest.png", false, 8, true)
 };
 
-    JLabel stoneSword = GUIassets( 80, 600, 896, 224, false, "images/assets/SwordText/CharacterSword1.png", false, 2, false);
-    JLabel ironSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword2.png", false, 2, false);
-    JLabel goldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword3.png", false, 2, false);
-    JLabel rubySword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword4.png", false, 2, false);
-    JLabel emeraldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword5.png", false, 2, false);
-    JLabel diamondSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword6.png", false, 2, false);
+    JLabel stoneSword = GUIassets( 80, 600, 896, 224, false, "images/assets/SwordText/CharacterSword1.png", false, 1, false);
+    JLabel ironSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword2.png", false, 1, false);
+    JLabel goldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword3.png", false, 1, false);
+    JLabel rubySword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword4.png", false, 1, false);
+    JLabel emeraldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword5.png", false, 1, false);
+    JLabel diamondSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword6.png", false, 1, false);
 
 
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600, 1);
@@ -1530,6 +1533,7 @@ public class frame extends JFrame implements KeyListener {
 
         chest();
         NPCInteraction();
+        TextDisappearing();
 
 
         if(player.getBounds().intersects(warp.getBounds())) {
@@ -1586,6 +1590,8 @@ public class frame extends JFrame implements KeyListener {
                     case 1 : {
                         pressChest.setVisible(false);
                         System.out.println("You found a stone sword");
+                        textDisappear = true;
+                        swordNumber = 1;
                         stoneSword.setVisible(true);
                         playerDamage = 2;
                         chestLooted[1] = true;
@@ -1596,6 +1602,8 @@ public class frame extends JFrame implements KeyListener {
                         pressChest.setVisible(false);
                         ironSword.setVisible(true);
                         System.out.println("You found a iron sword");
+                        textDisappear = true;
+                        swordNumber = 2;
                         playerDamage = 3;
                         chestLooted[2] = true;
 
@@ -1605,6 +1613,8 @@ public class frame extends JFrame implements KeyListener {
                         pressChest.setVisible(false);
                         goldSword.setVisible(true);
                         System.out.println("You found a gold sword");
+                        textDisappear = true;
+                        swordNumber = 3;
                         playerDamage = 4;
                         chestLooted[3] = true;
 
@@ -1614,6 +1624,8 @@ public class frame extends JFrame implements KeyListener {
                         pressChest.setVisible(false);
                         rubySword.setVisible(true);
                         System.out.println("You found a ruby sword");
+                        textDisappear = true;
+                        swordNumber = 4;
                         playerDamage = 6;
                         chestLooted[4] = true;
 
@@ -1623,6 +1635,8 @@ public class frame extends JFrame implements KeyListener {
                         pressChest.setVisible(false);
                         emeraldSword.setVisible(true);
                         System.out.println("You found a emerald sword");
+                        textDisappear = true;
+                        swordNumber = 5;
                         playerDamage = 8;
                         chestLooted[5] = true;
 
@@ -1632,6 +1646,8 @@ public class frame extends JFrame implements KeyListener {
                         pressChest.setVisible(false);
                         diamondSword.setVisible(true);
                         System.out.println("You found a diamond sword");
+                        textDisappear = true;
+                        swordNumber = 6;
                         playerDamage = 10;
                         chestLooted[6] = true;
 
@@ -1653,6 +1669,41 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+
+    public void TextDisappearing () {
+
+        if (textDisappear) {
+
+            if (textDisappearTime >= (FPS * 3)) {
+
+                textDisappearTime = 0;
+
+
+                switch (swordNumber) {
+                    case 1: {
+                        stoneSword.setVisible(false);
+                    }
+                    case 2: {
+                        ironSword.setVisible(false);
+                    }
+                    case 3: {
+                        goldSword.setVisible(false);
+                    }
+                    case 4: {
+                        rubySword.setVisible(false);
+                    }
+                    case 5: {
+                        emeraldSword.setVisible(false);
+                    }
+                    case 6: {
+                        diamondSword.setVisible(false);
+                    }
+                }
+            } else {
+                textDisappearTime++;
+            }
+        }
+    }
 
 
     public void attacking(String direction, boolean spacePressed) {
