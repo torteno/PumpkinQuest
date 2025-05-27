@@ -122,11 +122,11 @@ public class frame extends JFrame implements KeyListener {
 
    
 
-    JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 2, false);
-    JLabel pressChest = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 2, false);
+    JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0, false);
+    JLabel pressChest = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0, false);
 
 
-    JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 2, false);
+    JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 0, false);
 
    //JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
 
@@ -142,12 +142,12 @@ public class frame extends JFrame implements KeyListener {
         assets(6000, -465, 150, 150, false, "images/assets/chest.png", false, 8, true)
 };
 
-    JLabel stoneSword = GUIassets( 80, 600, 896, 224, false, "images/assets/SwordText/CharacterSword1.png", false, 1, false);
-    JLabel ironSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword2.png", false, 1, false);
-    JLabel goldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword3.png", false, 1, false);
-    JLabel rubySword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword4.png", false, 1, false);
-    JLabel emeraldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword5.png", false, 1, false);
-    JLabel diamondSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword6.png", false, 1, false);
+    JLabel stoneSword = GUIassets( 80, 600, 896, 224, false, "images/assets/SwordText/CharacterSword1.png", false, 0, false);
+    JLabel ironSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword2.png", false, 0, false);
+    JLabel goldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword3.png", false, 0, false);
+    JLabel rubySword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword4.png", false, 0, false);
+    JLabel emeraldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword5.png", false, 0, false);
+    JLabel diamondSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword6.png", false, 0, false);
 
 
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600, 1);
@@ -1740,6 +1740,8 @@ public class frame extends JFrame implements KeyListener {
                     case 0 : {
                         pressChest.setVisible(false);
                         gotApple.setVisible(true);
+                        textDisappear = true;
+                        swordNumber = 0;
                         healthChange(3);
                         chestLooted[0] = true;
 
@@ -1747,7 +1749,6 @@ public class frame extends JFrame implements KeyListener {
                     }
                     case 1 : {
                         pressChest.setVisible(false);
-                        System.out.println("You found a stone sword");
                         textDisappear = true;
                         swordNumber = 1;
                         stoneSword.setVisible(true);
@@ -1759,7 +1760,6 @@ public class frame extends JFrame implements KeyListener {
                     case 2 : {
                         pressChest.setVisible(false);
                         ironSword.setVisible(true);
-                        System.out.println("You found a iron sword");
                         textDisappear = true;
                         swordNumber = 2;
                         playerDamage = 3;
@@ -1770,7 +1770,6 @@ public class frame extends JFrame implements KeyListener {
                     case 3 : {
                         pressChest.setVisible(false);
                         goldSword.setVisible(true);
-                        System.out.println("You found a gold sword");
                         textDisappear = true;
                         swordNumber = 3;
                         playerDamage = 4;
@@ -1781,7 +1780,6 @@ public class frame extends JFrame implements KeyListener {
                     case 4 : {
                         pressChest.setVisible(false);
                         rubySword.setVisible(true);
-                        System.out.println("You found a ruby sword");
                         textDisappear = true;
                         swordNumber = 4;
                         playerDamage = 6;
@@ -1792,7 +1790,6 @@ public class frame extends JFrame implements KeyListener {
                     case 5 : {
                         pressChest.setVisible(false);
                         emeraldSword.setVisible(true);
-                        System.out.println("You found a emerald sword");
                         textDisappear = true;
                         swordNumber = 5;
                         playerDamage = 8;
@@ -1803,7 +1800,6 @@ public class frame extends JFrame implements KeyListener {
                     case 6 : {
                         pressChest.setVisible(false);
                         diamondSword.setVisible(true);
-                        System.out.println("You found a diamond sword");
                         textDisappear = true;
                         swordNumber = 6;
                         playerDamage = 10;
@@ -1838,23 +1834,33 @@ public class frame extends JFrame implements KeyListener {
 
 
                 switch (swordNumber) {
+                    case 0: {
+                        gotApple.setVisible(false);
+                        break;
+                    }
                     case 1: {
                         stoneSword.setVisible(false);
+                        break;
                     }
                     case 2: {
                         ironSword.setVisible(false);
+                        break;
                     }
                     case 3: {
                         goldSword.setVisible(false);
+                        break;
                     }
                     case 4: {
                         rubySword.setVisible(false);
+                        break;
                     }
                     case 5: {
                         emeraldSword.setVisible(false);
+                        break;
                     }
                     case 6: {
                         diamondSword.setVisible(false);
+                        break;
                     }
                 }
             } else {
