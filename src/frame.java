@@ -27,7 +27,7 @@ public class frame extends JFrame implements KeyListener {
     public int screenWidth, screenHeight;
 
     int x, y;
-    int step = 12;
+    int step = 6;
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
     int tortlesMoveTime;
@@ -200,6 +200,80 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
 
+    JLabel Tree8458095 = assets(15894 , -5224, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9496351 = assets(15894 , -5116, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9687084 = assets(15894 , -5008, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8936391 = assets(15894 , -4912, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2461937 = assets(15894 , -4792, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9124816 = assets(15894 , -4708, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5268518 = assets(15894 , -4624, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5413058 = assets(15894 , -4534, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6138448 = assets(15894 , -4432, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3354822 = assets(15894 , -4342, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1895213 = assets(15894 , -4240, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5899497 = assets(15894 , -4150, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1009735 = assets(15894 , -4042, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5732778 = assets(15894 , -3952, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7177675 = assets(15894 , -3874, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1981486 = assets(15894 , -3724, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1967982 = assets(15894 , -3628, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7692972 = assets(15894 , -3514, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5133889 = assets(15894 , -3394, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8729518 = assets(15894 , -3292, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4339900 = assets(15894 , -3202, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2166631 = assets(15894 , -3082, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6213314 = assets(15894 , -2944, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5538868 = assets(15894 , -2806, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4505246 = assets(15894 , -2674, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8831994 = assets(15894 , -2536, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree628553 = assets(15894 , -2386, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1876186 = assets(15894 , -2236, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6469648 = assets(15894 , -2104, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7558457 = assets(15894 , -1966, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8845061 = assets(15894 , -1804, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9256199 = assets(15894 , -1654, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1645444 = assets(15894 , -1522, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1216927 = assets(15894 , -1348, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3089102 = assets(15894 , -1180, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6797450 = assets(15894 , -1030, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6760275 = assets(15894 , -868, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8960257 = assets(15894 , -706, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1556352 = assets(15894 , -550, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4043895 = assets(15894 , -406, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5291694 = assets(15894 , -250, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6321688 = assets(15531 , -1492, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2638378 = assets(15386 , -1752, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1389579 = assets(15670 , -2576, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1117048 = assets(15670 , -3020, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9035911 = assets(15591 , -3730, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9931432 = assets(14969 , -3858, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5406515 = assets(14367 , -4042, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9171430 = assets(14297 , -4374, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3356492 = assets(14349 , -4768, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree51817 = assets(14695 , -5675, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3651251 = assets(15343 , -6503, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6822505 = assets(15471 , -6841, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6825045 = assets(14241 , -7189, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4354294 = assets(13084 , -7367, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1113516 = assets(13626 , -7807, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1399506 = assets(13404 , -7951, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9941675 = assets(13120 , -8063, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2534819 = assets(12855 , -8083, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8370739 = assets(12543 , -8083, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3854757 = assets(11083 , -7073, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree992857 = assets(10159 , -7478, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree796117 = assets(9653 , -7278, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9725106 = assets(9053 , -6918, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5889562 = assets(8746 , -6401, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3412042 = assets(8158 , -6593, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9764398 = assets(7760 , -6633, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8125214 = assets(7590 , -6799, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8042317 = assets(7415 , -7107, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7479968 = assets(7215 , -7387, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7667771 = assets(6995 , -7677, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2512278 = assets(6687 , -7777, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9215234 = assets(6241 , -7889, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5915733 = assets(5669 , -7869, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree4889782 = assets(2798 , -6603, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree9823986 = assets(2990 , -6603, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree2257050 = assets(3446 , -6492, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
@@ -361,6 +435,45 @@ public class frame extends JFrame implements KeyListener {
     JLabel Tree7677106 = assets(-67 , 299, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree1661864 = assets(-67 , 449, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree5057161 = assets(-67 , 599, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6832098 = assets(15559 , -3380, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8512689 = assets(15200 , -4458, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6232756 = assets(15042 , -5068, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5832627 = assets(14460 , -5068, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5234340 = assets(14425 , -5462, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7437695 = assets(14205 , -5818, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1536450 = assets(13914 , -6004, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5320075 = assets(13960 , -6560, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6819830 = assets(14334 , -6415, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2447868 = assets(14918 , -6639, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree498763 = assets(15318 , -7357, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1356730 = assets(15283 , -7991, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8516220 = assets(14767 , -7661, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2705686 = assets(15893 , -8163, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5119799 = assets(15893 , -8073, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3481253 = assets(15893 , -7995, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree815187 = assets(15893 , -7923, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9308511 = assets(15893 , -7791, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3771774 = assets(15893 , -7695, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2656600 = assets(15893 , -7593, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3299039 = assets(15893 , -7473, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree572142 = assets(15893 , -7347, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3726092 = assets(15941 , -7203, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2806551 = assets(15949 , -7022, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1360115 = assets(15949 , -6890, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6097244 = assets(15961 , -6755, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree88208 = assets(15961 , -6629, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9100371 = assets(15961 , -6527, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree6693837 = assets(15961 , -6413, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7641452 = assets(15961 , -6311, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree1811973 = assets(15956 , -6204, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3044499 = assets(15931 , -6047, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8531071 = assets(15931 , -5939, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree220284 = assets(15896 , -5838, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree7506151 = assets(15896 , -5742, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3746810 = assets(15896 , -5646, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree4772677 = assets(15896 , -5544, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2572910 = assets(15908 , -5445, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8599361 = assets(15908 , -5361, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
 
     JLabel House6307983 = assets(7843 , -1214, 600, 600,  debugMode, "images/assets/houses/house.png", false, 8, true);
     JLabel House6347268 = assets(7877 , -2268, 600, 600,  debugMode, "images/assets/houses/house.png", false, 8, true);
@@ -375,41 +488,41 @@ public class frame extends JFrame implements KeyListener {
     JLabel LittleBush4476318 = assets(10904 , -486, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush4131510 = assets(10904 , -906, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2396163 = assets(10904 , -1386, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel Stone5177209 = assets(10856 , -1194, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone9797965 = assets(10856 , -738, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpOne = assets(10856 , -1194, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpTwo = assets(10856 , -738, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush8318242 = assets(11540 , -738, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2976735 = assets(11544 , -1150, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush5659796 = assets(11544 , -1618, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush9842894 = assets(11544 , -370, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel Stone6845185 = assets(11496 , -622, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone9568183 = assets(11496 , -1006, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone6220174 = assets(11496 , -1438, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpThree = assets(11496 , -622, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFour = assets(11496 , -1006, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFive = assets(11496 , -1438, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush3659183 = assets(12184 , -1009, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush3050567 = assets(12184 , -1357, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush9963417 = assets(12184 , -1741, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush505283 = assets(12184 , -637, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel Stone7637997 = assets(12123 , -857, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone8246206 = assets(12123 , -1241, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone72906 = assets(12123 , -1601, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpSix = assets(12123 , -857, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpSeven = assets(12123 , -1241, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpEight = assets(12123 , -1601, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush7556671 = assets(12836 , -1052, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush4248156 = assets(12836 , -1400, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush1221163 = assets(12836 , -668, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush8010436 = assets(12836 , -296, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel Stone2224303 = assets(12776 , -524, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone1680669 = assets(12776 , -932, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone2808549 = assets(12776 , -1280, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpNine = assets(12776 , -524, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpTen = assets(12776 , -932, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpEleven = assets(12776 , -1280, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush1556035 = assets(13366 , -1586, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush5714479 = assets(13366 , -1226, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush961166 = assets(13366 , -854, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2378646 = assets(13366 , -482, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel Stone9152590 = assets(13306 , -722, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone3491455 = assets(13306 , -1094, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone613528 = assets(13306 , -1466, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpTwelve = assets(13306 , -722, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpThirteen = assets(13306 , -1094, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFourteen = assets(13306 , -1466, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush8287394 = assets(13966 , -1028, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2024410 = assets(13966 , -560, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush3074532 = assets(13966 , -1388, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel Stone2795917 = assets(13906 , -1280, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel Stone2287913 = assets(13906 , -848, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFifteen = assets(13906 , -1280, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpSixteen = assets(13906 , -848, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
     JLabel Tree7750002 = assets(11015 , -1690, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree7407216 = assets(11255 , -1726, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree8980819 = assets(11675 , -1834, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
@@ -1524,6 +1637,7 @@ public class frame extends JFrame implements KeyListener {
 
         chest();
         NPCInteraction();
+        portalInteraction();
 
 
         if(player.getBounds().intersects(warp.getBounds())) {
@@ -1554,6 +1668,49 @@ public class frame extends JFrame implements KeyListener {
             }
         } else {
             press.setVisible(false);
+        }
+
+    }
+
+
+    public void portalInteraction() {
+
+        //start 10425 -787
+
+        if (player.getBounds().intersects(warpOne.getBounds())) {
+
+            playerWorldPos.setLocation(10425, -787);
+        }  else if (player.getBounds().intersects(warpTwo.getBounds())) {
+            playerWorldPos.setLocation(11265, -973);
+        } else if (player.getBounds().intersects(warpThree.getBounds())) {
+            playerWorldPos.setLocation(11908, -1169);
+        } else if (player.getBounds().intersects(warpFour.getBounds())) {
+            playerWorldPos.setLocation(10425, -787);
+        } else if (player.getBounds().intersects(warpFive.getBounds())) {
+            playerWorldPos.setLocation(10425, -787);
+        } else if (player.getBounds().intersects(warpSix.getBounds())) {
+            playerWorldPos.setLocation(12544, -857);
+        } else if (player.getBounds().intersects(warpSeven.getBounds())) {
+            playerWorldPos.setLocation(10425, -787);
+        } else if (player.getBounds().intersects(warpEight.getBounds())) {
+            playerWorldPos.setLocation(10425, -787);
+        } else if (player.getBounds().intersects(warpNine.getBounds())) {
+            playerWorldPos.setLocation(10425, -787);
+        } else if (player.getBounds().intersects(warpTen.getBounds())) {
+            playerWorldPos.setLocation(10425, -787);
+        } else if (player.getBounds().intersects(warpEleven.getBounds())) {
+            playerWorldPos.setLocation(13132, -1073);
+        } else if (player.getBounds().intersects(warpTwelve.getBounds())) {
+            playerWorldPos.setLocation(10425, -787);
+        } else if (player.getBounds().intersects(warpThirteen.getBounds())) {
+            playerWorldPos.setLocation(13721, -1044);
+        } else if (player.getBounds().intersects(warpFourteen.getBounds())) {
+            playerWorldPos.setLocation(10425, -787);
+        } else if (player.getBounds().intersects(warpFifteen.getBounds())) {
+            playerWorldPos.setLocation(10425, -787);
+        } else if (player.getBounds().intersects(warpSixteen.getBounds())) {
+            playerWorldPos.setLocation(14555, -789);
+
         }
 
     }
