@@ -27,7 +27,7 @@ public class frame extends JFrame implements KeyListener {
     public int screenWidth, screenHeight;
 
     int x, y;
-    int step = 12;
+    int step = 6;
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
     int tortlesMoveTime;
