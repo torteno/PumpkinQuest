@@ -2,3 +2,4 @@
 korok.wav filter=lfs diff=lfs merge=lfs -text
 music/korok.wav filter=lfs diff=lfs merge=lfs -text
 target/PumpkinQuest-1.0-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+*.jar filter=lfs diff=lfs merge=lfs -text
