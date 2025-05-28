@@ -609,7 +609,7 @@ public class frame extends JFrame implements KeyListener {
     };
     JLabel[] rightAttack = new JLabel[]{
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/stone/stone_left.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/stone/right_stone.png", false, 1, false),
             GUIassets(100, 100, 100, 100, false, "images/equipment/iron/right_iron.png", false, 1, false),
             GUIassets(100, 100, 100, 100, false, "images/equipment/gold/right_gold.png", false, 1, false),
             GUIassets(100, 100, 100, 100, false, "images/equipment/ruby/right_ruby.png", false, 1, false),
