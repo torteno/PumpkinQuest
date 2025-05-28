@@ -599,6 +599,7 @@ public class frame extends JFrame implements KeyListener {
     };
     JLabel[] downAttack = new JLabel[]{
 
+
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
