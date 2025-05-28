@@ -14,7 +14,7 @@ out/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
+target/PumpkinQuest-1.0-SNAPSHOT.jar
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
