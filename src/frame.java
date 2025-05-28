@@ -51,6 +51,7 @@ public class frame extends JFrame implements KeyListener {
     boolean textDisappear = false;
     int swordNumber = 0;
     int textDisappearTime = 0;
+    int messageDisappearNumber = -1;
 
     /*
     int scrollTime = 0;
@@ -106,10 +107,10 @@ public class frame extends JFrame implements KeyListener {
     static Clip clip;
     boolean gameStarted = false;
 
-    JLabel upAttack = new JLabel();
-    JLabel LeftAttack = new JLabel();
-    JLabel downAttack = new JLabel();
-    JLabel rightAttack = new JLabel();
+    //JLabel [] upAttack = new JLabel[7];
+    //JLabel [] leftAttack = new JLabel[7];
+    //JLabel [] downAttack = new JLabel[7];
+    //JLabel [] rightAttack = new JLabel[7];
 
     String savedDirection;
 
@@ -573,6 +574,51 @@ public class frame extends JFrame implements KeyListener {
     JLabel Tree2260184 = assets(15307 , -1244, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
 
 
+    JLabel[] upAttack = new JLabel[]{
+
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false)
+
+    };
+    JLabel[] leftAttack = new JLabel[]{
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/left_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/stone/stone_left.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/iron/left_iron.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/gold/left_gold.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/ruby/left_ruby.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/emerald/left_emerald.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/diamond/left_diamond.png", false, 1, false)
+
+
+    };
+    JLabel[] downAttack = new JLabel[]{
+
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false)
+
+    };
+    JLabel[] rightAttack = new JLabel[]{
+            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/stone/stone_left.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/iron/right_iron.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/gold/right_gold.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/ruby/right_ruby.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/emerald/right_emerald.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/diamond/right_diamond.png", false, 1, false)
+
+    };
+
+
 
     public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
@@ -663,10 +709,14 @@ public class frame extends JFrame implements KeyListener {
         playerWorldPos.setLocation(2360, -678);
         CameraInstance = new Camera(super.getWidth(), super.getHeight(), player.getX(), player.getY());
 
-        upAttack = GUIassets(player.getX(), player.getY() - 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false);
-        LeftAttack = GUIassets(player.getX() - 75,player.getY() + 50, 100, 100, false, "images/equipment/wood/left_wood.png", false, 1, false);
-        downAttack = GUIassets(player.getX(), player.getY() + 200, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false);
-        rightAttack = GUIassets(player.getX() + 100, player.getY() + 50, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1, false);
+        for (int i = 0; i < 7; i++) {
+
+        rightAttack[i].setBounds(player.getX() + 100, player.getY() + 50, 100, 100);
+        leftAttack[i].setBounds(player.getX() - 75,player.getY() + 50, 100, 100);
+        upAttack[i].setBounds(player.getX(), player.getY() - 100, 100, 100);
+        downAttack[i].setBounds(player.getX(), player.getY() + 200, 100, 100);
+
+        }
 
 
 
@@ -853,7 +903,7 @@ public class frame extends JFrame implements KeyListener {
                 if (dialogueActive) {
 
 
-                    //press.setVisible(false);
+
                     if (ePressed) {
                         ePressed = false;
 
@@ -1030,7 +1080,7 @@ public class frame extends JFrame implements KeyListener {
 
                 for (Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
 
-                    if(upAttack.getBounds().intersects(entry.getValue().getBounds())) {
+                    if(upAttack[swordNumber].getBounds().intersects(entry.getValue().getBounds())) {
 
                         UUID mobID = entry.getKey();
                         JLabel mobLabel = entry.getValue();
@@ -1057,7 +1107,7 @@ public class frame extends JFrame implements KeyListener {
 
                 for (Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
 
-                    if(downAttack.getBounds().intersects(entry.getValue().getBounds())) {
+                    if(downAttack[swordNumber].getBounds().intersects(entry.getValue().getBounds())) {
 
                         UUID mobID = entry.getKey();
                         JLabel mobLabel = entry.getValue();
@@ -1087,7 +1137,7 @@ public class frame extends JFrame implements KeyListener {
 
                 for (Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
 
-                    if (LeftAttack.getBounds().intersects(entry.getValue().getBounds())) {
+                    if (leftAttack[swordNumber].getBounds().intersects(entry.getValue().getBounds())) {
 
                         UUID mobID = entry.getKey();
                         JLabel mobLabel = entry.getValue();
@@ -1115,7 +1165,7 @@ public class frame extends JFrame implements KeyListener {
 
                 for (Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
 
-                    if (rightAttack.getBounds().intersects(entry.getValue().getBounds())) {
+                    if (rightAttack[swordNumber].getBounds().intersects(entry.getValue().getBounds())) {
 
                         UUID mobID = entry.getKey();
                         JLabel mobLabel = entry.getValue();
@@ -1741,7 +1791,7 @@ public class frame extends JFrame implements KeyListener {
                         pressChest.setVisible(false);
                         gotApple.setVisible(true);
                         textDisappear = true;
-                        swordNumber = 0;
+                        messageDisappearNumber = 0;
                         healthChange(3);
                         chestLooted[0] = true;
 
@@ -1751,6 +1801,7 @@ public class frame extends JFrame implements KeyListener {
                         pressChest.setVisible(false);
                         textDisappear = true;
                         swordNumber = 1;
+                        messageDisappearNumber = 1;
                         stoneSword.setVisible(true);
                         playerDamage = 2;
                         chestLooted[1] = true;
@@ -1762,6 +1813,7 @@ public class frame extends JFrame implements KeyListener {
                         ironSword.setVisible(true);
                         textDisappear = true;
                         swordNumber = 2;
+                        messageDisappearNumber = 2;
                         playerDamage = 3;
                         chestLooted[2] = true;
 
@@ -1772,6 +1824,7 @@ public class frame extends JFrame implements KeyListener {
                         goldSword.setVisible(true);
                         textDisappear = true;
                         swordNumber = 3;
+                        messageDisappearNumber = 3;
                         playerDamage = 4;
                         chestLooted[3] = true;
 
@@ -1782,6 +1835,7 @@ public class frame extends JFrame implements KeyListener {
                         rubySword.setVisible(true);
                         textDisappear = true;
                         swordNumber = 4;
+                        messageDisappearNumber = 4;
                         playerDamage = 6;
                         chestLooted[4] = true;
 
@@ -1792,6 +1846,7 @@ public class frame extends JFrame implements KeyListener {
                         emeraldSword.setVisible(true);
                         textDisappear = true;
                         swordNumber = 5;
+                        messageDisappearNumber = 5;
                         playerDamage = 8;
                         chestLooted[5] = true;
 
@@ -1802,6 +1857,7 @@ public class frame extends JFrame implements KeyListener {
                         diamondSword.setVisible(true);
                         textDisappear = true;
                         swordNumber = 6;
+                        messageDisappearNumber = 6;
                         playerDamage = 10;
                         chestLooted[6] = true;
 
@@ -1833,7 +1889,7 @@ public class frame extends JFrame implements KeyListener {
                 textDisappearTime = 0;
 
 
-                switch (swordNumber) {
+                switch (messageDisappearNumber) {
                     case 0: {
                         gotApple.setVisible(false);
                         break;
@@ -1877,46 +1933,46 @@ public class frame extends JFrame implements KeyListener {
     if(spacePressed) {
         switch (direction) {
             case "up" -> {
-                upAttack.setVisible(true);
-                LeftAttack.setVisible(false);
-                downAttack.setVisible(false);
-                rightAttack.setVisible(false);
+                upAttack[swordNumber].setVisible(true);
+                leftAttack[swordNumber].setVisible(false);
+                downAttack[swordNumber].setVisible(false);
+                rightAttack[swordNumber].setVisible(false);
                 AttackMob("up");
             }
             case "down" -> {
-                downAttack.setVisible(true);
-                upAttack.setVisible(false);
-                rightAttack.setVisible(false);
-                LeftAttack.setVisible(false);
+                downAttack[swordNumber].setVisible(true);
+                upAttack[swordNumber].setVisible(false);
+                rightAttack[swordNumber].setVisible(false);
+                leftAttack[swordNumber].setVisible(false);
                 AttackMob("down");
             }
             case "left" ->  {
-                LeftAttack.setVisible(true);
-                upAttack.setVisible(false);
-                downAttack.setVisible(false);
-                rightAttack.setVisible(false);
+                leftAttack[swordNumber].setVisible(true);
+                upAttack[swordNumber].setVisible(false);
+                downAttack[swordNumber].setVisible(false);
+                rightAttack[swordNumber].setVisible(false);
                 AttackMob("left");
             }
             case "right" -> {
-                rightAttack.setVisible(true);
-                upAttack.setVisible(false);
-                downAttack.setVisible(false);
-                LeftAttack.setVisible(false);
+                rightAttack[swordNumber].setVisible(true);
+                upAttack[swordNumber].setVisible(false);
+                downAttack[swordNumber].setVisible(false);
+                leftAttack[swordNumber].setVisible(false);
                 AttackMob("right");
             }
             default -> {
-                upAttack.setVisible(false);
-                downAttack.setVisible(false);
-                LeftAttack.setVisible(false);
-                rightAttack.setVisible(false);
+                upAttack[swordNumber].setVisible(false);
+                downAttack[swordNumber].setVisible(false);
+                leftAttack[swordNumber].setVisible(false);
+                rightAttack[swordNumber].setVisible(false);
             }
 
         }
     } else {
-       upAttack.setVisible(false);
-      downAttack.setVisible(false);
-       LeftAttack.setVisible(false);
-      rightAttack.setVisible(false);
+       upAttack[swordNumber].setVisible(false);
+      downAttack[swordNumber].setVisible(false);
+       leftAttack[swordNumber].setVisible(false);
+      rightAttack[swordNumber].setVisible(false);
     }
 
        /* if(spacePressed) {
