@@ -593,12 +593,12 @@ public class frame extends JFrame implements KeyListener {
     JLabel[] upAttack = new JLabel[]{
 
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false)
+            GUIassets(100, 100, 100, 100, false, "images/equipment/stone/up_stone.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/iron/up_iron.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/gold/up_gold.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/ruby/up_ruby.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/emerald/up_emerald.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/diamond/up_diamond.png", false, 1, false)
 
     };
     JLabel[] leftAttack = new JLabel[]{
@@ -616,12 +616,12 @@ public class frame extends JFrame implements KeyListener {
 
 
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false),
-            GUIassets(100, 100, 100, 100, false, "images/equipment/wood/down_wood.png", false, 1, false)
+            GUIassets(100, 100, 100, 100, false, "images/equipment/stone/down_stone.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/iron/down_iron.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/gold/down_gold.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/ruby/down_ruby.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/emerald/down_emerald.png", false, 1, false),
+            GUIassets(100, 100, 100, 100, false, "images/equipment/diamond/down_diamond.png", false, 1, false)
 
     };
     JLabel[] rightAttack = new JLabel[]{
