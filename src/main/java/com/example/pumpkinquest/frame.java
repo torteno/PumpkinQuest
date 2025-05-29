@@ -200,6 +200,10 @@ public class frame extends JFrame implements KeyListener {
 
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
+    JLabel NPC2 = assets(9200,  -1600, 126, 238, false, "images/NPC/Maze/secondnpc.png", false, 2, true);
+    JLabel NPC3 = assets(14450,  -7100, 116, 228, false, "images/NPC/Wizard/wizard.png", false, 2, true);
+
+
 
     JLabel waterBarrier = assets(0, 900, 20000, 800, debugMode, "", false, 3 , false);
     JLabel lakeBarrier1 = assets(5400, -5875, 1975, 600, debugMode, "",false, 3, false);
