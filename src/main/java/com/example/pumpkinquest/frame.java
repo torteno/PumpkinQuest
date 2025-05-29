@@ -116,7 +116,7 @@ public class frame extends JFrame implements KeyListener {
     String savedDirection;
 
 
-    boolean debugMode = false; // false to enable, true to disable
+    boolean debugMode = true; // false to enable, true to disable
     boolean placeCooldown = false;
     int swordUpgrade = 0;
 
