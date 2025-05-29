@@ -164,12 +164,6 @@ public class frame extends JFrame implements KeyListener {
         assets(6000, -465, 150, 150, false, "images/assets/chest.png", false, 8, true)
 };
 
-    JLabel stoneSword = GUIassets( 80, 600, 896, 224, false, "images/assets/SwordText/CharacterSword1.png", false, 0, false);
-    JLabel ironSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword2.png", false, 0, false);
-    JLabel goldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword3.png", false, 0, false);
-    JLabel rubySword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword4.png", false, 0, false);
-    JLabel emeraldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword5.png", false, 0, false);
-    JLabel diamondSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword6.png", false, 0, false);
 
 
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600, 1);
@@ -600,7 +594,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel Tree4867098 = assets(15147 , -772, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree2260184 = assets(15307 , -1244, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
 
-    JLabel WwrldBarrier1 = assets(19200 , -4800, 2160, 600,  debugMode, "", false, 8, true);
+    JLabel WorldBarrier1 = assets(19200 , -4800, 2160, 600,  debugMode, "", false, 8, true);
     JLabel worldBarrier2 = assets(21660 , -4800, 2260, 600,  debugMode, "", false, 8, true);
     JLabel worldBarrier3 = assets(19200 , -4000, 1200, 1400,  debugMode, "", false, 8, true);
     JLabel worldBarrier4 = assets(18000 , -2500, 500, 400,  debugMode, "", false, 8, true);
@@ -612,6 +606,13 @@ public class frame extends JFrame implements KeyListener {
     JLabel worldBarrier10 = assets(23600 , -3900, 400, 1300,  debugMode, "", false, 8, true);
     JLabel worldBarrier11 = assets(23200 , -4100, 400, 200,  debugMode, "", false, 8, true);
 
+
+    JLabel stoneSword = GUIassets( 80, 600, 896, 224, false, "images/assets/SwordText/CharacterSword1.png", false, 0, false);
+    JLabel ironSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword2.png", false, 0, false);
+    JLabel goldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword3.png", false, 0, false);
+    JLabel rubySword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword4.png", false, 0, false);
+    JLabel emeraldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword5.png", false, 0, false);
+    JLabel diamondSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword6.png", false, 0, false);
 
 
 
