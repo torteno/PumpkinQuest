@@ -81,6 +81,7 @@ public class frame extends JFrame implements KeyListener {
     Map <UUID, Long> MobAttackCurrentCoolDown = new HashMap<>();
     Map <UUID, LocalDateTime> TimeMobAttacked = new HashMap<>();
     Map <UUID, Duration> TimeSinceMobAttacked = new HashMap<>();
+    Map<UUID, Integer> projectileArrayPoint  = new HashMap<>();
     Map<JLabel, String[]> mobFrameAnimationFrames = new HashMap<>();
     ArrayList<Point> playerPastPositions = new ArrayList<>();
 
@@ -107,6 +108,7 @@ public class frame extends JFrame implements KeyListener {
     BackgroundPanel backgroundPanel = new BackgroundPanel(null);
     static Clip clip;
     boolean gameStarted = false;
+    int setRespawnScreenCooldown = 0;
 
     //JLabel [] upAttack = new JLabel[7];
     //JLabel [] leftAttack = new JLabel[7];
@@ -116,17 +118,27 @@ public class frame extends JFrame implements KeyListener {
     String savedDirection;
 
 
-    boolean debugMode = true; // false to enable, true to disable
+    boolean debugMode = false; // false to enable, true to disable
     boolean placeCooldown = false;
     int swordUpgrade = 0;
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
-   
+
+    double tortlesAttackTwo = 3;
+    double tortlesAttackThree = 1.5;
+
 
     JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0, false);
     JLabel pressChest = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0, false);
 
+    JLabel pressrespawn = GUIassets(75, 450, 860, 350, false, "images/text/respawn.png", false, 0, true);
+
+
+
+
+    JLabel iceSpikeOne = GUIassets( 430, 345, 125, 125, false, "images/mob/tortles/iceSpikeSmall.png", false, 1, true);
+    JLabel iceSpikeTwo = GUIassets( 430, 345, 125, 125, false, "images/mob/tortles/iceSpikeBig.png", false, 1, true);
 
     JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 0, false);
 
@@ -136,7 +148,15 @@ public class frame extends JFrame implements KeyListener {
    JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
 
     JLabel treebarrier = assets(2775, -5800, 590, 7500, debugMode, "images/assets/manymanytrees.png", false, 8, true);
-    JLabel respawnPointOne = assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true);
+
+
+    JLabel[] respawnPoints = new JLabel[] {
+           assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true),
+           assets(2811 , -7825, 150, 200,  false, "images/assets/respawnPoint.png", false, 8, true),
+           assets(13943 , -7747, 150, 200,  false, "images/assets/respawnPoint.png", false, 8, true),
+            assets(7283 , -645, 150, 200,  false, "images/assets/respawnPoint.png", false, 8, true),
+           assets(14796 , -585, 150, 200,  false, "images/assets/respawnPoint.png", false, 8, true)
+};
 
     JLabel[] chestImages = new JLabel[] {
         assets(3880, -525, 150, 150, false, "images/assets/chest.png", false, 8, true),
@@ -176,7 +196,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel slime10= mobCreation(5450, -555, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime11= mobCreation(5660, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     
-    JLabel tortles = mobCreation(0, 0, 200,376, "images/mob/tortles/downStanding.png", 2, 100, 0.5, 150, 2, 800,1);
+    JLabel tortles = mobCreation(21600, -2272, 200,376, "images/mob/tortles/downStanding.png", 2, 1000, 1, 150, 2, 800,1);
 
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
@@ -209,6 +229,8 @@ public class frame extends JFrame implements KeyListener {
     JLabel NPCScroller4 = GUIassets(-150, 665, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     */
 
+    JLabel warpBack = assets(21453 , -4705, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpArena = assets(2502 , -7564, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
 
     JLabel Tree8458095 = assets(15894 , -5224, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
@@ -499,41 +521,41 @@ public class frame extends JFrame implements KeyListener {
     JLabel LittleBush4476318 = assets(10904 , -486, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush4131510 = assets(10904 , -906, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2396163 = assets(10904 , -1386, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpOne = assets(10856 , -1194, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpTwo = assets(10856 , -738, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpOne = assets(10856 , -1194, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpTwo = assets(10856 , -738, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush8318242 = assets(11540 , -738, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2976735 = assets(11544 , -1150, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush5659796 = assets(11544 , -1618, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush9842894 = assets(11544 , -370, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpThree = assets(11496 , -622, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpFour = assets(11496 , -1006, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpFive = assets(11496 , -1438, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpThree = assets(11496 , -622, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFour = assets(11496 , -1006, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFive = assets(11496 , -1438, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush3659183 = assets(12184 , -1009, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush3050567 = assets(12184 , -1357, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush9963417 = assets(12184 , -1741, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush505283 = assets(12184 , -637, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpSix = assets(12123 , -857, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpSeven = assets(12123 , -1241, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpEight = assets(12123 , -1601, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpSix = assets(12123 , -857, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpSeven = assets(12123 , -1241, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpEight = assets(12123 , -1601, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush7556671 = assets(12836 , -1052, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush4248156 = assets(12836 , -1400, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush1221163 = assets(12836 , -668, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush8010436 = assets(12836 , -296, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpNine = assets(12776 , -524, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpTen = assets(12776 , -932, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpEleven = assets(12776 , -1280, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpNine = assets(12776 , -524, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpTen = assets(12776 , -932, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpEleven = assets(12776 , -1280, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush1556035 = assets(13366 , -1586, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush5714479 = assets(13366 , -1226, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush961166 = assets(13366 , -854, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2378646 = assets(13366 , -482, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpTwelve = assets(13306 , -722, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpThirteen = assets(13306 , -1094, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpFourteen = assets(13306 , -1466, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpTwelve = assets(13306 , -722, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpThirteen = assets(13306 , -1094, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFourteen = assets(13306 , -1466, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush8287394 = assets(13966 , -1028, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2024410 = assets(13966 , -560, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush3074532 = assets(13966 , -1388, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpFifteen = assets(13906 , -1280, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpSixteen = assets(13906 , -848, 100, 100,  debugMode, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFifteen = assets(13906 , -1280, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpSixteen = assets(13906 , -848, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel Tree7750002 = assets(11015 , -1690, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree7407216 = assets(11255 , -1726, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree8980819 = assets(11675 , -1834, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
@@ -585,7 +607,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel worldBarrier9 = assets(23800 , -2600, 300, 600,  debugMode, "", false, 8, true);
     JLabel worldBarrier10 = assets(23600 , -3900, 400, 1300,  debugMode, "", false, 8, true);
     JLabel worldBarrier11 = assets(23200 , -4100, 400, 200,  debugMode, "", false, 8, true);
- 
+
 
 
 
@@ -637,7 +659,7 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-    public static void Sequencer(String input) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public static void Sequencer(String input, int numRepeat, float volume) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File(input);
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
@@ -645,12 +667,14 @@ public class frame extends JFrame implements KeyListener {
 
 
         //float volume = 1f; // adjust volume here
-        volumeChange(0);
+        volumeChange(volume);
 
         clip.start();
-        clip.loop(10);
+        clip.loop(numRepeat);
 
     }
+
+
 
 
     frame() {
@@ -669,9 +693,9 @@ public class frame extends JFrame implements KeyListener {
         setIconImage(icon);
 
         try {
-            Sequencer("music/korok.wav"); // Play the clip when the program starts
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace(); // Handle exceptions
+            Sequencer("music/start.wav", 100, 1f); // Play the clip when the program starts
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
+            j.printStackTrace(); // Handle exceptions
         }
 
 
@@ -719,7 +743,7 @@ public class frame extends JFrame implements KeyListener {
         player = new JLabel(playerImages.get("downStanding"));
         player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, 100, 188);
         player.setOpaque(false);
-        backgroundPanel.setComponentZOrder(player, 0);
+        backgroundPanel.setComponentZOrder(player, 2);
 
         x = player.getX();
         y = player.getY();
@@ -910,7 +934,8 @@ public class frame extends JFrame implements KeyListener {
                 //uncomment this when we want to submit
                 // coordinates.setText((int) playerWorldPos.getX() - 2360 + " " + (int) ((playerWorldPos.getY() + 678) * -1));
 
-
+                iceSpikeOne.repaint();
+                iceSpikeTwo.repaint();
                 //comment this when we want to submit
                 coordinates.setText((int) playerWorldPos.getX() + " " + (int) playerWorldPos.getY());
                 //healthChange(0);
@@ -1448,13 +1473,13 @@ public class frame extends JFrame implements KeyListener {
     //    } else {
 
             if (Math.abs(distanceX) >= Math.abs(distanceY)) {
-                if (playerWorldPos.getX() >= tortles.getX()) {
+                if (playerWorldPos.getX() > tortles.getX()) {
                     moveDirection = "right"; // Moving right
                 } else {
                     moveDirection = "left"; // Moving left
                 }
             } else {
-                if (playerWorldPos.getY() >= tortles.getY()) {
+                if (playerWorldPos.getY() > tortles.getY()) {
                     moveDirection = "down"; // Moving down
                 } else {
                     moveDirection = "up"; // Moving up
@@ -1496,10 +1521,38 @@ public class frame extends JFrame implements KeyListener {
         return new Point(x, y);
     }
 
+    public void tortlesAttack() {
+
+        distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - tortles.getX()), 2) + Math.pow(((playerWorldPos.y - 50) - tortles.getY()), 2));
+
+        if(distance <= 800 ) {
+
+            playerPastPositions.add(playerWorldPos.getLocation());
+
+            playerPastPositions.size();
+
+
+            slope = (double) (playerWorldPos.y - tortles.getY()) / (playerWorldPos.x - player.getX());
+
+            b = playerWorldPos.y - slope * playerWorldPos.x;
+
+
+            JLabel iceball = assets((int) playerWorldPos.getX(), (int) playerWorldPos.getY(), 50, 50, false, "images/mob/tortles/iceball.png", false, 0, true);
+
+
+
+
+
+
+        }
+
+
+    }
+
 
 
     public Point ProjectTile(int x, int y, int projectileSpeed, int followDistance, Point playerPoint) {
-        distance = Math.sqrt(Math.pow(((playerPoint.x - 40) - x), 2) + Math.pow(((playerPoint.y-50) - y), 2));
+        distance = Math.sqrt(Math.pow(((playerPoint.x - 40) - x), 2) + Math.pow(((playerPoint.y - 50) - y), 2));
 
         //step -= mobSpeed;
 
@@ -1543,7 +1596,7 @@ public class frame extends JFrame implements KeyListener {
 
             } else {
 
-                if (playerWorldPos.y > y) {
+                if (playerPoint.y > y) {
                     y += projectileSpeed;
                 } else {
                     y -= projectileSpeed;
@@ -1692,6 +1745,11 @@ public class frame extends JFrame implements KeyListener {
                 durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now());
                 mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS)));
                 if (mobCooldown >= (long) mobAttackCooldown) {
+                    try {
+                        Sequencer("music/swipe.wav", 0, 0.7f);
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
+                        j.printStackTrace(); // Handle exceptions
+                    }
                     healthChange(-mobDamage);
                     TimeMobAttacked.put(mobID, LocalDateTime.now());
                     timeSinceAttack = LocalDateTime.now();
@@ -1714,6 +1772,7 @@ public class frame extends JFrame implements KeyListener {
         chest();
         NPCInteraction();
         portalInteraction();
+        respawnPoint();
 
         TextDisappearing();
 
@@ -1724,11 +1783,7 @@ public class frame extends JFrame implements KeyListener {
         }
 
 
-        if(player.getBounds().intersects(respawnPointOne.getBounds())) {
-            if(ePressed) {
-                SpawnPoint.setLocation(2360, -678);
-            }
-        }
+
 
     }
 
@@ -1758,37 +1813,231 @@ public class frame extends JFrame implements KeyListener {
         if (player.getBounds().intersects(warpOne.getBounds())) {
 
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         }  else if (player.getBounds().intersects(warpTwo.getBounds())) {
             playerWorldPos.setLocation(11265, -973);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpThree.getBounds())) {
             playerWorldPos.setLocation(11908, -1169);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpFour.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpFive.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpSix.getBounds())) {
             playerWorldPos.setLocation(12544, -857);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpSeven.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpEight.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpNine.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
 
         } else if (player.getBounds().intersects(warpTen.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpEleven.getBounds())) {
             playerWorldPos.setLocation(13132, -1073);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpTwelve.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpThirteen.getBounds())) {
             playerWorldPos.setLocation(13721, -1044);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpFourteen.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpFifteen.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         } else if (player.getBounds().intersects(warpSixteen.getBounds())) {
             playerWorldPos.setLocation(14555, -789);
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
+
+        } else if(player.getBounds().intersects(warpArena.getBounds())) {
+            playerWorldPos.setLocation(21546, -4278);
+
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                clip.stop();
+                Sequencer("music/tortlesFight.wav", 100, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+        } else if(player.getBounds().intersects(warpBack.getBounds())) {
+            playerWorldPos.setLocation(2861, -7500);
+
+            try {
+                clip.stop();
+                Sequencer("music/korok.wav", 100, 0.5f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                clip.stop();
+                Sequencer("music/warp.wav", 0, 0.6f);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
+
+
+    public void respawnPoint() {
+
+        for(int i = 0; i < respawnPoints.length; i++) {
+
+            if (player.getBounds().intersects((respawnPoints[i]).getBounds()) && ePressed) {
+
+                switch(i) {
+
+                    case 0: {
+
+                        SpawnPoint.setLocation(2354, -672);
+
+                        break;
+                    }
+                    case 1: {
+
+                        SpawnPoint.setLocation(2886, -7475);
+
+                        break;
+                    }
+                    case 2: {
+
+                        SpawnPoint.setLocation(14011, -7375);
+
+                        break;
+                    }
+                    case 3: {
+
+                        SpawnPoint.setLocation(7385, -185);
+
+                        break;
+                    }
+                    case 4: {
+
+                        SpawnPoint.setLocation(14836, -786);
+
+                        break;
+                    }
+
+                }
+
+
+
+
+            } else if(player.getBounds().intersects((respawnPoints[i].getBounds()))) {
+                pressrespawn.setVisible(true);
+
+            }
+
+
+            if(!player.getBounds().intersects((respawnPoints[i].getBounds()))){
+                pressrespawn.setVisible(false);
+            }
+
 
         }
 
@@ -1796,7 +2045,7 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-    public void chest () {
+    public void chest() {
 
         for (int i = 0; i < chestImages.length; i++) {
 
@@ -2308,6 +2557,8 @@ public class frame extends JFrame implements KeyListener {
         if (startScreenVisible) {
         int key = e.getKeyCode();
 
+
+
         if (key == KeyEvent.VK_DOWN && !menuAlreadyChanged) {
             startSelection++;
 
@@ -2346,6 +2597,12 @@ public class frame extends JFrame implements KeyListener {
                     currentSelection.setVisible(false);
                     startScreenVisible = false;
                     fadeOutStartScreen();
+                    try {
+                        clip.stop();
+                        Sequencer("music/korok.wav", 100, 0.5f); // Play the clip when the program starts
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
+                        j.printStackTrace(); // Handle exceptions
+                    }
                  //   gameLoop();
                     return;
                 case 2: 
