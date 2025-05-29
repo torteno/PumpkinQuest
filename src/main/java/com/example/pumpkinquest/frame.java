@@ -28,7 +28,7 @@ public class frame extends JFrame implements KeyListener {
     public int screenWidth, screenHeight;
 
     int x, y;
-    int step = 6;
+    int step = 25;
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
     int tortlesMoveTime;
@@ -181,7 +181,7 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
 
-    JLabel waterBarrier = assets(0, 900, 4800, 800, debugMode, "", false, 3 , false);
+    JLabel waterBarrier = assets(0, 900, 20000, 800, debugMode, "", false, 3 , false);
     JLabel lakeBarrier1 = assets(5400, -5875, 1975, 600, debugMode, "",false, 3, false);
     JLabel lakeBarrier2 = assets(5200, -5225, 2175,250, debugMode, "", false, 3, false);
     JLabel lakeBarrier3 = assets(5000, -5475, 1550,2000, debugMode, "", false, 3, false);
@@ -573,6 +573,21 @@ public class frame extends JFrame implements KeyListener {
     JLabel Tree1329190 = assets(14483 , -588, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree4867098 = assets(15147 , -772, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree2260184 = assets(15307 , -1244, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+
+    JLabel WwrldBarrier1 = assets(19200 , -4800, 2160, 600,  debugMode, "", false, 8, true);
+    JLabel worldBarrier2 = assets(21660 , -4800, 2260, 600,  debugMode, "", false, 8, true);
+    JLabel worldBarrier3 = assets(19200 , -4000, 1200, 1400,  debugMode, "", false, 8, true);
+    JLabel worldBarrier4 = assets(18000 , -2500, 500, 400,  debugMode, "", false, 8, true);
+    JLabel worldBarrier5 = assets(19200 , -1900, 700, 1200,  debugMode, "", false, 8, true);
+    JLabel worldBarrier6 = assets(20000 , -820, 1400, 600,  debugMode, "", false, 8, true);
+    JLabel worldBarrier7 = assets(21300 , -920, 1600, 600,  debugMode, "", false, 8, true);
+    JLabel worldBarrier8 = assets(22900 , -2000, 1400, 1200,  debugMode, "", false, 8, true);
+    JLabel worldBarrier9 = assets(23800 , -2600, 300, 600,  debugMode, "", false, 8, true);
+    JLabel worldBarrier10 = assets(23600 , -3900, 400, 1300,  debugMode, "", false, 8, true);
+    JLabel worldBarrier11 = assets(23200 , -4100, 400, 200,  debugMode, "", false, 8, true);
+ 
+
+
 
 
     JLabel[] upAttack = new JLabel[]{
