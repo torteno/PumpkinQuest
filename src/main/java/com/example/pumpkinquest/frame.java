@@ -2463,36 +2463,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-/*
-    JLabel[] NPCscrollers = {NPCScroller1, NPCScroller2, NPCScroller3, NPCScroller4};
 
-    public void NPCDialogueScroll() {
-        if (lineNumber < 1 || lineNumber > 4) return;
-
-        JLabel currentScroller = NPCscrollers[lineNumber - 1];
-
-        if (lineComplete <= 31) {
-            if (scrollTime >= (FPS / 5)) {
-                int fullWidth = 1000;
-                int pixelsHidden = scrollPixels * lineComplete;
-                int newWidth = Math.max(0, fullWidth - pixelsHidden);
-
-                currentScroller.setBounds(-100 + pixelsHidden, 590 + ((lineNumber - 1) * 25), newWidth, 30);  // move X right
-
-                scrollTime = 0;
-                lineComplete++;
-            } else {
-                scrollTime++;
-            }
-
-        } else {
-            currentScroller.setVisible(false);
-            lineComplete = 0;
-            lineNumber++;
-            if (lineNumber > 4) lineNumber = 1;
-        }
-    }
-*/
 
     public static void volumeChange(float volumeChange) {
 
