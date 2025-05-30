@@ -41,7 +41,8 @@ public class frame extends JFrame implements KeyListener {
     double b;
     public static float volume = 0f;
     boolean GUIOpen = true;
-    boolean NPCInteracted = false;
+    boolean [] NPCInteracted = new boolean [3];
+    int NPCNumber = 0;
     boolean[] chestLooted = new boolean[7];
     boolean[] pressChestOn = new boolean[7];
     int messageDisDelay;
@@ -62,9 +63,15 @@ public class frame extends JFrame implements KeyListener {
     */
 
 
-    int currentDialogueIndex = -1;
+    int grandmaDialogueIndex = -1;
+    int wizardDialogueIndex = -1;
+    int villagerDialogueIndex = -1;
+
     boolean dialogueActive = false;
-    JLabel[] dialogueImages;
+    JLabel[] grandmaDialogueImages;
+    JLabel[] wizardDialogueImages;
+    JLabel[] villagerDialogueImages;
+
 
     Map<UUID, Point> mobSpawnPoint = new HashMap<>();
     Map<JLabel, Point> AssetPoint = new HashMap<>();
@@ -194,8 +201,8 @@ public class frame extends JFrame implements KeyListener {
 
 
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
-    JLabel NPC2 = assets(9200,  -1600, 126, 238, false, "images/NPC/Maze/secondnpc.png", false, 2, true);
-    JLabel NPC3 = assets(14450,  -7100, 116, 228, false, "images/NPC/Wizard/wizard.png", false, 2, true);
+    JLabel NPC3 = assets(9200,  -1600, 126, 238, false, "images/NPC/Maze/secondnpc.png", false, 2, true);
+    JLabel NPC2 = assets(14450,  -7100, 116, 228, false, "images/NPC/Wizard/wizard.png", false, 2, true);
 
 
 
@@ -932,7 +939,8 @@ public class frame extends JFrame implements KeyListener {
             previousTime = currentTime;
             if (placeholder >= 1) {
                 interacting();
-                NPCInteraction();
+                System.out.println(NPCNumber);
+                //NPCInteraction();
                 //player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
 
 
@@ -954,30 +962,71 @@ public class frame extends JFrame implements KeyListener {
                     if (ePressed) {
                         ePressed = false;
 
+                        if (NPCNumber == 1) {
                         // Hide current image
-                        if (currentDialogueIndex < dialogueImages.length) {
-                            dialogueImages[currentDialogueIndex].setVisible(false);
+                        if (grandmaDialogueIndex < grandmaDialogueImages.length) {
+                            grandmaDialogueImages[grandmaDialogueIndex].setVisible(false);
                         }
 
-                        currentDialogueIndex++;
+                        grandmaDialogueIndex++;
 
                         // Show next image or end dialogue
-                        if (currentDialogueIndex < dialogueImages.length) {
-                            dialogueImages[currentDialogueIndex].setVisible(true);
+                        if (grandmaDialogueIndex < grandmaDialogueImages.length) {
+                            grandmaDialogueImages[grandmaDialogueIndex].setVisible(true);
 
 
                         } else {
                             // End of dialogue
                             dialogueActive = false;
-                            NPCInteracted = true;
+                            NPCInteracted[NPCNumber - 1] = true;
                             NPCBackground.setVisible(false);
 
-                            /* NPCScroller1.setVisible(false);
-                            NPCScroller2.setVisible(false);
-                            NPCScroller3.setVisible(false);
-                            NPCScroller4.setVisible(false);
 
-                             */
+                        }
+                    } else if (NPCNumber == 2) {
+                            // Hide current image
+
+                            if (wizardDialogueIndex < wizardDialogueImages.length) {
+                                wizardDialogueImages[wizardDialogueIndex].setVisible(false);
+                            }
+
+                            wizardDialogueIndex++;
+
+                            // Show next image or end dialogue
+                            if (wizardDialogueIndex < wizardDialogueImages.length) {
+                                wizardDialogueImages[wizardDialogueIndex].setVisible(true);
+
+
+                            } else {
+                                // End of dialogue
+                                dialogueActive = false;
+                                NPCInteracted[NPCNumber - 1] = true;
+                                NPCBackground.setVisible(false);
+
+
+                            }
+                        }
+                        else if (NPCNumber == 3) {
+                            // Hide current image
+                            if (villagerDialogueIndex < villagerDialogueImages.length) {
+                                villagerDialogueImages[villagerDialogueIndex].setVisible(false);
+                            }
+
+                            villagerDialogueIndex++;
+
+                            // Show next image or end dialogue
+                            if (villagerDialogueIndex < villagerDialogueImages.length) {
+                                villagerDialogueImages[villagerDialogueIndex].setVisible(true);
+
+
+                            } else {
+                                // End of dialogue
+                                dialogueActive = false;
+                                NPCInteracted[NPCNumber - 1] = true;
+                                NPCBackground.setVisible(false);
+
+
+                            }
                         }
                     }
                 }
@@ -1795,13 +1844,34 @@ public class frame extends JFrame implements KeyListener {
 
     public void NPCInteraction () {
 
-        if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted) {
+        if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted[0]) {
             press.setVisible(true);
 
             if (ePressed && !dialogueActive) {
-                NPCInteracted = true;
+                NPCInteracted[0] = true;
+                NPCNumber = 1;
                 press.setVisible(false);
-                startDialogue(1); // Start FSM
+                startDialogue(); // Start dialogue images
+                ePressed = false; // Prevent skipping first image
+            }
+        } else if (player.getBounds().intersects(NPC2.getBounds()) && !NPCInteracted[1]) {
+            press.setVisible(true);
+
+            if (ePressed && !dialogueActive) {
+                NPCInteracted[1] = true;
+                NPCNumber = 2;
+                press.setVisible(false);
+                startDialogue(); // Start dialogue images
+                ePressed = false; // Prevent skipping first image
+            }
+        } else if (player.getBounds().intersects(NPC3.getBounds()) && !NPCInteracted[2]) {
+            press.setVisible(true);
+
+            if (ePressed && !dialogueActive) {
+                NPCInteracted[2] = true;
+                NPCNumber = 3;
+                press.setVisible(false);
+                startDialogue(); // Start dialogue images
                 ePressed = false; // Prevent skipping first image
             }
         } else {
@@ -2310,24 +2380,19 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-    public void startDialogue(int NPCNumber) {
-        /*
-        NPCScroller1.setVisible(true);
-        NPCScroller2.setVisible(true);
-        NPCScroller3.setVisible(true);
-        NPCScroller4.setVisible(true);
+    public void startDialogue() {
 
-         */
 
         dialogueActive = true;
-        currentDialogueIndex = 0;
+
 
         switch (NPCNumber) {
             case 1 : {
+                grandmaDialogueIndex = 0;
                 NPCBackground.setVisible(true);
 
 
-                dialogueImages = new JLabel[] {
+                grandmaDialogueImages = new JLabel[] {
                         GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 1, false),
                         GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 1, false),
                         GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue3.png", false, 1, false),
@@ -2343,15 +2408,58 @@ public class frame extends JFrame implements KeyListener {
 
                 };
 
-                for (JLabel label : dialogueImages) {
+                for (JLabel label : grandmaDialogueImages) {
                     label.setVisible(false);
 
                 }
 
-                dialogueImages[0].setVisible(true);
+                grandmaDialogueImages[0].setVisible(true);
+                break;
 
             }
+            case 2 : {
+
+                wizardDialogueIndex = 0;
+                NPCBackground.setVisible(true);
+
+
+                wizardDialogueImages = new JLabel[] {
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Wizard/WizardNPCDialogue1.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Wizard/WizardNPCDialogue2.png", false, 1, false),
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Wizard/WizardNPCDialogue3.png", false, 1, false)
+
+                };
+
+                for (JLabel label2 : wizardDialogueImages) {
+                    label2.setVisible(false);
+
+                }
+
+                wizardDialogueImages[0].setVisible(true);
+                break;
+
+
+            }
+            case 3 : {
+                villagerDialogueIndex = 0;
+                NPCBackground.setVisible(true);
+
+
+                villagerDialogueImages = new JLabel[] {
+                        GUIassets(50, 500, 900, 300, false, "images/NPC/Maze/VillagerNPCDialogue.png", false, 1, false)
+
+                };
+
+                for (JLabel label3 : villagerDialogueImages) {
+                    label3.setVisible(false);
+
+                }
+
+                villagerDialogueImages[0].setVisible(true);
+                break;
+            }
         }
+
     }
 
 
