@@ -77,7 +77,11 @@ Or import into your favorite Java IDE and run the `Main` class.
 
 ## Screenshots
 
-*Add screenshots here to show off gameplay or menus!*
+![image](https://github.com/user-attachments/assets/dad1a54f-4b49-46b2-94f9-444d3d4fd73b)
+![image](https://github.com/user-attachments/assets/b79d223a-0963-4b31-86f5-b8c3c2bf3a2f)
+![image](https://github.com/user-attachments/assets/22c92921-db2d-4e4e-8fba-870bd811014f)
+![image](https://github.com/user-attachments/assets/3df6f17c-ee4e-4b09-bd75-1811766a9bf0)
+
 
 ---
 
