@@ -71,7 +71,7 @@ cd PumpkinQuest
 javac -d bin src/main/java/com/example/pumpkinquest/*.java
 java -cp bin com.example.pumpkinquest.frame
 ```
-Or import into your favorite Java IDE and run the `frame` class.
+Or import into your favorite Java IDE and run the `Main` class.
 
 ---
 
