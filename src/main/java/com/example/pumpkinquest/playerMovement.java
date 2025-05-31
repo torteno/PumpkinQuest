@@ -119,7 +119,7 @@ public class playerMovement {
         player.setIcon(playerImages.get(imageName));
         moveTime++;
 
-// Cycles between frames (changes frame by one every few ticks, and when it gets to 4, it goes back to one
+// Cycles between frames (changes counter by one every frame, and when it gets to 1/5 seconds, it goes back to one
         if (upPressed || downPressed || leftPressed || rightPressed) {
             if (moveTime >= (FPS / 5)) {
                 moveDir = (moveDir % 4) + 1;
