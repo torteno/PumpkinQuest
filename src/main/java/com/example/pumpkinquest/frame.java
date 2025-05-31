@@ -28,7 +28,7 @@ public class frame extends JFrame implements KeyListener {
     public int screenWidth, screenHeight;
 
     int x, y;
-    int step = 25;
+    int step = 6;
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
     int tortlesMoveTime;
@@ -118,7 +118,7 @@ public class frame extends JFrame implements KeyListener {
     String savedDirection;
 
 
-    boolean debugMode = false; // false to enable, true to disable
+    boolean debugMode = true; // false to enable, true to disable
     boolean placeCooldown = false;
     int swordUpgrade = 0;
 
@@ -279,7 +279,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel NPCScroller4 = GUIassets(-150, 665, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     */
 
-    JLabel warpBack = assets(21453 , -4705, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpBack = assets(21553 , -4705, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel warpArena = assets(2502 , -7564, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
 
