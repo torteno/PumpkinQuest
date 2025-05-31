@@ -28,7 +28,7 @@ public class frame extends JFrame implements KeyListener {
     public int screenWidth, screenHeight;
 
     int x, y;
-    int step = 6;
+    int step = 25;
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
     int tortlesMoveTime;
@@ -43,8 +43,8 @@ public class frame extends JFrame implements KeyListener {
     boolean GUIOpen = true;
     boolean [] NPCInteracted = new boolean [3];
     int NPCNumber = 0;
-    boolean[] chestLooted = new boolean[11];
-    boolean[] pressChestOn = new boolean[11];
+    boolean[] chestLooted = new boolean[14];
+    boolean[] pressChestOn = new boolean[14];
     int messageDisDelay;
     int playerDamage = 3;
     String moveDirection = "down";
@@ -118,7 +118,7 @@ public class frame extends JFrame implements KeyListener {
     String savedDirection;
 
 
-    boolean debugMode = true; // false to enable, true to disable
+    boolean debugMode = false; // false to enable, true to disable
     boolean placeCooldown = false;
     int swordUpgrade = 0;
 
@@ -166,11 +166,14 @@ public class frame extends JFrame implements KeyListener {
         assets(10600, -495, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Gold
         assets(15260, -1430, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Ruby
         assets(15240, -6200, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Emerald
-        assets(3220, -7680, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Diamond
+        assets(3220, -7720, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Diamond
         assets(9090, -4200, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Apple
         assets(14950, -3820, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Apple
         assets(11345, -7470, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Apple
-        assets(3675, -7510, 150, 150, false, "images/assets/chest.png", false, 8, true)  // Apple
+        assets(3675, -7610, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Apple
+        assets(8600, -2470, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Armour
+        assets(15540, -6890, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Armour
+        assets(4220, -7240, 150, 150, false, "images/assets/chest.png", false, 8, true)  // Armour
 
 };
 
@@ -2570,7 +2573,7 @@ public class frame extends JFrame implements KeyListener {
                         textDisappear = true;
                         messageDisappearNumber = 7;
                         healthChange(3);
-                        chestLooted[0] = true;
+                        chestLooted[7] = true;
 
                         break;
                     }
@@ -2580,7 +2583,7 @@ public class frame extends JFrame implements KeyListener {
                         textDisappear = true;
                         messageDisappearNumber = 8;
                         healthChange(3);
-                        chestLooted[0] = true;
+                        chestLooted[8] = true;
 
                         break;
                     }
@@ -2590,7 +2593,7 @@ public class frame extends JFrame implements KeyListener {
                         textDisappear = true;
                         messageDisappearNumber = 9;
                         healthChange(3);
-                        chestLooted[0] = true;
+                        chestLooted[9] = true;
 
                         break;
                     }
@@ -2600,7 +2603,42 @@ public class frame extends JFrame implements KeyListener {
                         textDisappear = true;
                         messageDisappearNumber = 10;
                         healthChange(3);
-                        chestLooted[0] = true;
+                        chestLooted[10] = true;
+
+                        break;
+                    }
+                
+                 case 11 : {
+                        pressChest.setVisible(false);
+                        gotApple.setVisible(true);
+                        textDisappear = true;
+                        messageDisappearNumber = 10;
+                        maximumHealth += 1;
+                        healthChange(1);
+                        chestLooted[11] = true;
+
+                        break;
+                    }
+
+                 case 12 : {
+                        pressChest.setVisible(false);
+                        gotApple.setVisible(true);
+                        textDisappear = true;
+                        messageDisappearNumber = 10;
+                        maximumHealth += 1;
+                        healthChange(1);
+                        chestLooted[12] = true;
+
+                        break;
+                    }
+                    case 13 : {
+                        pressChest.setVisible(false);
+                        gotApple.setVisible(true);
+                        textDisappear = true;
+                        messageDisappearNumber = 10;
+                        maximumHealth += 1;
+                        healthChange(1);
+                        chestLooted[13] = true;
 
                         break;
                     }
@@ -2673,6 +2711,18 @@ public class frame extends JFrame implements KeyListener {
                     }
                     case 10: {
                         gotApple.setVisible(false);
+                        break;
+                    }
+                    case 11: {
+                        //gotApple.setVisible(false);
+                        break;
+                    }
+                    case 12: {
+                        //gotApple.setVisible(false);
+                        break;
+                    }
+                    case 13: {
+                        //gotApple.setVisible(false);
                         break;
                     }
                 }
