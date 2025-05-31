@@ -143,7 +143,11 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 0, false);
 
-   //JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
+
+    JLabel armourFound = GUIassets( 130, 600, 1280, 320, false, "images/equipment/ArmourFound.png", false, 0, false);
+
+
+    //JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
 
 
    JLabel warp = assets(-1000, 1000, 100, 200, false, "images/assets/warpstone.png", false, 8, true);
@@ -2610,9 +2614,9 @@ public class frame extends JFrame implements KeyListener {
                 
                  case 11 : {
                         pressChest.setVisible(false);
-                        gotApple.setVisible(true);
+                        armourFound.setVisible(true);
                         textDisappear = true;
-                        messageDisappearNumber = 10;
+                        messageDisappearNumber = 11;
                         maximumHealth += 1;
                         healthChange(1);
                         chestLooted[11] = true;
@@ -2622,9 +2626,9 @@ public class frame extends JFrame implements KeyListener {
 
                  case 12 : {
                         pressChest.setVisible(false);
-                        gotApple.setVisible(true);
+                        armourFound.setVisible(true);
                         textDisappear = true;
-                        messageDisappearNumber = 10;
+                        messageDisappearNumber = 12;
                         maximumHealth += 1;
                         healthChange(1);
                         chestLooted[12] = true;
@@ -2633,9 +2637,9 @@ public class frame extends JFrame implements KeyListener {
                     }
                     case 13 : {
                         pressChest.setVisible(false);
-                        gotApple.setVisible(true);
+                        armourFound.setVisible(true);
                         textDisappear = true;
-                        messageDisappearNumber = 10;
+                        messageDisappearNumber = 13;
                         maximumHealth += 1;
                         healthChange(1);
                         chestLooted[13] = true;
@@ -2714,15 +2718,15 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 11: {
-                        //gotApple.setVisible(false);
+                        armourFound.setVisible(false);
                         break;
                     }
                     case 12: {
-                        //gotApple.setVisible(false);
+                        armourFound.setVisible(false);
                         break;
                     }
                     case 13: {
-                        //gotApple.setVisible(false);
+                        armourFound.setVisible(false);
                         break;
                     }
                 }
