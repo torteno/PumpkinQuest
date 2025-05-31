@@ -28,7 +28,7 @@ public class frame extends JFrame implements KeyListener {
     public int screenWidth, screenHeight;
 
     int x, y;
-    int step = 25;
+    int step = 6;
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false;
     int moveTime, moveDir;
     int tortlesMoveTime;
@@ -125,7 +125,7 @@ public class frame extends JFrame implements KeyListener {
     String savedDirection;
 
 
-    boolean debugMode = false; // false to enable, true to disable
+    boolean debugMode = true; // false to enable, true to disable
     boolean placeCooldown = false;
     int swordUpgrade = 0;
 
@@ -279,6 +279,41 @@ public class frame extends JFrame implements KeyListener {
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
 
     // lots of tress
+
+
+    JLabel Rock274736 = assets(2353 , -7107, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock3320042 = assets(2278 , -7257, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock2848022 = assets(2178 , -7432, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock4690770 = assets(2178 , -7557, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock8165025 = assets(2178 , -7732, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock9260882 = assets(2178 , -7832, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock2335392 = assets(2278 , -7932, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock754881 = assets(2403 , -8007, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock1726032 = assets(1577 , -8031, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock8461454 = assets(1577 , -7856, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock4868639 = assets(1577 , -7681, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock3939617 = assets(1577 , -7531, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock8602846 = assets(1577 , -7381, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock1661273 = assets(1577 , -7281, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock8212042 = assets(1577 , -7131, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock1011629 = assets(1577 , -7081, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock4685957 = assets(1577 , -6856, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock7075964 = assets(1577 , -6856, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock1051545 = assets(1577 , -6956, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock9392083 = assets(1702 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock5679939 = assets(1877 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock7836519 = assets(2052 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock487015 = assets(2227 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock939617 = assets(2377 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Tree539529 = assets(1643 , -6687, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree5996628 = assets(1743 , -6687, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree3455053 = assets(1868 , -6687, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree571772 = assets(2043 , -6687, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree9495548 = assets(2193 , -6687, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8499027 = assets(2318 , -6687, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8911215 = assets(2563 , -7082, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree8792634 = assets(2438 , -6932, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
+    JLabel Tree2059171 = assets(2438 , -6807, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree8359082 = assets(14414 , -5342, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree3251671 = assets(14414 , -5217, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree1580588 = assets(14414 , -5092, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
@@ -1824,13 +1859,13 @@ public class frame extends JFrame implements KeyListener {
     //    } else {
 
             if (Math.abs(distanceX) >= Math.abs(distanceY)) {
-                if (playerWorldPos.getX() > tortles.getX()) {
+                if (distanceX > 0) {
                     moveDirection = "right"; // Moving right
                 } else {
                     moveDirection = "left"; // Moving left
                 }
             } else {
-                if (playerWorldPos.getY() > tortles.getY()) {
+                if (distanceY > 0) {
                     moveDirection = "down"; // Moving down
                 } else {
                     moveDirection = "up"; // Moving up
