@@ -196,7 +196,43 @@ public class frame extends JFrame implements KeyListener {
     JLabel slime9= mobCreation(5205, -455, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime10= mobCreation(5450, -555, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime11= mobCreation(5660, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
-    
+
+    JLabel deadEnd= mobCreation(13300, -6700, 200, 165, "", 2, 10, 3, 300, 5, 500,1);
+
+    JLabel zombie1= mobCreation(7760, -880, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie2= mobCreation(7430, -2070, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie3= mobCreation(7570, -3130, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie4= mobCreation(7920, -3870, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie5= mobCreation(8000, -4910, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie6= mobCreation(9120, -3770, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie7= mobCreation(9090, -2850, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie8= mobCreation(9200, -1950, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie9= mobCreation(10070, -110, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+
+    JLabel spider1= mobCreation(15260, -1330, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel spider2= mobCreation(15270, -2400, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel spider3= mobCreation(15450, -3280, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel spider4= mobCreation(15000, -4400, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel spider5= mobCreation(15000, -6040, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel spider6= mobCreation(15560, -6950, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel spider7= mobCreation(15000, -6040, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel spider8= mobCreation(15260, -5200, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+
+
+    JLabel spider9= mobCreation(11920, -7720, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel zombie10= mobCreation(11020, -7040, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel ghost13= mobCreation(9430, -6930, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
+    JLabel slime12= mobCreation(8820, -5770, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
+    JLabel slime13= mobCreation(8570, -6250, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
+    JLabel spider10= mobCreation(7510, -6450, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel ghost14= mobCreation(6670, -7100, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 200, 5, 600, 1);
+    JLabel zombie11= mobCreation(5540, -7270, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie12= mobCreation(4720, -7470, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel zombie13= mobCreation(3650, -7590, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
+    JLabel spider11= mobCreation(3640, -7590, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
+   
+
+
     JLabel tortles = mobCreation(21600, -2272, 200,376, "images/mob/tortles/downStanding.png", 2, 1000, 1, 150, 2, 800,1);
 
 
