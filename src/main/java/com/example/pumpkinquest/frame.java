@@ -33,6 +33,7 @@ public class frame extends JFrame implements KeyListener {
     int moveTime, moveDir;
     int tortlesMoveTime;
     int tortlesMoveDir;
+    //FPS variable that can be changed (things are written in terms of FPS)
     int FPS = 60;
     double currentHealth = 3.0, maximumHealth = 3.0;
     String direction = "down";
@@ -163,6 +164,7 @@ public class frame extends JFrame implements KeyListener {
            assets(14796 , -585, 150, 200,  false, "images/assets/respawnPoint.png", false, 8, true)
 };
 
+    //An array of all the chest images. The order is important (in relation to the chest method)
     JLabel[] chestImages = new JLabel[] {
         assets(3880, -525, 150, 150, false, "images/assets/chest.png", false, 8, true), // Apple
         assets(1708 , -2861, 150, 150,  false, "images/assets/chest.png", false, 8, true), // Stone
@@ -273,7 +275,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel startQuit = GUIassets(100, 400, 400, 40, false, "images/GUI/startScreenQuit.png", false, 1, true);
     JLabel currentSelection = GUIassets(25, 192, 60, 60, false, "images/GUI/selectionarrow.png", false, 1, true);
 
-
+//Background for the NPC Dialogue
     JLabel NPCBackground = GUIassets(-170, 370, 1320, 500, false, "images/NPC/NPCDialogueBackground.png", false, 2, false);
 
     /*
@@ -973,7 +975,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel worldBarrier10 = assets(23600 , -3900, 400, 1300,  debugMode, "", false, 8, true);
     JLabel worldBarrier11 = assets(23200 , -4100, 400, 200,  debugMode, "", false, 8, true);
 
-// swords
+// sword received text
     JLabel stoneSword = GUIassets( 80, 600, 896, 224, false, "images/assets/SwordText/CharacterSword1.png", false, 0, false);
     JLabel ironSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword2.png", false, 0, false);
     JLabel goldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword3.png", false, 0, false);
@@ -983,7 +985,7 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-
+//all the images for the up attacks (different sword types)
     JLabel[] upAttack = new JLabel[]{
 
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
@@ -995,6 +997,7 @@ public class frame extends JFrame implements KeyListener {
             GUIassets(100, 100, 100, 100, false, "images/equipment/diamond/up_diamond.png", false, 1, false)
 
     };
+    //all the images for the left attacks (different sword types)
     JLabel[] leftAttack = new JLabel[]{
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/left_wood.png", false, 1, false),
             GUIassets(100, 100, 100, 100, false, "images/equipment/stone/stone_left.png", false, 1, false),
@@ -1006,6 +1009,7 @@ public class frame extends JFrame implements KeyListener {
 
 
     };
+    //all the images for the down attacks (different sword types)
     JLabel[] downAttack = new JLabel[]{
 
 
@@ -1018,6 +1022,7 @@ public class frame extends JFrame implements KeyListener {
             GUIassets(100, 100, 100, 100, false, "images/equipment/diamond/down_diamond.png", false, 1, false)
 
     };
+    //all the images for the right attacks (different sword types)
     JLabel[] rightAttack = new JLabel[]{
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/right_wood.png", false, 1, false),
             GUIassets(100, 100, 100, 100, false, "images/equipment/stone/right_stone.png", false, 1, false),
@@ -1127,6 +1132,7 @@ public class frame extends JFrame implements KeyListener {
 
         for (int i = 0; i < 7; i++) {
 
+            //sets the swords to a location based on the player's location (I had to do this separately from the initialization as we didn't have player locations yet)
         rightAttack[i].setBounds(player.getX() + 100, player.getY() + 50, 100, 100);
         leftAttack[i].setBounds(player.getX() - 75,player.getY() + 50, 100, 100);
         upAttack[i].setBounds(player.getX(), player.getY() - 100, 100, 100);
@@ -1291,23 +1297,26 @@ public class frame extends JFrame implements KeyListener {
         return label;
     }
 
-
+//Main game loop: All game code is run in this method (called once at start)
     private void gameLoop() {
+        //Creates a timer system for the FPS system (using nanoTime to be precise)
         long previousTime = System.nanoTime();
         double placeholder = 0;
         long currentTime;
         double timePerFrame = 1_000_000_000.0 / FPS;
 
 
-
+//All game code is run in this loop. Whenever the time per frame is reached (currently 1/60th of a second), the code is run.
         while(true) {
+            //Counts how much time has passed
             currentTime = System.nanoTime();
             placeholder += (currentTime - previousTime) / timePerFrame;
             previousTime = currentTime;
+            //If one frame has passed it runs code
             if (placeholder >= 1) {
                 interacting();
-               // System.out.println(NPCNumber);
-                //NPCInteraction();
+
+
                 //player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
 
 
@@ -1318,17 +1327,19 @@ public class frame extends JFrame implements KeyListener {
                 iceSpikeTwo.repaint();
                 //comment this when we want to submit
                 coordinates.setText((int) playerWorldPos.getX() + " " + (int) playerWorldPos.getY());
-                //healthChange(0);
+
 
                 //System.out.println(ghostWorldPos);
 
+                //For the dialogue system: runs when current active dialogue
                 if (dialogueActive) {
 
 
-
+                    //Makes sure E has to be unpressed and pressed again to run
                     if (ePressed) {
                         ePressed = false;
 
+                        //If the NPC being interacted with is the grandma
                         if (NPCNumber == 1) {
                         // Hide current image
                         if (grandmaDialogueIndex < grandmaDialogueImages.length) {
@@ -1350,6 +1361,7 @@ public class frame extends JFrame implements KeyListener {
 
 
                         }
+                        //If the NPC being interacted with is the wizard
                     } else if (NPCNumber == 2) {
                             // Hide current image
 
@@ -1373,6 +1385,7 @@ public class frame extends JFrame implements KeyListener {
 
                             }
                         }
+                        //If the NPC being interacted with is the villager (carpenter)
                         else if (NPCNumber == 3) {
                             // Hide current image
                             if (villagerDialogueIndex < villagerDialogueImages.length) {
@@ -1456,7 +1469,7 @@ public class frame extends JFrame implements KeyListener {
                 playerMovementInstance.playerPosition();
                 CameraInstance.position = playerWorldPos;
 
-                placeholder--;
+                placeholder--; //Resets counter back once frame complete
                 
 
             }
@@ -2060,39 +2073,45 @@ public class frame extends JFrame implements KeyListener {
         return label;
     }
 
-
+//If armor is found in a chest, it increases health and maximum health by that amount
     public void armorIncrease(double armorInc) {
-        double oldMaximumHealth = maximumHealth;
         maximumHealth += armorInc;
-        healthChange(maximumHealth - oldMaximumHealth);
+        healthChange(armorInc);
     }
 
-
+//The health increase system: Increases the health by the amount given
     public void healthChange(double healthChange) {
 
         if (!GUIOpen) {
+            //Increases current health variable
             currentHealth += healthChange;
+            //Ensures health doesn't go over maximum
             if (currentHealth > maximumHealth) {
                 currentHealth = maximumHealth;
             }
 
+            //If player's health goes below 0, they are teleported to the start and health is reset
             if (currentHealth <= 0) {
-            //    System.out.print("You died");
                 playerWorldPos.setLocation(SpawnPoint);
                 healthChange(maximumHealth);
-                //gameOver();
             }
+            //It refreshed the shown hearts: Maximum health is drawn first (the blank hearts)
             for (int i = 1; i <= maximumHealth; i++) {
+                //For the maximum health amount a new blank heart is created and displaced 60 units to the right
                 JLabel emptyHeart = GUIassets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/emptyHeart.png", false, 1, true);
                 backgroundPanel.setComponentZOrder(emptyHeart, 1);
                 emptyHeart.repaint();
             }
+            //It refreshed the shown hearts: Current health is drawn second (the full hearts)
             for (int i = 1; i <= currentHealth; i++) {
+                //For the current health amount a new full heart is created and displaced 60 units to the right
                 JLabel fullHeart = GUIassets(10 + (60 * (i - 1)), 10, 50, 50, false, "images/GUI/fullHeart.png", false, 0, true);
                 backgroundPanel.setComponentZOrder(fullHeart, 0);
                 fullHeart.repaint();
             }
+            //It refreshed the shown hearts: Half health is drawn last (the half hearts)
             if (currentHealth % 1.0 != 0) {
+                //If the health is a decimal (we only really have 0.5 currently), it places its position relative to current health
                 JLabel halfHeart = GUIassets((int) (-20 + (60 * currentHealth)), 10, 50, 50, false, "images/GUI/halfHeart.png", false, 0, true);
                 backgroundPanel.setComponentZOrder(halfHeart, 0);
                 halfHeart.repaint();
@@ -2163,7 +2182,7 @@ public class frame extends JFrame implements KeyListener {
 
 
     public void interacting() {
-
+//All the interacting code (methods) is put in here for ease of use and run in the game loop
         chest();
         NPCInteraction();
         portalInteraction();
@@ -2182,41 +2201,44 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
-
+//Main NPC interaction method that is called each frame
     public void NPCInteraction () {
 
+        //If the player is touching the grandma and hasn't been interacted with, the code runs
         if (player.getBounds().intersects(NPC.getBounds()) && !NPCInteracted[0]) {
             press.setVisible(true);
 
             if (ePressed && !dialogueActive) {
-                NPCInteracted[0] = true;
-                NPCNumber = 1;
-                press.setVisible(false);
+                NPCInteracted[0] = true; //Ensures they can't be interacted with twice
+                NPCNumber = 1; //Sets the current NPC being interacted with
+                press.setVisible(false); //Hides "Press E"
                 startDialogue(); // Start dialogue images
                 ePressed = false; // Prevent skipping first image
             }
+            //Else if the player is touching the wizard and hasn't been interacted with, the code runs
         } else if (player.getBounds().intersects(NPC2.getBounds()) && !NPCInteracted[1]) {
             press.setVisible(true);
 
             if (ePressed && !dialogueActive) {
-                NPCInteracted[1] = true;
-                NPCNumber = 2;
-                press.setVisible(false);
+                NPCInteracted[1] = true; //Ensures they can't be interacted with twice
+                NPCNumber = 2;  //Sets the current NPC being interacted with
+                press.setVisible(false);  //Hides "Press E"
                 startDialogue(); // Start dialogue images
                 ePressed = false; // Prevent skipping first image
             }
+            //Else if the player is touching the villager and hasn't been interacted with, the code runs
         } else if (player.getBounds().intersects(NPC3.getBounds()) && !NPCInteracted[2]) {
             press.setVisible(true);
 
             if (ePressed && !dialogueActive) {
-                NPCInteracted[2] = true;
-                NPCNumber = 3;
-                press.setVisible(false);
+                NPCInteracted[2] = true; //Ensures they can't be interacted with twice
+                NPCNumber = 3; //Sets the current NPC being interacted with
+                press.setVisible(false); //Hides "Press E"
                 startDialogue(); // Start dialogue images
                 ePressed = false; // Prevent skipping first image
             }
         } else {
-            press.setVisible(false);
+            press.setVisible(false); //If no NPC is being touched (or are already interacted with) it hides "Press E"
         }
 
     }
@@ -2485,27 +2507,30 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-
+//Chest interaction system
     public void chest() {
 
+        //checks if the player is touching each chest individually for the number of chests in the chestImages array
         for (int i = 0; i < chestImages.length; i++) {
 
-
+// They must be touching, not having looted, and ePressed for that specific chest
             if (player.getBounds().intersects((chestImages[i]).getBounds()) && !chestLooted[i] && ePressed) {
 
                 switch (i) {
 
+                    //Different thing for each chest
                     case 0 : {
-                        pressChest.setVisible(false);
-                        gotApple.setVisible(true);
-                        textDisappear = true;
-                        messageDisappearNumber = 0;
-                        healthChange(3);
-                        chestLooted[0] = true;
+                        pressChest.setVisible(false); //Hides "Press E"
+                        gotApple.setVisible(true); //In this case is shows "you got an apple"
+                        textDisappear = true; //Makes the textDisappear after 3 seconds
+                        messageDisappearNumber = 0; //For the textDisapper method
+                        healthChange(3); //Increases health by 3
+                        chestLooted[0] = true; //Chest can not be looted anymore
 
                         break;
                     }
                     case 1 : {
+                        //This one receives a sword and increases damage
                         pressChest.setVisible(false);
                         textDisappear = true;
                         swordNumber = 1;
@@ -2517,6 +2542,7 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 2 : {
+                        //This one receives a sword and increases damage
                         pressChest.setVisible(false);
                         ironSword.setVisible(true);
                         textDisappear = true;
@@ -2528,6 +2554,7 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 3 : {
+                        //This one receives a sword and increases damage
                         pressChest.setVisible(false);
                         goldSword.setVisible(true);
                         textDisappear = true;
@@ -2539,6 +2566,7 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 4 : {
+                        //This one receives a sword and increases damage
                         pressChest.setVisible(false);
                         rubySword.setVisible(true);
                         textDisappear = true;
@@ -2550,6 +2578,7 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 5 : {
+                        //This one receives a sword and increases damage
                         pressChest.setVisible(false);
                         emeraldSword.setVisible(true);
                         textDisappear = true;
@@ -2561,6 +2590,7 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 6 : {
+                        //This one receives a sword and increases damage
                         pressChest.setVisible(false);
                         diamondSword.setVisible(true);
                         textDisappear = true;
@@ -2572,6 +2602,7 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 7 : {
+                        //This one gets an apple and heals
                         pressChest.setVisible(false);
                         gotApple.setVisible(true);
                         textDisappear = true;
@@ -2582,6 +2613,7 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 8 : {
+                        //This one gets an apple and heals
                         pressChest.setVisible(false);
                         gotApple.setVisible(true);
                         textDisappear = true;
@@ -2592,6 +2624,7 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 9 : {
+                        //This one gets an apple and heals
                         pressChest.setVisible(false);
                         gotApple.setVisible(true);
                         textDisappear = true;
@@ -2602,6 +2635,7 @@ public class frame extends JFrame implements KeyListener {
                         break;
                     }
                     case 10 : {
+                        //This one gets an apple and heals
                         pressChest.setVisible(false);
                         gotApple.setVisible(true);
                         textDisappear = true;
@@ -2613,35 +2647,35 @@ public class frame extends JFrame implements KeyListener {
                     }
                 
                  case 11 : {
+                     //This one gains armor: increasing health and max health
                         pressChest.setVisible(false);
                         armourFound.setVisible(true);
                         textDisappear = true;
                         messageDisappearNumber = 11;
-                        maximumHealth += 1;
-                        healthChange(1);
+                        armorIncrease(1);
                         chestLooted[11] = true;
 
                         break;
                     }
 
                  case 12 : {
+                     //This one gains armor: increasing health and max health
                         pressChest.setVisible(false);
                         armourFound.setVisible(true);
                         textDisappear = true;
                         messageDisappearNumber = 12;
-                        maximumHealth += 1;
-                        healthChange(1);
+                        armorIncrease(1);
                         chestLooted[12] = true;
 
                         break;
                     }
                     case 13 : {
+                        //This one gains armor: increasing health and max health
                         pressChest.setVisible(false);
                         armourFound.setVisible(true);
                         textDisappear = true;
                         messageDisappearNumber = 13;
-                        maximumHealth += 1;
-                        healthChange(1);
+                        armorIncrease(1);
                         chestLooted[13] = true;
 
                         break;
@@ -2649,10 +2683,12 @@ public class frame extends JFrame implements KeyListener {
                 }
 
             } else if (player.getBounds().intersects((chestImages[i]).getBounds()) && !chestLooted[i] && !pressChestOn[i]) {
+                //If the chest hasn't been looted and is touched then it shows "PressE"
                 pressChest.setVisible(true);
                 pressChestOn[i] = true;
             }
             else if (!(player.getBounds().intersects((chestImages[i]).getBounds())) && !chestLooted[i] && pressChestOn[i]) {
+                //If the player isn't touching the chest this "Press E" is hidden
                 pressChest.setVisible(false);
                 pressChestOn[i] = false;
             }
@@ -2662,16 +2698,18 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
-
+//Method that makes the chest recieved text disappear after 3 seconds
     public void TextDisappearing () {
+
 
         if (textDisappear) {
 
+            //similar to animation code: waits for 3 seconds to pass
             if (textDisappearTime >= (FPS * 3)) {
 
                 textDisappearTime = 0;
 
-
+//Hides the image of whatever chest was just opened
                 switch (messageDisappearNumber) {
                     case 0: {
                         gotApple.setVisible(false);
@@ -2731,6 +2769,7 @@ public class frame extends JFrame implements KeyListener {
                     }
                 }
             } else {
+                //If 3 seconds hasn't passed it increases the time passed
                 textDisappearTime++;
             }
         }
@@ -2814,19 +2853,20 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-
+//Main dialogue method for NPC interaction
     public void startDialogue() {
 
-
+//Makes dialogue active in game loop
         dialogueActive = true;
 
-
+//Depending on what NPC it is currently
         switch (NPCNumber) {
             case 1 : {
+                //Grandma Dialogue number is set to the first one
                 grandmaDialogueIndex = 0;
-                NPCBackground.setVisible(true);
+                NPCBackground.setVisible(true); //Dialogue background is set as visible
 
-
+//All grandma dialogue images are created
                 grandmaDialogueImages = new JLabel[] {
                         GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue1.png", false, 1, false),
                         GUIassets(50, 500, 900, 300, false, "images/NPC/Grandma/GrandmaNPCDialogue2.png", false, 1, false),
@@ -2846,18 +2886,18 @@ public class frame extends JFrame implements KeyListener {
                 for (JLabel label : grandmaDialogueImages) {
                     label.setVisible(false);
 
-                }
+                } // Sets them all to not visible (not sure if its needed)
 
-                grandmaDialogueImages[0].setVisible(true);
+                grandmaDialogueImages[0].setVisible(true); //First one is set as visible and it continues in game loop
                 break;
 
             }
             case 2 : {
-
+//Wizard Dialogue number is set to the first one
                 wizardDialogueIndex = 0;
-                NPCBackground.setVisible(true);
+                NPCBackground.setVisible(true); //Dialogue background is set as visible
 
-
+//All wizard dialogue images are created
                 wizardDialogueImages = new JLabel[] {
                         GUIassets(50, 500, 900, 300, false, "images/NPC/Wizard/WizardNPCDialogue1.png", false, 1, false),
                         GUIassets(50, 500, 900, 300, false, "images/NPC/Wizard/WizardNPCDialogue2.png", false, 1, false),
@@ -2868,18 +2908,18 @@ public class frame extends JFrame implements KeyListener {
                 for (JLabel label2 : wizardDialogueImages) {
                     label2.setVisible(false);
 
-                }
+                } // Sets them all to not visible (not sure if its needed)
 
-                wizardDialogueImages[0].setVisible(true);
+                wizardDialogueImages[0].setVisible(true); //First one is set as visible and it continues in game loop
                 break;
 
 
             }
             case 3 : {
-                villagerDialogueIndex = 0;
-                NPCBackground.setVisible(true);
+                villagerDialogueIndex = 0; //Villager Dialogue number is set to the first one
+                NPCBackground.setVisible(true); //Dialogue background is set as visible
 
-
+//All villager dialogue images are created
                 villagerDialogueImages = new JLabel[] {
                         GUIassets(50, 500, 900, 300, false, "images/NPC/Maze/VillagerNPCDialogue.png", false, 1, false)
 
@@ -2888,9 +2928,9 @@ public class frame extends JFrame implements KeyListener {
                 for (JLabel label3 : villagerDialogueImages) {
                     label3.setVisible(false);
 
-                }
+                } // Sets them all to not visible (not sure if its needed)
 
-                villagerDialogueImages[0].setVisible(true);
+                villagerDialogueImages[0].setVisible(true); //First one is set as visible and it continues in game loop
                 break;
             }
         }
