@@ -104,7 +104,7 @@ public class playerMovement {
                 playerWorldPos.x -= step;
             }
         }
-
+// Changes which player image is displayed, depending on which “frame” the character is in. Works in all directions as it gets the current direction, and then adds the specific frame.
         String imageName;
         if (moveDir == 1) {
             imageName = direction + "Standing";
@@ -115,15 +115,17 @@ public class playerMovement {
         } else {
             imageName = direction + "Back";
         }
-
+// Sets the icon of the player to the current frame
         player.setIcon(playerImages.get(imageName));
         moveTime++;
 
+// Cycles between frames (changes frame by one every few ticks, and when it gets to 4, it goes back to one
         if (upPressed || downPressed || leftPressed || rightPressed) {
             if (moveTime >= (FPS / 5)) {
                 moveDir = (moveDir % 4) + 1;
                 moveTime = 0;
             }
+// Sets the character back to standing so they don’t just freeze half way through a step
         } else if (moveTime >= (FPS / 5)) {
             moveDir = 1;
             moveTime = 0;

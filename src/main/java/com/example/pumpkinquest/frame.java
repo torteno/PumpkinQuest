@@ -153,7 +153,7 @@ public class frame extends JFrame implements KeyListener {
    //JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
 
 
-   JLabel warp = assets(-1000, 1000, 200, 200, false, "images/assets/warpstone.png", false, 8, true);
+   JLabel warp = assets(-1000, 1000, 100, 200, false, "images/assets/warpstone.png", false, 8, true);
 
     JLabel treebarrier = assets(2775, -5800, 590, 7500, debugMode, "images/assets/manymanytrees.png", false, 8, true);
 
@@ -173,7 +173,7 @@ public class frame extends JFrame implements KeyListener {
 };
 
 
-
+// mobs for the first section of the game
     JLabel ghost1 = mobCreation(2250, -3000, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600, 1);
     JLabel ghost2 = mobCreation(2250, -3600, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
     JLabel ghost3 = mobCreation(2500, -4450, 200, 200, "images/mob/ghostLeft.png", 2, 20, 0.5, 300, 3, 600,1);
@@ -198,8 +198,10 @@ public class frame extends JFrame implements KeyListener {
     JLabel slime10= mobCreation(5450, -555, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
     JLabel slime11= mobCreation(5660, -655, 80, 65, "images/mob/littleslime.png", 2, 10, 0.5, 150, 5, 800,1);
 
+    //this is the thing that kills you on the riddle path
     JLabel deadEnd= mobCreation(13300, -6700, 200, 165, "", 2, 10, 3, 300, 5, 500,1);
 
+    //in the village
     JLabel zombie1= mobCreation(7760, -880, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
     JLabel zombie2= mobCreation(7430, -2070, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
     JLabel zombie3= mobCreation(7570, -3130, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
@@ -210,6 +212,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel zombie8= mobCreation(9200, -1950, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
     JLabel zombie9= mobCreation(10070, -110, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
 
+    //after the maze
     JLabel spider1= mobCreation(15260, -1330, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
     JLabel spider2= mobCreation(15270, -2400, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
     JLabel spider3= mobCreation(15450, -3280, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
@@ -219,7 +222,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel spider7= mobCreation(15000, -6040, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
     JLabel spider8= mobCreation(15260, -5200, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
 
-
+//last section
     JLabel spider9= mobCreation(11920, -7720, 160, 80, "images/mob/spider.png", 2, 20, 0.5, 200, 5, 600, 1);
     JLabel zombie10= mobCreation(11020, -7040, 80, 160, "images/mob/zombie.png", 2, 50, 1, 200, 2, 1000, 2);
     JLabel ghost13= mobCreation(9430, -6930, 200, 200, "images/mob/ghostRight.png", 2, 20, 0.5, 300, 3, 600,1);
@@ -236,13 +239,13 @@ public class frame extends JFrame implements KeyListener {
 
     JLabel tortles = mobCreation(21600, -2272, 200,376, "images/mob/tortles/downStanding.png", 2, 1000, 1, 150, 2, 800,1);
 
-
+// three npcs
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
     JLabel NPC3 = assets(9200,  -1600, 126, 238, false, "images/NPC/Maze/secondnpc.png", false, 2, true);
     JLabel NPC2 = assets(14450,  -7100, 116, 228, false, "images/NPC/Wizard/wizard.png", false, 2, true);
 
 
-
+// lake barriers
     JLabel waterBarrier = assets(0, 900, 20000, 800, debugMode, "", false, 3 , false);
     JLabel lakeBarrier1 = assets(5400, -5875, 1975, 600, debugMode, "",false, 3, false);
     JLabel lakeBarrier2 = assets(5200, -5225, 2175,250, debugMode, "", false, 3, false);
@@ -271,10 +274,11 @@ public class frame extends JFrame implements KeyListener {
     JLabel NPCScroller4 = GUIassets(-150, 665, 1000, 30, false, "images/NPC/coverDialogue.png", false, 0, false);
     */
 
-    JLabel warpBack = assets(21453 , -4705, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpArena = assets(2502 , -7564, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpBack = assets(21453 , -4705, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpArena = assets(2502 , -7564, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
 
+    // lots of tress
     JLabel Tree8359082 = assets(14414 , -5342, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree3251671 = assets(14414 , -5217, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree1580588 = assets(14414 , -5092, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
@@ -834,45 +838,45 @@ public class frame extends JFrame implements KeyListener {
     JLabel HouseTwo7756268 = assets(1808 , -2580, 400, 400,  debugMode, "images/assets/houses/houseTwo.png", false, 8, true);
 
 
-// ALL for the maze
+// ALL for the maze (its very big yes)
     JLabel LittleBush4476318 = assets(10904 , -486, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush4131510 = assets(10904 , -906, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2396163 = assets(10904 , -1386, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpOne = assets(10856 , -1194, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpTwo = assets(10856 , -738, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpOne = assets(10906 , -1194, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpTwo = assets(10906 , -738, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush8318242 = assets(11540 , -738, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2976735 = assets(11544 , -1150, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush5659796 = assets(11544 , -1618, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush9842894 = assets(11544 , -370, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpThree = assets(11496 , -622, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpFour = assets(11496 , -1006, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpFive = assets(11496 , -1438, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpThree = assets(11546 , -622, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFour = assets(11546 , -1006, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFive = assets(11546 , -1438, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush3659183 = assets(12184 , -1009, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush3050567 = assets(12184 , -1357, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush9963417 = assets(12184 , -1741, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush505283 = assets(12184 , -637, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpSix = assets(12123 , -857, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpSeven = assets(12123 , -1241, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpEight = assets(12123 , -1601, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpSix = assets(12173 , -857, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpSeven = assets(12173 , -1241, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpEight = assets(12173 , -1601, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush7556671 = assets(12836 , -1052, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush4248156 = assets(12836 , -1400, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush1221163 = assets(12836 , -668, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush8010436 = assets(12836 , -296, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpNine = assets(12776 , -524, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpTen = assets(12776 , -932, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpEleven = assets(12776 , -1280, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpNine = assets(12826 , -524, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpTen = assets(12826 , -932, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpEleven = assets(12826 , -1280, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush1556035 = assets(13366 , -1586, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush5714479 = assets(13366 , -1226, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush961166 = assets(13366 , -854, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2378646 = assets(13366 , -482, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpTwelve = assets(13306 , -722, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpThirteen = assets(13306 , -1094, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpFourteen = assets(13306 , -1466, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpTwelve = assets(13356 , -722, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpThirteen = assets(13356 , -1094, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFourteen = assets(13356 , -1466, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel LittleBush8287394 = assets(13966 , -1028, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush2024410 = assets(13966 , -560, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
     JLabel LittleBush3074532 = assets(13966 , -1388, 100, 100,  debugMode, "images/assets/littlebush.png", false, 8, true);
-    JLabel warpFifteen = assets(13906 , -1280, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
-    JLabel warpSixteen = assets(13906 , -848, 100, 100,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpFifteen = assets(13956 , -1280, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
+    JLabel warpSixteen = assets(13956 , -848, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel Tree7750002 = assets(11015 , -1690, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree7407216 = assets(11255 , -1726, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree8980819 = assets(11675 , -1834, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
@@ -925,7 +929,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel worldBarrier10 = assets(23600 , -3900, 400, 1300,  debugMode, "", false, 8, true);
     JLabel worldBarrier11 = assets(23200 , -4100, 400, 200,  debugMode, "", false, 8, true);
 
-
+// swords
     JLabel stoneSword = GUIassets( 80, 600, 896, 224, false, "images/assets/SwordText/CharacterSword1.png", false, 0, false);
     JLabel ironSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword2.png", false, 0, false);
     JLabel goldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword3.png", false, 0, false);
@@ -1026,24 +1030,27 @@ public class frame extends JFrame implements KeyListener {
         backgroundPanel.setLayout(null);
 
         //Background Tile System - place files named (position)x(position)y.png in the tiles folder
-        int tileSize = 1600; // changes how far apart the tiles are placeda
+        int tileSize = 1600; // changes how far apart the tiles are placed
         File tileDir = new File("images/background/tiles");
+       // this was AI but it essentially reads files and then gives me back the x and y values
         File[] tileFiles = tileDir.listFiles((dir, name) -> name.matches("\\d+x\\dy\\.png"));
         if (tileFiles != null) {
             for (File tileFile : tileFiles) {
                 String fileName = tileFile.getName();
+                // splits the file name into the x and the y value and adds it to a list
                 String[] parts = fileName.replace(".png", "").split("x|y");
                 int tileX = Integer.parseInt(parts[0]);
                 int tileY = Integer.parseInt(parts[1]);
-
+// (end of AI assistance) Loads and scales the image to the correct size: tileSize by tileSize
                 ImageIcon tileIcon = new ImageIcon(new ImageIcon(tileFile.getPath()).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT));
+// Creates the JLabel (which lets us see the image), and sets it to the specific image and the specific scaling, position, etc
                 JLabel tileLabel = new JLabel(tileIcon);
-                tileLabel.setBounds(0, 0, tileSize, tileSize); // position will be updated in gameLoop
+                tileLabel.setBounds(0, 0, tileSize, tileSize); 
                 tileLabel.setOpaque(false);
                 backgroundPanel.setComponentZOrder(tileLabel, 10);
                 backgroundPanel.add(tileLabel);
 
-
+//Sets the world position to tileX/Y (file name of image) * size of tile, then adds the tile to the background.
                 Point worldPos = new Point(tileX * tileSize, -tileY * tileSize);
                 backgroundTiles.add(new Tile(tileLabel, worldPos));
 
@@ -1122,11 +1129,15 @@ public class frame extends JFrame implements KeyListener {
     }
 
     private void loadAndScalePlayerImages() {
+        // Essentially gets all the files for each of the different directions and puts them in a large list
         String[] imageNames = {"downStanding", "downFore", "downBack", "upStanding", "upFore", "upBack", "rightStanding", "rightFore", "rightBack", "leftStanding", "leftFore", "leftBack"};
+        // These are the end parts of all the file names
         for (String name : imageNames) {
             ImageIcon icon = new ImageIcon("images/player/" + name + ".png");
+            // These are the front of the file names
             Image image = icon.getImage().getScaledInstance(100, 188, Image.SCALE_DEFAULT);
             playerImages.put(name, new ImageIcon(image));
+            // This makes sure that the images are formatted correctly
         }
     }
 
@@ -1402,33 +1413,7 @@ public class frame extends JFrame implements KeyListener {
                 CameraInstance.position = playerWorldPos;
 
                 placeholder--;
-                //  rock.setLocation(CameraInstance.worldToScreen(rockWorldPos));
-                //  chest.setLocation(CameraInstance.worldToScreen(chestWorldPos));
-                // pebble.setLocation(CameraInstance.worldToScreen(pebbleWorldPos));
-                //  warp.setLocation(CameraInstance.worldToScreen(warpWorldPos));
-                //  rockTwo.setLocation(CameraInstance.worldToScreen(rockTwoWorldPos));
-                //  rockThird.setLocation(CameraInstance.worldToScreen(rockThirdWorldPos));
-                // ghostWorldPos = mobMovement((int) ghostWorldPos.getX(), (int) ghostWorldPos.getY(), 3, 500);
-                //  ghost.setLocation(CameraInstance.worldToScreen(ghostWorldPos));
-                //    NPC.setLocation(CameraInstance.worldToScreen(NPCWorldPos));
-
-
-
-
-
-               /* if(spacePressed == false) {
-                    upAttack.setVisible(false);
-                    LeftAttack.setVisible(false);
-                    downAttack.setVisible(false);
-                    rightAttack.setVisible(false);
-
-
-                } */
-                //backgroundPanel.setComponentZOrder(player, 2);
-                //backgroundPanel.setComponentZOrder(ghost, 3);
-                // backgroundPanel.setComponentZOrder(rock, 3);
-                //backgroundPanel.setComponentZOrder(chest, 4);
-
+                
 
             }
         }
@@ -1503,7 +1488,7 @@ public class frame extends JFrame implements KeyListener {
                         if (mobHealth <= 0) {
                             mobRemove(mobID);
                         } else {
-                           // System.out.println("Mob Health: " + mobHealth);
+
                         }
 
 
@@ -1530,7 +1515,7 @@ public class frame extends JFrame implements KeyListener {
                         if (mobHealth <= 0) {
                             mobRemove(mobID);
                         } else {
-                           // System.out.println("Mob Health: " + mobHealth);
+
                         }
 
 
@@ -1607,7 +1592,7 @@ public class frame extends JFrame implements KeyListener {
     public Point mobMovement(int x, int y, int mobSpeed, int followDistance, Point spawnPoint) {
         distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - x), 2) + Math.pow(((playerWorldPos.y-50) - y), 2));
 
-        //step -= mobSpeed;
+
 
 
         if (distance <= followDistance && distance >= 100) {
@@ -1648,7 +1633,7 @@ public class frame extends JFrame implements KeyListener {
                 }
 
 
-             //   y = (int) (slope * x + b);
+
 
 
 
@@ -1721,7 +1706,7 @@ public class frame extends JFrame implements KeyListener {
     public Point TortlesMovement(int x, int y, int mobSpeed, int followDistance, Point spawnPoint) {
         distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - x), 2) + Math.pow(((playerWorldPos.y-50) - y), 2));
 
-        //step -= mobSpeed;
+
 
         double distanceX = playerWorldPos.x - x;
         double distanceY = playerWorldPos.y - y;
@@ -1766,7 +1751,7 @@ public class frame extends JFrame implements KeyListener {
                 }
 
 
-                //   y = (int) (slope * x + b);
+
 
 
 
@@ -1817,7 +1802,7 @@ public class frame extends JFrame implements KeyListener {
                 }
 
 
-                //   y = (int) (slope * x + b);
+
 
 
             } else {
@@ -2654,39 +2639,7 @@ public class frame extends JFrame implements KeyListener {
       rightAttack[swordNumber].setVisible(false);
     }
 
-       /* if(spacePressed) {
-            if (direction.equalsIgnoreCase("up")) {
-
-                upAttack.setOpaque(true);
-                backgroundPanel.setComponentZOrder(upAttack, 0);
-
-            } else if (direction.equalsIgnoreCase("down")) {
-
-                downAttack.setOpaque(true);
-                backgroundPanel.setComponentZOrder(downAttack, 0);
-
-            } else if (direction.equalsIgnoreCase("left")) {
-
-                LeftAttack.setOpaque(true);
-                backgroundPanel.setComponentZOrder(LeftAttack, 0);
-
-            } else if (direction.equalsIgnoreCase("right")) {
-
-                rightAttack.setOpaque(true);
-                backgroundPanel.setComponentZOrder(rightAttack, 0);
-
-
-            }
-
-        } else {
-            upAttack.setOpaque(false);
-            downAttack.setOpaque(false);
-            LeftAttack.setOpaque(false);
-            rightAttack.setOpaque(false);
-        }
-
-
-        */
+    
     }
 
 
@@ -2699,9 +2652,7 @@ public class frame extends JFrame implements KeyListener {
 
         Duration timeSinceLastImage = Duration.between(lastImageSwitchTime, LocalDateTime.now());
 
-      //  mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS)));
-
-
+     
 
         for(int i = 0; i < arrayImages.length; i++) {
 
@@ -2972,21 +2923,24 @@ public class frame extends JFrame implements KeyListener {
         gameLoop();
 
     }
-
+// This is the loop that the game control engine runs on.
     @Override
     public void keyPressed(KeyEvent e) {
+        // Until the start screen is no longer visible, the movement code will not run, and this code will
         if (startScreenVisible) {
         int key = e.getKeyCode();
 
 
-
+// This is where the menu switching occurs: if the down key is pressed, then it will increase the selection. 
         if (key == KeyEvent.VK_DOWN && !menuAlreadyChanged) {
             startSelection++;
 
             if (startSelection > 3) { 
                 startSelection = 1;
+//It then sets the menuAlreadyChanged boolean to true, which stops it from running again until the key has been released.
             menuAlreadyChanged = true;
             }
+// The same thing happens if the up key is pressed.
         } if (key == KeyEvent.VK_UP && !menuAlreadyChanged) {
             startSelection--;
 
@@ -2996,7 +2950,7 @@ public class frame extends JFrame implements KeyListener {
         }
     }
 
-
+// The arrow that indicates what selection you are on goes to a specific spot depending on what the startSelection variable is
         if (startSelection == 1) {
             currentSelection.setLocation(25,192);
         } else if (startSelection == 2) {
@@ -3005,11 +2959,11 @@ public class frame extends JFrame implements KeyListener {
             currentSelection.setLocation(25,392);
         }
         
-    
+    // This controls the actions that occur by checking if the space key is pressed and then what the selection is.
         if (key == KeyEvent.VK_SPACE) {
             switch (startSelection) {
                 case 1:
-                  //  gameStarted = true;
+// Sets all the menu items to not visible
                     startPlay.setVisible(false);
                     startCredits.setVisible(false);
                     startQuit.setVisible(false);
@@ -3017,6 +2971,7 @@ public class frame extends JFrame implements KeyListener {
                     SScredits.setVisible(false);
                     currentSelection.setVisible(false);
                     startScreenVisible = false;
+                    // Starts the game loop
                     fadeOutStartScreen();
                     try {
                         clip.stop();
@@ -3024,10 +2979,13 @@ public class frame extends JFrame implements KeyListener {
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
                         j.printStackTrace(); // Handle exceptions
                     }
-                 //   gameLoop();
+
                     return;
+ // This is all for the credits menu, which can be toggled on or off by pressing the spacebar
                 case 2: 
+                // Checks whether or not the credits are already on the screen
                     if (SScredits.isVisible() == false) {
+                    // Sets credit menu items to visible and the rest to invisible
                         SScredits.setVisible(true);
                         startMenu.setVisible(false);
                         startPlay.setVisible(false);
@@ -3035,6 +2993,7 @@ public class frame extends JFrame implements KeyListener {
                         startQuit.setVisible(false);
                         currentSelection.setVisible(false);
                     } else {
+                    // Does the reverse of the one before (removes the credits and puts up the regular start screen menu
                         SScredits.setVisible(false);
                         startMenu.setVisible(true);
                         startPlay.setVisible(true);
@@ -3044,8 +3003,10 @@ public class frame extends JFrame implements KeyListener {
                     }
                     
                     return;
+                    // Case 3 is when they have selected quit
                 case 3: 
                     System.exit(0);
+                    // Closes the game
 
                     break;
             }
@@ -3213,9 +3174,10 @@ public class frame extends JFrame implements KeyListener {
     }
     @Override
     public void keyReleased(KeyEvent e) {
-
+// If one of the keys is released, then the menuAlreadyChanged variable is set to false, ensuring that it doesn’t loop too quickly.
         int key = e.getKeyCode();
             if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_UP) {
+                // Changes the menu to false so you can press keys again
             menuAlreadyChanged = false;
     }
         switch (e.getKeyCode()) {
@@ -3235,22 +3197,7 @@ public class frame extends JFrame implements KeyListener {
                 pPressed = false;
                 placeCooldown = false;
             }
-         /*   case KeyEvent.VK_1 -> {
-                placeCooldown = false;
-                debug();
-            }
-            case KeyEvent.VK_2 -> {
-                placeCooldown = false;
-                debug();
-            }
-            case KeyEvent.VK_3 -> {
-                placeCooldown = false;
-                debug();
-            }
-            case KeyEvent.VK_4 -> {
-                placeCooldown = false;
-                debug();
-            } */
+ 
 
 
     }
