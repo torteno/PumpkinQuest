@@ -17,44 +17,45 @@ import java.time.*;
 public class frame extends JFrame implements KeyListener {
 
 
-    JLabel player;
+    JLabel player; // the player label that represents the player in the game
 
 
-    JLabel startScreen;
-    boolean startScreenVisible = true;
+    JLabel startScreen; // the start screen label that is displayed at the beginning of the game
+    boolean startScreenVisible = true; //sets the start screen to be visible at the start of the game
 
 
-    public Point position;
-    public int screenWidth, screenHeight;
+    public Point position; // the position of the camera in the world, used to determine what part of the game world is visible on the screen
+    public int screenWidth, screenHeight; // the width and height of the game screen, used to set the size of the game window and the camera view
 
-    int x, y;
-    int step = 6;
-    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false;
-    int moveTime, moveDir;
-    int tortlesMoveTime;
-    int tortlesMoveDir;
-    //FPS variable that can be changed (things are written in terms of FPS)
-    int FPS = 60;
-    double currentHealth = 3.0, maximumHealth = 3.0;
-    String direction = "down";
-    double distance;
-    double slope;
-    double b;
-    public static float volume = 0f;
-    boolean GUIOpen = true;
-    boolean [] NPCInteracted = new boolean [3];
-    int NPCNumber = 0;
-    boolean[] chestLooted = new boolean[14];
-    boolean[] pressChestOn = new boolean[14];
-    int messageDisDelay;
-    int playerDamage = 3;
-    String moveDirection = "down";
-    int tortlesMoveDirection = 0;
-    int tortlesDirection = 0;
-    boolean textDisappear = false;
-    int swordNumber = 0;
-    int textDisappearTime = 0;
-    int messageDisappearNumber = -1;
+    //declaration of variables that are used in the game, such as player position, movement, health, direction, and other game mechanics
+
+    int x, y; // player position
+    int step = 6; // player movement step size
+    boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false; // player movement flags
+    int moveTime, moveDir; // player movement time and direction
+    int tortlesMoveTime; // tortles movement time
+    int tortlesMoveDir; // tortles movement direction
+    int FPS = 60; // frames per second
+    double currentHealth = 3.0, maximumHealth = 3.0; // player health
+    String direction = "down"; // player direction
+    double distance; // distance moved by the player
+    double slope; // slope of the player's movement
+    double b; // y-intercept of the player's movement line
+    public static float volume = 0f; // volume of the game sounds
+    boolean GUIOpen = true; // GUI visibility flag
+    boolean [] NPCInteracted = new boolean [3]; // NPC interaction flags
+    int NPCNumber = 0; // current NPC number being interacted with
+    boolean[] chestLooted = new boolean[14]; // chest looted flags
+    boolean[] pressChestOn = new boolean[14]; // chest press interaction flags
+    int messageDisDelay; // message display delay
+    int playerDamage = 3; // player damage
+    String moveDirection = "down"; // player movement direction
+    int tortlesMoveDirection = 0; // tortles movement direction
+    int tortlesDirection = 0; // tortles direction
+    boolean textDisappear = false; // text disappearance flag
+    int swordNumber = 0; // sword upgrade number
+    int textDisappearTime = 0; // text disappearance time
+    int messageDisappearNumber = -1; // message disappearance number
 
 
     int grandmaDialogueIndex = -1;
@@ -66,6 +67,8 @@ public class frame extends JFrame implements KeyListener {
     JLabel[] wizardDialogueImages;
     JLabel[] villagerDialogueImages;
 
+
+    // creates maps for different attributes of the mobs and data that is getting stored.
 
     Map<UUID, Point> mobSpawnPoint = new HashMap<>();
     Map<JLabel, Point> AssetPoint = new HashMap<>();
@@ -82,9 +85,9 @@ public class frame extends JFrame implements KeyListener {
     Map <UUID, Long> MobAttackCurrentCoolDown = new HashMap<>();
     Map <UUID, LocalDateTime> TimeMobAttacked = new HashMap<>();
     Map <UUID, Duration> TimeSinceMobAttacked = new HashMap<>();
-    Map<UUID, Integer> projectileArrayPoint  = new HashMap<>();
-    Map<JLabel, String[]> mobFrameAnimationFrames = new HashMap<>();
-    ArrayList<Point> playerPastPositions = new ArrayList<>();
+ //   Map<UUID, Integer> projectileArrayPoint  = new HashMap<>();
+   // Map<JLabel, String[]> mobFrameAnimationFrames = new HashMap<>();
+  //  ArrayList<Point> playerPastPositions = new ArrayList<>();
 
 
 
@@ -92,42 +95,42 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-    ArrayList<Point> playerPastPoints = new ArrayList<>();
-    Map<String, ImageIcon> playerImages = new HashMap<>();
-    Map<String, ImageIcon> tortlesImages = new HashMap<>();
-    ArrayList<JLabel> obstacles = new ArrayList<>();
-    ArrayList<JLabel> passables = new ArrayList<>();
+    //ArrayList<Point> playerPastPoints = new ArrayList<>();
+    Map<String, ImageIcon> playerImages = new HashMap<>(); // stores the player images for different directions and actions
+    Map<String, ImageIcon> tortlesImages = new HashMap<>(); // stores the tortles images for different directions and actions
+    ArrayList<JLabel> obstacles = new ArrayList<>(); // stores the obstacles in the game, such as trees, rocks, and other barriers
+    ArrayList<JLabel> passables = new ArrayList<>(); // stores the passable objects in the game, such as doors, chests, and other interactable objects
 
-    ArrayList<Tile> backgroundTiles = new ArrayList<>();
-    playerMovement playerMovementInstance;
-    Camera CameraInstance;
-    public Point playerWorldPos = new Point(0, 0);
-    public Point SpawnPoint = new Point(2360, -678);
-    public Point debugPoint = new Point(0, 0);
+    ArrayList<Tile> backgroundTiles = new ArrayList<>(); // stores the background tiles for the game, used to create the game world
+    playerMovement playerMovementInstance; // instance of the player movement class that handles player movement and interactions with the game world
+    Camera CameraInstance; // instance of the camera class that handles the camera position and view in the game world
+    public Point playerWorldPos = new Point(0, 0); // the world position of the player, used to determine the player's position in the game world
+    public Point SpawnPoint = new Point(2360, -678); // the spawn point of the player, where the player starts in the game world
+    public Point debugPoint = new Point(0, 0); // a debug point used for testing and debugging purposes
 
-    JLabel coordinates = new JLabel();
-    BackgroundPanel backgroundPanel = new BackgroundPanel(null);
-    static Clip clip;
-    boolean gameStarted = false;
-    int setRespawnScreenCooldown = 0;
+    JLabel coordinates = new JLabel(); // label to display the player's coordinates in the game world, used for debugging and testing purposes
+    BackgroundPanel backgroundPanel = new BackgroundPanel(null); // background panel that displays the game background, used to create the game world
+    static Clip clip; // audio clip for background music and sound effects, used to enhance the game experience
+    boolean gameStarted = false; // flag to check if the game has started, used to control the game flow and logic
+    int setRespawnScreenCooldown = 0; // cooldown for the respawn screen, used to prevent the player from respawning too quickly after death
 
     //JLabel [] upAttack = new JLabel[7];
     //JLabel [] leftAttack = new JLabel[7];
     //JLabel [] downAttack = new JLabel[7];
     //JLabel [] rightAttack = new JLabel[7];
 
-    String savedDirection;
+    String savedDirection; // saves the direction of the player, used to determine the player's facing direction when attacking or interacting with objects
 
 
     boolean debugMode = true; // false to enable, true to disable
-    boolean placeCooldown = false;
-    int swordUpgrade = 0;
+    boolean placeCooldown = false; // cooldown for placing objects, used to prevent the player from placing objects too quickly
+    int swordUpgrade = 0; // the current sword upgrade level, used to determine the player's attack damage and reach
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
 
-    double tortlesAttackTwo = 3;
-    double tortlesAttackThree = 1.5;
+    //double tortlesAttackTwo = 3;
+    //double tortlesAttackThree = 1.5;
 
 
     JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0, false);
@@ -153,9 +156,11 @@ public class frame extends JFrame implements KeyListener {
 
    JLabel warp = assets(-1000, 1000, 100, 200, false, "images/assets/warpstone.png", false, 8, true);
 
+   //barrier for the large stretch of trees to the right of the player at spawn point
+
     JLabel treebarrier = assets(2775, -5800, 590, 7500, debugMode, "images/assets/manymanytrees.png", false, 8, true);
 
-
+    // array of respawn points in the game, each with a unique position and image
     JLabel[] respawnPoints = new JLabel[] {
            assets( 2550, -1250, 150, 200, false, "images/assets/RespawnPoint.png", false, 8, true),
            assets(2811 , -7825, 150, 200,  false, "images/assets/respawnPoint.png", false, 8, true),
@@ -163,6 +168,8 @@ public class frame extends JFrame implements KeyListener {
             assets(7283 , -645, 150, 200,  false, "images/assets/respawnPoint.png", false, 8, true),
            assets(14796 , -585, 150, 200,  false, "images/assets/respawnPoint.png", false, 8, true)
 };
+
+    //array of chests in the game, each with a unique position and image
 
     //An array of all the chest images. The order is important (in relation to the chest method)
     JLabel[] chestImages = new JLabel[] {
@@ -248,7 +255,7 @@ public class frame extends JFrame implements KeyListener {
    
 
 
-    JLabel tortles = mobCreation(21600, -2272, 200,376, "images/mob/tortles/downStanding.png", 2, 1000, 1, 150, 2, 800,1);
+    JLabel tortles = mobCreation(21600, -2272, 200,376, "images/mob/tortles/downStanding.png", 2, 1000, 1, 150, 3, 1600,1);
 
 // three npcs
     JLabel NPC = assets(2100,  -2000, 100, 200, false, "images/NPC/Grandma/grandma.png", false, 2, true);
@@ -289,9 +296,9 @@ public class frame extends JFrame implements KeyListener {
     JLabel warpArena = assets(2502 , -7564, 100, 200,  false, "images/assets/warpStone.png", false, 8, true);
     JLabel rockThird = assets( 2500, 2500, 200, 200, false, "images/assets/rock.png", false, 8, true);
 
-    // lots of tress
 
 
+    // all of the trees in the game as well as a few of the rocks
     JLabel Rock274736 = assets(2353 , -7107, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
     JLabel Rock3320042 = assets(2278 , -7257, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
     JLabel Rock2848022 = assets(2178 , -7432, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
@@ -1035,27 +1042,29 @@ public class frame extends JFrame implements KeyListener {
     };
 
 
-
+// Method to play audio files, takes in the file path, number of repeats, and volume
     public static void Sequencer(String input, int numRepeat, float volume) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        File file = new File(input);
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-        clip = AudioSystem.getClip();
-        clip.open(audioStream);
+        File file = new File(input); // Specify the path to your audio file
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file); // Create an AudioInputStream from the file
+        clip = AudioSystem.getClip(); // Get a Clip resource
+        clip.open(audioStream); // Open the audio stream in the clip
 
 
         //float volume = 1f; // adjust volume here
-        volumeChange(volume);
+        volumeChange(volume); // Set the volume of the clip
 
-        clip.start();
-        clip.loop(numRepeat);
+        clip.start(); // Start playing the audio clip
+        clip.loop(numRepeat); // Loop the audio clip for the specified number of times
 
     }
 
 
-
+// Method to start the game, starts when frame is called
 
     frame() {
 
+
+        // creates a new JFrame with the title "Pumpkin Quest", with a size of 1000x800 pixels, and sets it to close when the user clicks the close button
 
         super("Pumpkin Quest");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1065,9 +1074,9 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-        Image icon = new ImageIcon("images/mob/ghost").getImage();
+        Image icon = new ImageIcon("images/mob/ghost").getImage(); // Load the icon image for the JFrame
 
-        setIconImage(icon);
+        setIconImage(icon); // Set the icon image for the JFrame
 
         try {
             Sequencer("music/start.wav", 100, 1f); // Play the clip when the program starts
@@ -1094,7 +1103,7 @@ public class frame extends JFrame implements KeyListener {
                 ImageIcon tileIcon = new ImageIcon(new ImageIcon(tileFile.getPath()).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT));
 // Creates the JLabel (which lets us see the image), and sets it to the specific image and the specific scaling, position, etc
                 JLabel tileLabel = new JLabel(tileIcon);
-                tileLabel.setBounds(0, 0, tileSize, tileSize); 
+                tileLabel.setBounds(0, 0, tileSize, tileSize);
                 tileLabel.setOpaque(false);
                 backgroundPanel.setComponentZOrder(tileLabel, 10);
                 backgroundPanel.add(tileLabel);
@@ -1106,29 +1115,40 @@ public class frame extends JFrame implements KeyListener {
             }
         }
 
+        // Adds the start Screen
         startScreen = new JLabel(new ImageIcon(new ImageIcon("").getImage().getScaledInstance(1040, 780, Image.SCALE_DEFAULT)));
         startScreen.setBounds(0,-10, getWidth(), getHeight());
         startScreen.setOpaque(false);
         backgroundPanel.add(startScreen);
         backgroundPanel.setComponentZOrder(startScreen, 0);
 
-
+        //loads and scales the images for the player and tortles
         loadAndScalePlayerImages();
         loadAndScaleTortlesImages();
+
+        //makes points for the player, chest, and rock
 
         Point playerPoint = new Point(0, 0);
         Point chestPoint = new Point(1000, 2000);
         Point rockpoint = new Point(300, 600);
 
+
+        // makes the play JLabel, sets its bounds, and adds it to the background panel
         player = new JLabel(playerImages.get("downStanding"));
         player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, 100, 188);
         player.setOpaque(false);
         backgroundPanel.setComponentZOrder(player, 2);
 
+        // sets x and y to the player's position
+
         x = player.getX();
         y = player.getY();
+
+        // makes the playerWorldPos point, which is used to track the player's position in the world
         playerWorldPos.setLocation(2360, -678);
         CameraInstance = new Camera(super.getWidth(), super.getHeight(), player.getX(), player.getY());
+
+
 
         for (int i = 0; i < 7; i++) {
 
@@ -1143,18 +1163,24 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-
+        //adds the player to the panel
         backgroundPanel.add(player);
+
+        //sets the content Pane to the background Panel, adds a key listener and sets its visibiliy to true
 
         setContentPane(backgroundPanel);
         addKeyListener(this);
         setVisible(true);
+
+        // adds the coordinates
 
         coordinates.setBounds(900, 700, 100, 100);
 
         super.add(coordinates);
 
         backgroundPanel.setComponentZOrder(coordinates, 0);
+
+        //sets the players direction and makes an instance of the playerMovement class
 
         playerMovementInstance = new playerMovement(player, obstacles, playerImages, x, y, step, FPS, direction, upPressed, downPressed, leftPressed, rightPressed, playerWorldPos);
         moveDir = 1;
@@ -1163,7 +1189,7 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-
+// starts the game loop
         gameLoop();
 
     }
@@ -1469,12 +1495,16 @@ public class frame extends JFrame implements KeyListener {
                 playerMovementInstance.playerPosition();
                 CameraInstance.position = playerWorldPos;
 
+
                 placeholder--; //Resets counter back once frame complete
-                
+
+
 
             }
         }
     }
+
+
 
     public void fadeOutStartScreen() {
     
@@ -1929,7 +1959,7 @@ public class frame extends JFrame implements KeyListener {
         return new Point(x, y);
     }
 
-    public void tortlesAttack() {
+  /*  public void tortlesAttack() {
 
         distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - tortles.getX()), 2) + Math.pow(((playerWorldPos.y - 50) - tortles.getY()), 2));
 
@@ -1955,10 +1985,12 @@ public class frame extends JFrame implements KeyListener {
         }
 
 
-    }
+    } */ // unused method to shoot projectiles, we can use this later if we want to add projectiles to the game
 
 
 
+    //unused method to shoot projectiles
+    /*
     public Point ProjectTile(int x, int y, int projectileSpeed, int followDistance, Point playerPoint) {
         distance = Math.sqrt(Math.pow(((playerPoint.x - 40) - x), 2) + Math.pow(((playerPoint.y - 50) - y), 2));
 
@@ -2015,7 +2047,7 @@ public class frame extends JFrame implements KeyListener {
         }
 
         return new Point(x, y);
-    }
+    } */
 
 
 
@@ -2046,32 +2078,7 @@ public class frame extends JFrame implements KeyListener {
         return label;
     }
 
-    public JLabel mobCreation(int x, int y, int width, int height, String filePath, int zOrder, int health, double damage, int range, int speed, int followDistance, int attackCooldown, boolean isTortles) {
-        ImageIcon icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
-        JLabel label = new JLabel(icon);
-        label.setBounds(x, y, width, height);
-        label.setOpaque(false);
-        backgroundPanel.add(label);
-        backgroundPanel.setComponentZOrder(label, zOrder); // for mobs try to use either 1 or 2 idk we can change it later if it overlaps better
 
-        UUID mobID = UUID.randomUUID(); // creates a unique UUID for each mob, do not touch this lmao
-        mob.put(mobID, label);
-        reverseMobMap.put(label, mobID);
-        MobDamage.put(mobID, damage);
-        MobHealth.put(mobID, health);
-        MobReach.put(mobID, range);
-        MobSpeed.put(mobID, speed);
-        MobFollowDistance.put(mobID, followDistance);
-        MobAttackCooldown.put(mobID, attackCooldown);
-
-        Point MobPoint = new Point(x, y);
-        mobPoint.put(label, MobPoint);
-
-        mobSpawnPoint.put(mobID, new Point(MobPoint));
-
-
-        return label;
-    }
 
 //If armor is found in a chest, it increases health and maximum health by that amount
     public void armorIncrease(double armorInc) {
@@ -2645,7 +2652,7 @@ public class frame extends JFrame implements KeyListener {
 
                         break;
                     }
-                
+
                  case 11 : {
                      //This one gains armor: increasing health and max health
                         pressChest.setVisible(false);
@@ -2825,11 +2832,13 @@ public class frame extends JFrame implements KeyListener {
       rightAttack[swordNumber].setVisible(false);
     }
 
-    
+
     }
 
 
-    public String AnimationCore(String[] arrayImages, int timeBetweenImages) {
+    //unused animation core to make it easy to play animations
+
+  /*  public String AnimationCore(String[] arrayImages, int timeBetweenImages) {
         String currentImage = "";
 
         int maxArrayLenength = arrayImages.length - 1;
@@ -2838,7 +2847,8 @@ public class frame extends JFrame implements KeyListener {
 
         Duration timeSinceLastImage = Duration.between(lastImageSwitchTime, LocalDateTime.now());
 
-     
+      //  mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS)));
+
 
         for(int i = 0; i < arrayImages.length; i++) {
 
@@ -2849,7 +2859,7 @@ public class frame extends JFrame implements KeyListener {
 
 
         return currentImage;
-    }
+    } */
 
 
 
@@ -3118,7 +3128,7 @@ public class frame extends JFrame implements KeyListener {
         int key = e.getKeyCode();
 
 
-// This is where the menu switching occurs: if the down key is pressed, then it will increase the selection. 
+// This is where the menu switching occurs: if the down key is pressed, then it will increase the selection.
         if (key == KeyEvent.VK_DOWN && !menuAlreadyChanged) {
             startSelection++;
 
@@ -3169,7 +3179,7 @@ public class frame extends JFrame implements KeyListener {
 
                     return;
  // This is all for the credits menu, which can be toggled on or off by pressing the spacebar
-                case 2: 
+                case 2:
                 // Checks whether or not the credits are already on the screen
                     if (SScredits.isVisible() == false) {
                     // Sets credit menu items to visible and the rest to invisible
@@ -3191,7 +3201,7 @@ public class frame extends JFrame implements KeyListener {
                     
                     return;
                     // Case 3 is when they have selected quit
-                case 3: 
+                case 3:
                     System.exit(0);
                     // Closes the game
 
@@ -3384,7 +3394,7 @@ public class frame extends JFrame implements KeyListener {
                 pPressed = false;
                 placeCooldown = false;
             }
- 
+
 
 
     }

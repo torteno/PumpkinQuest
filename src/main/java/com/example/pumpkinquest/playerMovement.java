@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class playerMovement {
+
+    // declares the variables for direction, player and directions, position, and points
     String savedDirection;
     JLabel player;
     ArrayList<JLabel> obstacles;
@@ -18,6 +20,8 @@ public class playerMovement {
 
 
     public playerMovement(JLabel player, ArrayList<JLabel> obstacles, Map<String, ImageIcon> playerImages, int x, int y, int step, int FPS, String direction, boolean upPressed, boolean downPressed, boolean leftPressed, boolean rightPressed, Point playerWorldPos) {
+        //sets each variable to the data given from the frame class
+
         this.player = player;
         this.obstacles = obstacles;
         this.playerImages = playerImages;
@@ -42,6 +46,10 @@ public class playerMovement {
         int newX = x, newY = y;
         int newWorldX = playerWorldPos.x;
         int newWorldY = playerWorldPos.y;
+
+
+        // if statements for each direction, every 45 degrees, and detects for if there is a collsion and sets the new X and NewY variables dependant on
+        // which buttons you are pressing
 
         if (upPressed && leftPressed && !isCollision(x - step, y - step)) {
             newX -= step / Math.sqrt(2);
@@ -87,10 +95,16 @@ public class playerMovement {
 
 
 
+        // if there isnt a collision
+
         if (!isCollision(newX, newY)) {
 
 
+            //sets the player world positon to playerWorldPos.x, playerWorldPos.y
+
             playerWorldPos.setLocation(playerWorldPos.x, playerWorldPos.y);
+
+            //moves dependant on where the player is facing
 
         } else {
             if (upPressed) {
@@ -132,8 +146,10 @@ public class playerMovement {
         }
 
 
-        player.repaint();
+        player.repaint(); // repaints the player
     }
+
+    //checks if the player will overlap with one of the Jlabels that within the array for the obstacle and iterates through to check
 
     private boolean isCollision(int x, int y) {
         Rectangle playerBounds = new Rectangle(x, y, player.getWidth(), player.getHeight());
@@ -148,22 +164,28 @@ public class playerMovement {
 
 
 
-
+    // setsUp Pressed to the value of upPressed from the frame class
 
     public void setUpPressed(boolean upPressed) {
 
         this.upPressed = upPressed;
     }
 
+    // setsDown Pressed to the value of DownPressed from the frame class
+
     public void setDownPressed(boolean downPressed) {
 
         this.downPressed = downPressed;
     }
 
+    // setsLeft Pressed to the value of LeftPressed from the frame class
+
     public void setLeftPressed(boolean leftPressed) {
 
         this.leftPressed = leftPressed;
     }
+
+    // setsRIght Pressed to the value of rightPressed from the frame class
 
     public void setRightPressed(boolean rightPressed) {
 
