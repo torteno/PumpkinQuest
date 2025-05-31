@@ -1227,6 +1227,9 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+
+
+
     public void WeaponImageAngled(int degrees) {
 
         if(swordUpgrade == 1) {
@@ -1239,6 +1242,8 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
+    //creates mob points
+
     public void createMobPoint(int x, int y, JLabel assetName) {
 
         Point name = new Point(x, y);
@@ -1247,6 +1252,8 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+    // creates asset poins
+
     public void createAssetPoint(int x, int y, JLabel assetName) {
 
         Point name = new Point(x, y);
@@ -1254,6 +1261,10 @@ public class frame extends JFrame implements KeyListener {
         AssetPoint.put(assetName, name);
 
     }
+
+
+    //method to create assets that move relative to the players position
+
 
 
     public JLabel assets(int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque, int zOrder, boolean visible) {
@@ -1290,6 +1301,9 @@ public class frame extends JFrame implements KeyListener {
 
         return label;
     }
+
+
+    // method to create assets that do not move based on the player position, meaning they stay stationary on screen.
 
     public JLabel GUIassets(int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque, int zOrder, boolean visible) {
         ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
@@ -1504,7 +1518,7 @@ public class frame extends JFrame implements KeyListener {
         }
     }
 
-
+//fades out the start Screen.
 
     public void fadeOutStartScreen() {
     
@@ -1513,7 +1527,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
   
-
+//checks if the mob is alive.
 
     public boolean mobAlive(int mobHealth, UUID mobId) {
         mobHealth = MobHealth.get(mobId);
@@ -1527,6 +1541,8 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+
+    //method to remove all of the data of a mob when they are killed, so it saves performance
 
     public void mobRemove(UUID mobId) {
 
@@ -1550,6 +1566,8 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+
+    // method to attack mob in different directions, and detecks if the jlabel of the sword is intersecting with a mob, then it deals damage based on the playerDamage variable.
 
     public void AttackMob(String direction) {
 
@@ -1675,6 +1693,10 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+    // method for mob movment taking in speed, followDistance, and spawn Point. Uses linear equations for mob movement.
+
+    // if the player is outside of acertain range the mob returns to their spawn point
+
 
     public Point mobMovement(int x, int y, int mobSpeed, int followDistance, Point spawnPoint) {
         distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - x), 2) + Math.pow(((playerWorldPos.y-50) - y), 2));
@@ -1789,6 +1811,12 @@ public class frame extends JFrame implements KeyListener {
         return new Point(x, y);
     }
 
+
+    // method for mob movment taking in speed, followDistance, and spawn Point. Uses linear equations for mob movement.
+
+    // if the player is outside of acertain range the mob returns to their spawn point
+
+    // changes Tortles animation based on the position of the player
 
     public Point TortlesMovement(int x, int y, int mobSpeed, int followDistance, Point spawnPoint) {
         distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - x), 2) + Math.pow(((playerWorldPos.y-50) - y), 2));
@@ -2051,6 +2079,8 @@ public class frame extends JFrame implements KeyListener {
 
 
 
+    //method to create mobs with all of the nessicary attributes
+
     public JLabel mobCreation(int x, int y, int width, int height, String filePath, int zOrder, int health, double damage, int range, int speed, int followDistance, int attackCooldown) {
         ImageIcon icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         JLabel label = new JLabel(icon);
@@ -2129,6 +2159,8 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+    //method for the mobs to attack the player
+
 
     public void mobAttack() {
 
@@ -2187,7 +2219,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-
+//method to detect if the player is interacting with chests, portals, NPC's, and respawn points
     public void interacting() {
 //All the interacting code (methods) is put in here for ease of use and run in the game loop
         chest();
@@ -2250,6 +2282,8 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+
+    //detects if the player is interactign with a Portal JLabel
 
     public void portalInteraction() {
 
@@ -2428,6 +2462,7 @@ public class frame extends JFrame implements KeyListener {
 
     }
 
+    // detectes if the player is interacting with a respawnPoint Jlabel, and if they are, and they press e it sets their spawn at a certain location.
 
     public void respawnPoint() {
 
@@ -2948,8 +2983,7 @@ public class frame extends JFrame implements KeyListener {
     }
 
 
-
-
+    //method to change the volume
     public static void volumeChange(float volumeChange) {
 
         volume += volumeChange;
@@ -2964,7 +2998,10 @@ public class frame extends JFrame implements KeyListener {
         FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         float dB = (float) (Math.log10(volume) * 20); // Convert volume (0.0 to 1.0) to decibels
         volumeControl.setValue(dB);
+
     }
+
+    //creates the debug Jlabels to allow the devs to place down certain objects
     JLabel debugChest = GUIassets(1000/2, 800/2, 150, 150,  false, "images/assets/chest.png", false, 8, false);
     JLabel debugRock = GUIassets(1000/2, 800/2, 100, 100,  false, "images/assets/rock.png", false, 8, false);
     JLabel debugwarpStone = GUIassets(1000/2, 800/2, 200, 200, false, "images/assets/warpstone.png", false, 8, false);
@@ -2974,6 +3011,8 @@ public class frame extends JFrame implements KeyListener {
     JLabel debugHouseTwo = GUIassets(1000/2, 800/2, 400, 400, false, "images/assets/houses/houseTwo.png", false, 8, false);
     JLabel debugLittleBush = GUIassets(1000/2, 800/2, 100, 100, false, "images/assets/littlebush.png", false, 8, false);
 
+
+    //allows the player to debug and place down objects and gather the code to make them permanent
 
     public void debug() {
 
