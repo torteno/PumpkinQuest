@@ -30,7 +30,7 @@ public class frame extends JFrame implements KeyListener {
     //declaration of variables that are used in the game, such as player position, movement, health, direction, and other game mechanics
 
     int x, y; // player position
-    int step = 6; // player movement step size
+    int step = 25; // player movement step size
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false; // player movement flags
     int moveTime, moveDir; // player movement time and direction
     int tortlesMoveTime; // tortles movement time
@@ -122,9 +122,10 @@ public class frame extends JFrame implements KeyListener {
     String savedDirection; // saves the direction of the player, used to determine the player's facing direction when attacking or interacting with objects
 
 
-    boolean debugMode = true; // false to enable, true to disable
+    boolean debugMode = false; // false to enable, true to disable
     boolean placeCooldown = false; // cooldown for placing objects, used to prevent the player from placing objects too quickly
     int swordUpgrade = 0; // the current sword upgrade level, used to determine the player's attack damage and reach
+    boolean gameOver = false;
 
     //JLabel cordBox = assets(20, 20, 75, 75, false, "images/GUI/coordinateBox.png", false);
 
@@ -132,6 +133,13 @@ public class frame extends JFrame implements KeyListener {
     //double tortlesAttackTwo = 3;
     //double tortlesAttackThree = 1.5;
 
+
+
+    // this section creates the GUI assets that are used in the game, such as buttons, labels, and images
+    // these assets are used to display information, interact with the player, and enhance the game experience
+    // some of them that use GUIassets are used to display text, images, and other information on the screen, but they dont move
+    // while others that use assets are used to create interactive objects, such as buttons, labels, and images that can be clicked or interacted with by the player
+    // each asset is created with a specific position, size, visibility, image file, if they are an obstacle, if they are opaque, and the z-index for rendering order
 
     JLabel press = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0, false);
     JLabel pressChest = GUIassets(125, 700, 760, 40, false, "images/GUI/pressE.png", false, 0, false);
@@ -274,6 +282,13 @@ public class frame extends JFrame implements KeyListener {
 
 
     //JLabel waterBarrier = assets(0, 900, 4800, 800, true, "", false, 3 , false);
+
+    JLabel endScreen = GUIassets(0,0, 1000, 1000, false, "images/GUI/gameOver.png", false, 2, false);
+    JLabel escToQuit = GUIassets(100,500, 800 , 300, false, "images/GUI/escToQuit.png", false, 2, false);
+    JLabel pumpkin = GUIassets(400,100, 200, 200, false, "images/GUI/pumpkin.png", false, 2, false);
+
+
+    JLabel controls = GUIassets(550, 50, 400, 600,false, "images/GUI/controls.png", false, 0, true);
 
     JLabel SScredits = GUIassets(0, 0, 1040, 780,false, "images/GUI/creditsScreen.png", false, 2, true);
     JLabel startMenu = GUIassets(0,0, 1000, 1000, false, "images/GUI/placeHolderStart.png", false, 2, true);
@@ -1195,12 +1210,12 @@ public class frame extends JFrame implements KeyListener {
     }
 
     class Tile {
-        JLabel label;
-        Point worldPos;
+        JLabel label; // This is the JLabel that represents the tile
+        Point worldPos; // This is the position of the tile in the world
 
-        Tile(JLabel label, Point worldPos) {
-            this.label = label;
-            this.worldPos = worldPos;
+        Tile(JLabel label, Point worldPos) { // called when a new tile is created
+            this.label = label; // This is the JLabel that represents the tile
+            this.worldPos = worldPos; // This is the position of the tile in the world
         }
     }
 
@@ -1217,6 +1232,8 @@ public class frame extends JFrame implements KeyListener {
         }
     }
 
+
+    // similar to the player images, this loads and scales the tortles images
     private void loadAndScaleTortlesImages() {
         String[] imageNames = {"downStanding", "downFore", "downBack", "upStanding", "upFore", "upBack", "rightStanding", "rightFore", "rightBack", "leftStanding", "leftFore", "leftBack"};
         for (String name : imageNames) {
@@ -1230,11 +1247,13 @@ public class frame extends JFrame implements KeyListener {
 
 
 
+
+    // Method to rotate the weapon image based on the angle provided
     public void WeaponImageAngled(int degrees) {
 
         if(swordUpgrade == 1) {
-            ImageIcon icon = new ImageIcon("images/equipment/right_wood.png");
-            ImageIcon image = new ImageIcon(icon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+            ImageIcon icon = new ImageIcon("images/equipment/right_wood.png"); // Load the image for the wood sword
+            ImageIcon image = new ImageIcon(icon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)); // Scale the image to 100x100 pixels
 
         }
 
@@ -1268,93 +1287,93 @@ public class frame extends JFrame implements KeyListener {
 
 
     public JLabel assets(int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque, int zOrder, boolean visible) {
-        ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
-        JLabel label = new JLabel(Icon);
-        label.setBounds(x, y, width, height);
-        if (obstacle) {
+        ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT)); // Load and scale the image from the specified file path
+        JLabel label = new JLabel(Icon); // Create a JLabel with the scaled image
+        label.setBounds(x, y, width, height); // Set the bounds of the JLabel to the specified x, y, width, and height
+        if (obstacle) { // If the asset is an obstacle, add it to the obstacles list, else add it to the passables list
             obstacles.add(label);
         } else {
             passables.add(label);
         }
 
         if (opaque) {
-            label.setOpaque(true);
+            label.setOpaque(true); // If the asset should be opaque, set the JLabel to be opaque
         } else {
-            label.setOpaque(false);
+            label.setOpaque(false); // If the asset should not be opaque, set the JLabel to be transparent
         }
 
-        backgroundPanel.add(label);
+        backgroundPanel.add(label); // Add the JLabel to the background panel
 
-        Point assetPoint = new Point(x, y);
-        AssetPoint.put(label, assetPoint);
+        Point assetPoint = new Point(x, y); // Create a Point object to store the asset's position
+        AssetPoint.put(label, assetPoint); // Store the asset's position in the AssetPoint map
 
         if(visible) {
-            label.setVisible(true);
+            label.setVisible(true); // If the asset should be visible, set the JLabel to be visible
         } else {
-            label.setVisible(false);
+            label.setVisible(false); // If the asset should not be visible, set the JLabel to be invisible
         }
 
-        int maxZOrder = backgroundPanel.getComponentCount() - 1; // fixed with gpt
-        zOrder = Math.max(0, Math.min(zOrder, maxZOrder)); // fixed with gpt
-        backgroundPanel.setComponentZOrder(label, zOrder);
+        int maxZOrder = backgroundPanel.getComponentCount() - 1; // fixed with gpt // Get the maximum z-order based on the number of components in the background panel
+        zOrder = Math.max(0, Math.min(zOrder, maxZOrder)); // fixed with gpt // Ensure the z-order is within valid bounds (0 to maxZOrder)
+        backgroundPanel.setComponentZOrder(label, zOrder); // Set the z-order of the JLabel in the background panel to the specified zOrder
 
 
-        return label;
+        return label; // Return the JLabel representing the asset
     }
 
 
     // method to create assets that do not move based on the player position, meaning they stay stationary on screen.
 
     public JLabel GUIassets(int x, int y, int width, int height, boolean obstacle, String filePath, boolean opaque, int zOrder, boolean visible) {
-        ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
-        JLabel label = new JLabel(Icon);
-        label.setBounds(x, y, width, height);
+        ImageIcon Icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT)); // Load and scale the image from the specified file path
+        JLabel label = new JLabel(Icon); // Create a JLabel with the scaled image
+        label.setBounds(x, y, width, height); // Set the bounds of the JLabel to the specified x, y, width, and height
         if (obstacle) {
-            obstacles.add(label);
+            obstacles.add(label); // If the asset is an obstacle, add it to the obstacles list
         } else {
-            passables.add(label);
+            passables.add(label); // If the asset is not an obstacle, add it to the passables list
         }
 
         if (opaque) {
-            label.setOpaque(true);
+            label.setOpaque(true); // If the asset should be opaque, set the JLabel to be opaque
         } else {
-            label.setOpaque(false);
+            label.setOpaque(false); // If the asset should not be opaque, set the JLabel to be transparent
         }
 
-        backgroundPanel.add(label);
+        backgroundPanel.add(label); // Add the JLabel to the background panel
 
         if(visible) {
-            label.setVisible(true);
+            label.setVisible(true); // If the asset should be visible, set the JLabel to be visible
         } else {
-            label.setVisible(false);
+            label.setVisible(false); // If the asset should not be visible, set the JLabel to be invisible
         }
 
-        int maxZOrder = backgroundPanel.getComponentCount() - 1; // fixed with gpt
-        zOrder = Math.max(0, Math.min(zOrder, maxZOrder)); // fixed with gpt
-        backgroundPanel.setComponentZOrder(label, zOrder);
+        int maxZOrder = backgroundPanel.getComponentCount() - 1; // fixed with gpt // Get the maximum z-order based on the number of components in the background panel
+        zOrder = Math.max(0, Math.min(zOrder, maxZOrder)); // fixed with gpt // Ensure the z-order is within valid bounds (0 to maxZOrder)
+        backgroundPanel.setComponentZOrder(label, zOrder); // Set the z-order of the JLabel in the background panel to the specified zOrder
 
 
-        return label;
+        return label; // Return the JLabel representing the asset
     }
 
 //Main game loop: All game code is run in this method (called once at start)
     private void gameLoop() {
         //Creates a timer system for the FPS system (using nanoTime to be precise)
-        long previousTime = System.nanoTime();
-        double placeholder = 0;
-        long currentTime;
-        double timePerFrame = 1_000_000_000.0 / FPS;
+        long previousTime = System.nanoTime(); // Variable to hold the previous time in nanoseconds
+        double placeholder = 0; // Placeholder to keep track of how many frames have passed
+        long currentTime; // Variable to hold the current time in nanoseconds
+        double timePerFrame = 1_000_000_000.0 / FPS; // Calculates the time per frame in nanoseconds based on the desired FPS (frames per second)
 
 
 //All game code is run in this loop. Whenever the time per frame is reached (currently 1/60th of a second), the code is run.
         while(true) {
             //Counts how much time has passed
-            currentTime = System.nanoTime();
-            placeholder += (currentTime - previousTime) / timePerFrame;
-            previousTime = currentTime;
+            currentTime = System.nanoTime(); // Gets the current time in nanoseconds
+            placeholder += (currentTime - previousTime) / timePerFrame; // Calculates how many frames have passed since the last update
+            previousTime = currentTime; // Updates the previous time to the current time for the next iteration
             //If one frame has passed it runs code
-            if (placeholder >= 1) {
-                interacting();
+            if (placeholder >= 1) { // If enough time has passed for one frame
+                interacting(); // Calls the interacting method to handle player interactions
 
 
                 //player.setBounds(super.getWidth() / 2 - 50, super.getHeight() / 2 - 100, player.getWidth(), player.getHeight());
@@ -1366,7 +1385,7 @@ public class frame extends JFrame implements KeyListener {
                 iceSpikeOne.repaint();
                 iceSpikeTwo.repaint();
                 //comment this when we want to submit
-                coordinates.setText((int) playerWorldPos.getX() + " " + (int) playerWorldPos.getY());
+                coordinates.setText((int) playerWorldPos.getX() + " " + (int) playerWorldPos.getY()); // Displays the player's world position in the coordinates JLabel
 
 
                 //System.out.println(ghostWorldPos);
@@ -1453,61 +1472,61 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-                if (!GUIOpen) {
+                if (!GUIOpen) { // If the GUI is not open, the game will run normally
                     backgroundPanel.setComponentZOrder(player, 0);
                 }
 
 
 
                 for (Map.Entry<JLabel, Point> entry : mobPoint.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
+                    // This iterates through the mobPoint map, which contains JLabels and their corresponding Point positions
+                    JLabel mobLabel = entry.getKey(); // gets the JLabel of the mob from the mobPoint map
+                    Point mobPoints = entry.getValue(); // gets the Point position of the mob from the mobPoint map
 
-                    JLabel mobLabel = entry.getKey();
-                    Point mobPoints = entry.getValue();
+                    UUID mobID = reverseMobMap.get(mobLabel); // gets the UUID of the mob from the reverseMobMap, which maps JLabels to UUIDs
 
-                    UUID mobID = reverseMobMap.get(mobLabel);
+                    Integer mobSpeed = MobSpeed.get(mobID); // gets the speed of the mob from the MobSpeed map
+                    Integer mobFollowDistance = MobFollowDistance.get(mobID); // gets the follow distance of the mob from the MobFollowDistance map
 
-                    Integer mobSpeed = MobSpeed.get(mobID);
-                    Integer mobFollowDistance = MobFollowDistance.get(mobID);
-
-                    Point mobSpawnpoint = mobSpawnPoint.get(mobID);
+                    Point mobSpawnpoint = mobSpawnPoint.get(mobID); // gets the spawn point of the mob from the mobSpawnPoint map
 
                     if (mobSpeed == null || mobFollowDistance == null) {  // thanks gpt for this if statement to fix the error
                         continue; // Skip this mob if data is missing
                     }
 
-                    if(mobLabel == tortles) {
+                    if(mobLabel == tortles) { // If the mob is a tortles, it uses the TortlesMovement method
                         mobPoints = TortlesMovement((int) mobPoints.getX(), (int) mobPoints.getY(), mobSpeed, mobFollowDistance, mobSpawnpoint);
-                    } else {
-                        mobPoints = mobMovement((int) mobPoints.getX(), (int) mobPoints.getY(), mobSpeed, mobFollowDistance, mobSpawnpoint);
+                    } else { // If the mob is not a tortles, it uses the mobMovement method
+                        mobPoints = mobMovement((int) mobPoints.getX(), (int) mobPoints.getY(), mobSpeed, mobFollowDistance, mobSpawnpoint); // sets the mobPoints to the return value of the mobMovement method, which calculates the new position of the mob based on its speed and follow distance
                     }
-                    mobPoint.put(mobLabel, mobPoints);
-                    mobLabel.setLocation(CameraInstance.worldToScreen(mobPoints));
+                    mobPoint.put(mobLabel, mobPoints); // updates the mobPoint map with the new position of the mob
+                    mobLabel.setLocation(CameraInstance.worldToScreen(mobPoints)); // sets the location of the mob JLabel to the new position calculated by the mobMovement method, converting the world position to screen coordinates using the CameraInstance
                     // System.out.println("Mob Point: " + mobPoints);
                 }
 
 
-                for (Tile tile : backgroundTiles) {
-                    Point screenPos = CameraInstance.worldToScreen(tile.worldPos);
-                    tile.label.setLocation(screenPos);
+                for (Tile tile : backgroundTiles) { // This iterates through the backgroundTiles list, which contains Tile objects with JLabel and Point positions
+                    Point screenPos = CameraInstance.worldToScreen(tile.worldPos); // Converts the world position of the tile to screen coordinates using the CameraInstance
+                    tile.label.setLocation(screenPos); // Sets the location of the tile JLabel to the screen position calculated by the CameraInstance
                 }
 
                 for (Map.Entry<JLabel, Point> entry : AssetPoint.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
 
-                    JLabel MobLabel = entry.getKey();
-                    Point mobPoint = entry.getValue();
+                    JLabel MobLabel = entry.getKey(); // gets the JLabel of the asset from the AssetPoint map
+                    Point mobPoint = entry.getValue(); // gets the Point position of the asset from the AssetPoint map
 
-                    MobLabel.setLocation(CameraInstance.worldToScreen(mobPoint));
+                    MobLabel.setLocation(CameraInstance.worldToScreen(mobPoint)); // sets the location of the asset JLabel to the screen position calculated by the CameraInstance
                 }
 
                 try {
-                    mobAttack();
+                    mobAttack(); // Calls the mobAttack method to check if any mobs are being attacked by the player
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); // Handles any exceptions that may occur during the mobAttack method
                 }
 
 
-                playerMovementInstance.playerPosition();
-                CameraInstance.position = playerWorldPos;
+                playerMovementInstance.playerPosition(); // Calls the playerPosition method of the playerMovementInstance to update the player's position based on the movement inputs
+                CameraInstance.position = playerWorldPos; // Updates the CameraInstance's position to the player's world position, so the camera follows the player
 
 
                 placeholder--; //Resets counter back once frame complete
@@ -1529,40 +1548,58 @@ public class frame extends JFrame implements KeyListener {
   
 //checks if the mob is alive.
 
-    public boolean mobAlive(int mobHealth, UUID mobId) {
-        mobHealth = MobHealth.get(mobId);
 
-        if (mobHealth <= 0) {
-            mobRemove(mobId);
-            return false;
-        } else {
-            return true;
+
+    public boolean mobAlive(int mobHealth, UUID mobId) {
+        mobHealth = MobHealth.get(mobId); // gets the health of the mob from the MobHealth map
+
+
+
+
+
+        if (mobHealth <= 0) { // if the mob health is less than or equal to 0, it removes the mob
+            mobRemove(mobId); // calls the mobRemove method to remove the mob from the game
+            return false; // returns false to indicate that the mob is not alive
+        } else { // if the mob health is greater than 0, it returns true to indicate that the mob is alive
+            return true; // returns true to indicate that the mob is alive
         }
 
     }
 
 
-    //method to remove all of the data of a mob when they are killed, so it saves performance
 
+
+
+    //method to remove all of the data of a mob when they are killed, so it saves performance
+    // this method is called when a mob is killed, it removes the mob from the game and all of its data from the maps
     public void mobRemove(UUID mobId) {
 
         JLabel mobLabel = mob.get(mobId);
-        mobLabel.setVisible(false);
-        mobLabel.repaint();
-        backgroundPanel.remove(mobLabel);
-        MobHealth.remove(mobId);
-        MobDamage.remove(mobId);
-        MobReach.remove(mobId);
-        MobSpeed.remove(mobId);
-        MobFollowDistance.remove(mobId);
-        reverseMobMap.remove(mobLabel);
-        mob.remove(mobId);
-        MobAttackCooldown.remove(mobId);
-        MobAttackCurrentCoolDown.remove(mobId);
-        MobDistance.remove(mobId);
-        TimeMobAttacked.remove(mobId);
-        TimeSinceMobAttacked.remove(mobId);
-        mobSpawnPoint.remove(mobId);
+
+
+
+        if(mobLabel == tortles) { // if the mob is tortles, it will play the gameover method
+
+            gameOver();
+        }
+
+        // gets the JLabel of the mob from the mob map
+        mobLabel.setVisible(false); // sets the JLabel of the mob to not visible, so it is not rendered on the screen
+        mobLabel.repaint(); // repaints the JLabel of the mob to remove it from the screen
+        backgroundPanel.remove(mobLabel); // removes the JLabel of the mob from the background panel, so it is not rendered on the screen anymore
+        MobHealth.remove(mobId); // removes the mob's health from the MobHealth map
+        MobDamage.remove(mobId); // removes the mob's damage from the MobDamage map
+        MobReach.remove(mobId); // removes the mob's reach from the MobReach map
+        MobSpeed.remove(mobId); // removes the mob's speed from the MobSpeed map
+        MobFollowDistance.remove(mobId); // removes the mob's follow distance from the MobFollowDistance map
+        reverseMobMap.remove(mobLabel); // removes the mob's ID from the reverseMobMap, which maps JLabels to UUIDs
+        mob.remove(mobId); // removes the mob from the mob map, which maps UUIDs to JLabels
+        MobAttackCooldown.remove(mobId); // removes the mob's attack cooldown from the MobAttackCooldown map
+        MobAttackCurrentCoolDown.remove(mobId); // removes the mob's current attack cooldown from the MobAttackCurrentCoolDown map
+        MobDistance.remove(mobId); // removes the mob's distance from the MobDistance map
+        TimeMobAttacked.remove(mobId); // removes the time since the mob was attacked from the TimeSinceMobAttacked map
+        TimeSinceMobAttacked.remove(mobId); // removes the time since the mob was attacked from the TimeSinceMobAttacked map
+        mobSpawnPoint.remove(mobId); // removes the mob's spawn point from the mobSpawnPoint map
 
     }
 
@@ -1571,27 +1608,27 @@ public class frame extends JFrame implements KeyListener {
 
     public void AttackMob(String direction) {
 
-        switch (direction) {
+        switch (direction) { // switch statement to check the direction of the attack, so it can use the correct sword image and check for intersection with the mob
             case "up" -> {
 
 
-
+                // loops through the mob map, which contains all the mobs in the game, and checks if the upAttack JLabel intersects with the mob JLabel
                 for (Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
-
+                    // checks if the upAttack JLabel intersects with the mob JLabel, if it does, it deals damage to the mob
                     if(upAttack[swordNumber].getBounds().intersects(entry.getValue().getBounds())) {
 
-                        UUID mobID = entry.getKey();
-                        JLabel mobLabel = entry.getValue();
+                        UUID mobID = entry.getKey(); // gets the UUID of the mob from the entry set
+                        JLabel mobLabel = entry.getValue(); // gets the JLabel of the mob from the entry set
 
 
-                        int mobHealth = MobHealth.get(mobID);
+                        int mobHealth = MobHealth.get(mobID); // gets the health of the mob from the MobHealth map
 
-                        mobHealth -= playerDamage;
+                        mobHealth -= playerDamage; // subtracts the playerDamage from the mob's health
 
-                        MobHealth.put(mobID, mobHealth);
+                        MobHealth.put(mobID, mobHealth); // updates the mob's health in the MobHealth map
 
-                        if (mobHealth <= 0) {
-                            mobRemove(mobID);
+                        if (mobHealth <= 0) { // checks if the mob's health is less than or equal to 0, if it is, it removes the mob from the game
+                            mobRemove(mobID); // calls the mobRemove method to remove the mob from the game
                         } else {
 
                         }
@@ -1600,7 +1637,7 @@ public class frame extends JFrame implements KeyListener {
                     }
                 }
 
-            }
+            } //continue to the next 3 cases for the other directions
             case "down" -> {
 
                 for (Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
@@ -1697,47 +1734,47 @@ public class frame extends JFrame implements KeyListener {
 
     // if the player is outside of acertain range the mob returns to their spawn point
 
-
+    // method for mob movement, takes in the x and y position of the mob, the speed of the mob, the follow distance, and the spawn point of the mob.
     public Point mobMovement(int x, int y, int mobSpeed, int followDistance, Point spawnPoint) {
-        distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - x), 2) + Math.pow(((playerWorldPos.y-50) - y), 2));
+        distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - x), 2) + Math.pow(((playerWorldPos.y-50) - y), 2)); // calculates the distance between the player and the mob using the distance formula
 
 
 
 
-        if (distance <= followDistance && distance >= 100) {
+        if (distance <= followDistance && distance >= 100) { // if the distance between the player and the mob is less than or equal to the follow distance and greater than or equal to 100, the mob will follow the player
 
-            double distanceX = playerWorldPos.x - x;
-            double distanceY = playerWorldPos.y - y;
+            double distanceX = playerWorldPos.x - x; // calculates the distance between the player and the mob in the x direction
+            double distanceY = playerWorldPos.y - y; // calculates the distance between the player and the mob in the y direction
 
-            slope = (double) (playerWorldPos.y - y) / (playerWorldPos.x - x);
+            slope = (double) (playerWorldPos.y - y) / (playerWorldPos.x - x); // calculates the slope of the line between the player and the mob
 
-            b = playerWorldPos.y - slope * playerWorldPos.x;
-
-
-            if (distanceX != 0) {
-
-                double slope = distanceY / distanceX;
-                double b = playerWorldPos.y - slope * playerWorldPos.x;
+            b = playerWorldPos.y - slope * playerWorldPos.x; // calculates the y-intercept of the line between the player and the mob
 
 
-                if(Math.abs(distanceX) > Math.abs(distanceY)) {
-                    if (playerWorldPos.x > x) {
-                        x += mobSpeed;
+            if (distanceX != 0) { // if the distance between the player and the mob in the x direction is not equal to 0, the mob will move towards the player
+
+                double slope = distanceY / distanceX; // calculates the slope of the line between the player and the mob in the x direction
+                double b = playerWorldPos.y - slope * playerWorldPos.x; // calculates the y-intercept of the line between the player and the mob in the x direction
+
+
+                if(Math.abs(distanceX) > Math.abs(distanceY)) { // if the absolute value of the distance between the player and the mob in the x direction is greater than the absolute value of the distance between the player and the mob in the y direction, the mob will move towards the player in the x direction
+                    if (playerWorldPos.x > x) { // if the player's x position is greater than the mob's x position, the mob will move towards the player in the x direction
+                        x += mobSpeed; // increments the mob's x position by the mob's speed
 
                     } else {
-                        x -= mobSpeed;
+                        x -= mobSpeed; // decrements the mob's x position by the mob's speed
                     }
 
-                    y = (int) (slope * x + b);
+                    y = (int) (slope * x + b); // calculates the mob's y position based on the slope and the mob's x position
                 } else {
 
-                    if (playerWorldPos.y > y) {
+                    if (playerWorldPos.y > y) { // if the player's y position is greater than the mob's y position, the mob will move towards the player in the y direction
                         y += mobSpeed;
                     } else {
                         y -= mobSpeed;
                     }
 
-                    x = (int) ((y - b) / slope);
+                    x = (int) ((y - b) / slope); // calculates the mob's x position based on the slope and the mob's y position
 
                 }
 
@@ -1748,7 +1785,7 @@ public class frame extends JFrame implements KeyListener {
 
             } else {
 
-                if (playerWorldPos.y > y) {
+                if (playerWorldPos.y > y) { // if the player's y position is greater than the mob's y position, the mob will move towards the player in the y direction
                     y += mobSpeed;
                 } else {
                     y -= mobSpeed;
@@ -1756,39 +1793,39 @@ public class frame extends JFrame implements KeyListener {
 
 
             }
-        } else if(distance >= 200) {
-            double distanceSpawnPointX = spawnPoint.x - x;
-            double distanceSpawnPointY = spawnPoint.y - y;
+        } else if(distance >= 200) { // if the distance between the player and the mob is greater than or equal to 200, the mob will return to its spawn point
+            double distanceSpawnPointX = spawnPoint.x - x; // calculates the distance between the spawn point and the mob in the x direction
+            double distanceSpawnPointY = spawnPoint.y - y; // calculates the distance between the spawn point and the mob in the y direction
 
-            slope = (double) (spawnPoint.y - y) / (spawnPoint.x - x);
+            slope = (double) (spawnPoint.y - y) / (spawnPoint.x - x); // calculates the slope of the line between the spawn point and the mob
 
-            b = spawnPoint.y - slope * spawnPoint.x;
-
-
-            if (distanceSpawnPointX != 0) {
-
-                double slope = distanceSpawnPointY / distanceSpawnPointX;
-                double b = spawnPoint.y - slope * spawnPoint.x;
+            b = spawnPoint.y - slope * spawnPoint.x; // calculates the y-intercept of the line between the spawn point and the mob
 
 
-                if (Math.abs(distanceSpawnPointX) > Math.abs(distanceSpawnPointY)) {
-                    if (spawnPoint.x > x) {
-                        x += mobSpeed;
+            if (distanceSpawnPointX != 0) { // if the distance between the spawn point and the mob in the x direction is not equal to 0, the mob will move towards its spawn point
+
+                double slope = distanceSpawnPointY / distanceSpawnPointX; // calculates the slope of the line between the spawn point and the mob in the x direction
+                double b = spawnPoint.y - slope * spawnPoint.x; // calculates the y-intercept of the line between the spawn point and the mob in the x direction
+
+
+                if (Math.abs(distanceSpawnPointX) > Math.abs(distanceSpawnPointY)) { // if the absolute value of the distance between the spawn point and the mob in the x direction is greater than the absolute value of the distance between the spawn point and the mob in the y direction, the mob will move towards its spawn point in the x direction
+                    if (spawnPoint.x > x) { // if the spawn point's x position is greater than the mob's x position, the mob will move towards its spawn point in the x direction
+                        x += mobSpeed; // increments the mob's x position by the mob's speed
 
                     } else {
-                        x -= mobSpeed;
+                        x -= mobSpeed; // decrements the mob's x position by the mob's speed
                     }
 
-                    y = (int) (slope * x + b);
+                    y = (int) (slope * x + b); // calculates the mob's y position based on the slope and the mob's x position
                 } else {
 
-                    if (spawnPoint.y > y) {
+                    if (spawnPoint.y > y) { // if the spawn point's y position is greater than the mob's y position, the mob will move towards its spawn point in the y direction
                         y += mobSpeed;
                     } else {
                         y -= mobSpeed;
                     }
 
-                    x = (int) ((y - b) / slope);
+                    x = (int) ((y - b) / slope); // calculates the mob's x position based on the slope and the mob's y position
 
                 }
 
@@ -1798,7 +1835,7 @@ public class frame extends JFrame implements KeyListener {
 
             } else {
 
-                if (spawnPoint.y > y) {
+                if (spawnPoint.y > y) { // if the spawn point's y position is greater than the mob's y position, the mob will move towards its spawn point in the y direction
                     y += mobSpeed;
                 } else {
                     y -= mobSpeed;
@@ -1808,17 +1845,21 @@ public class frame extends JFrame implements KeyListener {
             }
         }
 
-        return new Point(x, y);
+        return new Point(x, y); // returns the new position of the mob as a Point object
     }
 
 
     // method for mob movment taking in speed, followDistance, and spawn Point. Uses linear equations for mob movement.
 
-    // if the player is outside of acertain range the mob returns to their spawn point
+    // if the player is outside of a certain range the mob returns to their spawn point
 
     // changes Tortles animation based on the position of the player
 
     public Point TortlesMovement(int x, int y, int mobSpeed, int followDistance, Point spawnPoint) {
+
+        // same movement logic as the mobMovement method, but with some changes for the Tortles mob
+
+
         distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - x), 2) + Math.pow(((playerWorldPos.y-50) - y), 2));
 
 
@@ -1938,7 +1979,7 @@ public class frame extends JFrame implements KeyListener {
 
     //    } else {
 
-            if (Math.abs(distanceX) >= Math.abs(distanceY)) {
+            if (Math.abs(distanceX) >= Math.abs(distanceY)) { // Checks if the distance in the x direction is greater than or equal to the distance in the y direction
                 if (distanceX > 0) {
                     moveDirection = "right"; // Moving right
                 } else {
@@ -1954,37 +1995,37 @@ public class frame extends JFrame implements KeyListener {
       //  }
 
 
-        String imageTortlesName;
-        if (tortlesMoveDirection == 1) {
-             imageTortlesName = moveDirection + "Standing";
-        } else if (tortlesMoveDirection == 2) {
-            imageTortlesName = moveDirection + "Fore";
-        } else if (tortlesMoveDirection == 3) {
-            imageTortlesName = moveDirection + "Standing";
-        } else {
-            imageTortlesName = moveDirection + "Back";
+        String imageTortlesName; // Variable to hold the name of the image based on the direction and movement state
+        if (tortlesMoveDirection == 1) { // If the tortles is moving right
+             imageTortlesName = moveDirection + "Standing"; // Sets the image to the standing right image
+        } else if (tortlesMoveDirection == 2) { // If the tortles is moving right and is in the fore state
+            imageTortlesName = moveDirection + "Fore"; // Sets the image to the fore right image
+        } else if (tortlesMoveDirection == 3) { // If the tortles is moving right and is in the back state
+            imageTortlesName = moveDirection + "Standing"; // Sets the image to the standing right image again
+        } else { // If the tortles is moving right and is in the back state
+            imageTortlesName = moveDirection + "Back"; // Sets the image to the back right image
         }
 
 
-        tortles.setIcon(tortlesImages.get(imageTortlesName));
-        tortlesMoveTime++;
+        tortles.setIcon(tortlesImages.get(imageTortlesName)); // Sets the icon of the tortles JLabel to the image based on the direction and movement state
+        tortlesMoveTime++; // Increments the tortles move time to control the animation speed
 
-        if (distance > 100 || distance < -100) {
-            if (tortlesMoveTime >= (FPS / 5)) {
-                tortlesMoveDirection = (tortlesMoveDirection % 4) + 1;
-                tortlesMoveTime = 0;
+        if (distance > 100 || distance < -100) { // If the distance between the player and the tortles is greater than 100 or less than -100, it will change the direction of the tortles movement
+            if (tortlesMoveTime >= (FPS / 5)) { // If the tortles move time is greater than or equal to 1/5th of the FPS, it will change the direction of the tortles movement
+                tortlesMoveDirection = (tortlesMoveDirection % 4) + 1; // Increments the tortles move direction by 1, cycling through 1 to 4
+                tortlesMoveTime = 0;  // Resets the tortles move time to 0 tostart the next animation cycle
             }
-        } else if (tortlesMoveTime >= (FPS / 5)) {
-            tortlesMoveDirection = 1;
-            tortlesMoveTime = 0;
+        } else if (tortlesMoveTime >= (FPS / 5)) { // If the tortles move time is greater than or equal to 1/5th of the FPS, it will reset the tortles move direction to 1
+            tortlesMoveDirection = 1; // Resets the tortles move direction to 1, which is the standing state
+            tortlesMoveTime = 0; // Resets the tortles move time to 0 to start the next animation cycle
         }
 
 
-        tortles.repaint();
+        tortles.repaint();  // Repaints the tortles JLabel to update the icon based on the new direction and movement state
 
 
 
-        return new Point(x, y);
+        return new Point(x, y); // returns the new position of the tortles as a Point object
     }
 
   /*  public void tortlesAttack() {
@@ -2080,32 +2121,32 @@ public class frame extends JFrame implements KeyListener {
 
 
     //method to create mobs with all of the nessicary attributes
-
+ // this method creates a JLabel for the mob, sets its bounds, adds it to the background panel, and adds all of the mob attributes to the maps
     public JLabel mobCreation(int x, int y, int width, int height, String filePath, int zOrder, int health, double damage, int range, int speed, int followDistance, int attackCooldown) {
-        ImageIcon icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
-        JLabel label = new JLabel(icon);
-        label.setBounds(x, y, width, height);
-        label.setOpaque(false);
-        backgroundPanel.add(label);
-        backgroundPanel.setComponentZOrder(label, zOrder); // for mobs try to use either 1 or 2 idk we can change it later if it overlaps better
+        ImageIcon icon = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT)); // scales the image to the width and height given
+        JLabel label = new JLabel(icon); // creates a JLabel with the icon of the mob
+        label.setBounds(x, y, width, height); // sets the bounds of the JLabel to the x, y, width, and height given
+        label.setOpaque(false); // sets the JLabel to not opaque, so it can see through it
+        backgroundPanel.add(label); // adds the JLabel to the background panel, so it can be rendered on the screen
+        backgroundPanel.setComponentZOrder(label, zOrder); // for mobs try to use either 1 or 2, layers the mobs based on order so some Jlabels render on top of others
 
         UUID mobID = UUID.randomUUID(); // creates a unique UUID for each mob, do not touch this lmao
-        mob.put(mobID, label);
-        reverseMobMap.put(label, mobID);
-        MobDamage.put(mobID, damage);
-        MobHealth.put(mobID, health);
-        MobReach.put(mobID, range);
-        MobSpeed.put(mobID, speed);
-        MobFollowDistance.put(mobID, followDistance);
-        MobAttackCooldown.put(mobID, attackCooldown);
+        mob.put(mobID, label); // adds the mob ID and JLabel to the mob map, which maps UUIDs to JLabels
+        reverseMobMap.put(label, mobID); // adds the JLabel and mob ID to the reverseMobMap, which maps JLabels to UUIDs
+        MobDamage.put(mobID, damage); // adds the mob's damage to the MobDamage map, which maps UUIDs to Double values
+        MobHealth.put(mobID, health); // adds the mob's health to the MobHealth map, which maps UUIDs to Integer values
+        MobReach.put(mobID, range); // adds the mob's reach to the MobReach map, which maps UUIDs to Integer values
+        MobSpeed.put(mobID, speed); // adds the mob's speed to the MobSpeed map, which maps UUIDs to Integer values
+        MobFollowDistance.put(mobID, followDistance); // adds the mob's follow distance to the MobFollowDistance map, which maps UUIDs to Integer values
+        MobAttackCooldown.put(mobID, attackCooldown); // adds the mob's attack cooldown to the MobAttackCooldown map, which maps UUIDs to Integer values
 
-        Point MobPoint = new Point(x, y);
-        mobPoint.put(label, MobPoint);
+        Point MobPoint = new Point(x, y); // creates a new Point object with the x and y position of the mob, this is used to keep track of the mob's position in the world
+        mobPoint.put(label, MobPoint); // adds the JLabel and Point to the mobPoint map, which maps JLabels to Point objects
 
-        mobSpawnPoint.put(mobID, new Point(MobPoint));
+        mobSpawnPoint.put(mobID, new Point(MobPoint)); // adds the mob's spawn point to the mobSpawnPoint map, which maps UUIDs to Point objects
 
 
-        return label;
+        return label;  // returns the JLabel of the mob, so it can be used later if needed
     }
 
 
@@ -2162,58 +2203,61 @@ public class frame extends JFrame implements KeyListener {
     //method for the mobs to attack the player
 
 
+
     public void mobAttack() {
 
+
+        //Iterates through all the mobs in the game, checking if they are within range of the player and if they can attack
         for (Map.Entry<UUID, JLabel> entry : mob.entrySet()) { // code similar to geek by geeks post - https://www.geeksforgeeks.org/how-to-iterate-hashmap-in-java/
 
-            UUID mobID = entry.getKey();
-            JLabel mobLabel = entry.getValue();
+            UUID mobID = entry.getKey(); // gets the UUID of the mob from the entry set
+            JLabel mobLabel = entry.getValue(); // gets the JLabel of the mob from the entry set
 
-            int mobAttackCooldown = MobAttackCooldown.getOrDefault(mobID, 0);
-            int mobReach = MobReach.getOrDefault((Object) mobID, 0);
-            Double mobDamage = MobDamage.getOrDefault(mobID, 0.0);
-            long mobCooldown = MobAttackCurrentCoolDown.getOrDefault(mobID, Long.valueOf(0));
-            LocalDateTime timeSinceAttack = TimeMobAttacked.getOrDefault(mobID, LocalDateTime.MIN);
-            double mobDistance = MobDistance.getOrDefault(mobID, Double.MAX_VALUE);
-            Duration durationMobAttack = TimeSinceMobAttacked.getOrDefault(mobID, Duration.ZERO);
+            int mobAttackCooldown = MobAttackCooldown.getOrDefault(mobID, 0); // gets the mob's attack cooldown from the MobAttackCooldown map, if it doesn't exist, it defaults to 0
+            int mobReach = MobReach.getOrDefault((Object) mobID, 0); // gets the mob's reach from the MobReach map, if it doesn't exist, it defaults to 0
+            Double mobDamage = MobDamage.getOrDefault(mobID, 0.0); // gets the mob's damage from the MobDamage map, if it doesn't exist, it defaults to 0.0
+            long mobCooldown = MobAttackCurrentCoolDown.getOrDefault(mobID, Long.valueOf(0)); // gets the mob's current attack cooldown from the MobAttackCurrentCoolDown map, if it doesn't exist, it defaults to 0L
+            LocalDateTime timeSinceAttack = TimeMobAttacked.getOrDefault(mobID, LocalDateTime.MIN); // gets the time since the mob was attacked from the TimeMobAttacked map, if it doesn't exist, it defaults to LocalDateTime.MIN
+            double mobDistance = MobDistance.getOrDefault(mobID, Double.MAX_VALUE); // gets the distance between the player and the mob from the MobDistance map, if it doesn't exist, it defaults to Double.MAX_VALUE
+            Duration durationMobAttack = TimeSinceMobAttacked.getOrDefault(mobID, Duration.ZERO); // gets the duration since the mob was attacked from the TimeSinceMobAttacked map, if it doesn't exist, it defaults to Duration.ZERO
 
-            Point mobWorldPos = mobPoint.get(mobLabel);
-            double distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - mobWorldPos.getX()), 2) + Math.pow(((playerWorldPos.y - 50) - mobWorldPos.getY()), 2));
+            Point mobWorldPos = mobPoint.get(mobLabel); // gets the world position of the mob from the mobPoint map, which maps JLabels to Point objects
+            double distance = Math.sqrt(Math.pow(((playerWorldPos.x - 40) - mobWorldPos.getX()), 2) + Math.pow(((playerWorldPos.y - 50) - mobWorldPos.getY()), 2)); // calculates the distance between the player and the mob using the distance formula
 
 
-            mobDistance = distance;
-            MobDistance.put(mobID, mobDistance);
+            mobDistance = distance; // updates the mobDistance variable with the calculated distance
+            MobDistance.put(mobID, mobDistance); // updates the MobDistance map with the new distance value for the mob
             //System.out.println("Mob Distance: " + mobDistance + "Mob Cooldown: " + mobCooldown);
           //  System.out.println("Mob Distance: " + mobDistance + "Mob Cooldown: " + mobCooldown);
 
 
-            durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now());
+            durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now()); // calculates the duration since the mob was last attacked by subtracting the time since the last attack from the current time
 
-            mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS)));
+            mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS))); // calculates the mob's current cooldown by getting the absolute value of the duration in seconds since the last attack
 
-            MobAttackCurrentCoolDown.put(mobID, mobCooldown);
+            MobAttackCurrentCoolDown.put(mobID, mobCooldown); // updates the MobAttackCurrentCoolDown map with the new cooldown value for the mob
 
 
-            if (mobDistance <= mobReach) {
-                durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now());
-                mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS)));
-                if (mobCooldown >= (long) mobAttackCooldown) {
+            if (mobDistance <= mobReach) { // checks if the distance between the player and the mob is less than or equal to the mob's reach
+                durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now()); // calculates the duration since the mob was last attacked by subtracting the time since the last attack from the current time
+                mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS))); // calculates the mob's current cooldown by getting the absolute value of the duration in seconds since the last attack
+                if (mobCooldown >= (long) mobAttackCooldown) { // checks if the mob's current cooldown is greater than or equal to the mob's attack cooldown
                     try {
-                        Sequencer("music/swipe.wav", 0, 0.7f);
+                        Sequencer("music/swipe.wav", 0, 0.7f); // plays the mob's attack sound effect
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
                         j.printStackTrace(); // Handle exceptions
                     }
-                    healthChange(-mobDamage);
-                    TimeMobAttacked.put(mobID, LocalDateTime.now());
-                    timeSinceAttack = LocalDateTime.now();
+                    healthChange(-mobDamage); // reduces the player's health by the mob's damage
+                    TimeMobAttacked.put(mobID, LocalDateTime.now()); // updates the time since the mob was attacked to the current time
+                    timeSinceAttack = LocalDateTime.now(); // updates the time since the mob was attacked to the current time
                 //    System.out.println("You were attacked by a mob");
-                    TimeMobAttacked.put(mobID, LocalDateTime.now());
-                    MobAttackCurrentCoolDown.put(mobID, 0L);
+                    TimeMobAttacked.put(mobID, LocalDateTime.now()); // updates the time since the mob was attacked to the current time
+                    MobAttackCurrentCoolDown.put(mobID, 0L); // resets the mob's current attack cooldown to 0, so it can attack again
                 }
             }
             else {
-               TimeMobAttacked.put(mobID, LocalDateTime.now());
-                MobAttackCurrentCoolDown.put(mobID, 0L);
+               TimeMobAttacked.put(mobID, LocalDateTime.now()); // updates the time since the mob was attacked to the current time
+                MobAttackCurrentCoolDown.put(mobID, 0L); // resets the mob's current attack cooldown to 0, so it can attack again
             }
         }
     }
@@ -2222,12 +2266,12 @@ public class frame extends JFrame implements KeyListener {
 //method to detect if the player is interacting with chests, portals, NPC's, and respawn points
     public void interacting() {
 //All the interacting code (methods) is put in here for ease of use and run in the game loop
-        chest();
-        NPCInteraction();
-        portalInteraction();
-        respawnPoint();
+        chest(); //Checks if the player is interacting with a chest
+        NPCInteraction(); //Checks if the player is interacting with an NPC
+        portalInteraction(); //Checks if the player is interacting with a portal
+        respawnPoint(); //Checks if the player is interacting with a respawn point
 
-        TextDisappearing();
+        TextDisappearing(); //Checks if the text is disappearing (used for dialogue and other text)
 
 
         if(player.getBounds().intersects(warp.getBounds())) {
@@ -2288,6 +2332,10 @@ public class frame extends JFrame implements KeyListener {
     public void portalInteraction() {
 
         //start 10425 -787
+
+
+        // checks if the player is intersecting with any of the warp JLabels, if they are, it teleports the player to the corresponding world position
+        // also plays the portal sound effect when the player interacts with a warp JLabel
 
         if (player.getBounds().intersects(warpOne.getBounds())) {
 
@@ -2466,16 +2514,16 @@ public class frame extends JFrame implements KeyListener {
 
     public void respawnPoint() {
 
-        boolean interacting = false;
-        pressrespawn.setVisible(false);
-        respawnSet.setVisible(false);
+        boolean interacting = false; // variable to check if the player is interacting with a respawn point
+        pressrespawn.setVisible(false); // hides the "Press E" text for respawn points
+        respawnSet.setVisible(false); // hides the "Respawn Set" text for respawn points
 
-        for(int i = 0; i < respawnPoints.length; i++) {
+        for(int i = 0; i < respawnPoints.length; i++) { // iterates through all the respawn points
 
-            if (player.getBounds().intersects((respawnPoints[i]).getBounds()) && ePressed) {
+            if (player.getBounds().intersects((respawnPoints[i]).getBounds()) && ePressed) { // checks if the player is intersecting with a respawn point and has pressed the e key
 
-                interacting = true;
-                pressrespawn.setVisible(true);
+                interacting = true; // sets the interacting variable to true, indicating that the player is interacting with a respawn point
+                pressrespawn.setVisible(true); // shows the "Press E" text for respawn points
 
                 switch(i) {
 
@@ -2531,10 +2579,10 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-            } else if(player.getBounds().intersects((respawnPoints[i].getBounds()))) {
+            } else if(player.getBounds().intersects((respawnPoints[i].getBounds()))) { // checks if the player is intersecting with a respawn point but has not pressed the e key
                 pressrespawn.setVisible(true);
 
-            } else if(respawnSet.isVisible() && interacting == false) {
+            } else if(respawnSet.isVisible() && interacting == false) { // checks if the respawnSet text is visible and the player is not interacting with a respawn point
                 pressrespawn.setVisible(false);
             }
 
@@ -2817,11 +2865,11 @@ public class frame extends JFrame implements KeyListener {
         }
     }
 
-
+    // Method that makes the player that gets the data of the player attacking mobs, and the direction they are attacking in
     public void attacking(String direction, boolean spacePressed) {
 
 
-
+    // depending on the direction the player is attacking in, it sets the corresponding attack JLabel to visible and the others to not visible
     if(spacePressed) {
         switch (direction) {
             case "up" -> {
@@ -2986,18 +3034,36 @@ public class frame extends JFrame implements KeyListener {
     //method to change the volume
     public static void volumeChange(float volumeChange) {
 
-        volume += volumeChange;
-        if (volume >= 1f) {
+        volume += volumeChange; // Increases or decreases the volume by the given value
+        if (volume >= 1f) { // Ensures volume is between 0.0 and 1.0
             volume = 1f;
         } else if(volume <= 0f) {
-            volume = 0f;
+            volume = 0f; // Ensures volume is between 0.0 and 1.0
         }
 
-        System.out.println(volume);
+        System.out.println(volume); // Print the current volume for debugging
 
-        FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+        FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN); // Get the volume control from the clip
         float dB = (float) (Math.log10(volume) * 20); // Convert volume (0.0 to 1.0) to decibels
-        volumeControl.setValue(dB);
+        volumeControl.setValue(dB); // Set the volume of the clip to the new value in decibels
+
+    }
+
+    public void gameOver() {
+
+
+        endScreen.setVisible(true); // Shows the end screen
+        escToQuit.setVisible(true); // Shows the "Press ESC to quit" text
+        pumpkin.setVisible(true);  // Shows the pumpkin image
+        gameOver = true; // Sets the gameOver boolean to true, indicating the game is over
+
+        player.setVisible(false); // Hides the player JLabel
+        clip.stop(); // Stops the current music clip
+        coordinates.setVisible(false); // Hides the coordinates JLabel
+
+
+
 
     }
 
@@ -3016,16 +3082,19 @@ public class frame extends JFrame implements KeyListener {
 
     public void debug() {
 
-
+        // if the player is pressing the k key, it sets the debugPoint to the player's current world position
         if(kPressed) {
             System.out.println("First Position: " + playerWorldPos);
             debugPoint.setLocation(playerWorldPos);
         }
 
 
-        if(lPressed) {
+        if(lPressed) { // if the player is pressing the l key, it prints the debugPoint's position
             System.out.println(Math.abs(playerWorldPos.getX() + debugPoint.getY()) + "," + Math.abs(playerWorldPos.getY() + debugPoint.getX()));
         }
+
+        // if the player is pressing the p key, it sets the debugPoint to the player's current world position and makes the cooresponding debug JLabel visible, and the others to false
+        // as well it prints out a line of code that can be used to create the JLabel in the code
 
         if(pPressed && onePressed && !placeCooldown) {
             placeCooldown = true;
@@ -3150,8 +3219,8 @@ public class frame extends JFrame implements KeyListener {
 
 
 
-    int startSelection = 1;
-    boolean menuAlreadyChanged = false;
+    int startSelection = 1; // Variable to keep track of the current selection in the start menu
+    boolean menuAlreadyChanged = false; // Boolean to prevent multiple changes in the menu selection when a key is pressed
 
     public void startGame() {
 
@@ -3205,6 +3274,7 @@ public class frame extends JFrame implements KeyListener {
                     startQuit.setVisible(false);
                     startMenu.setVisible(false);
                     SScredits.setVisible(false);
+                    controls.setVisible(false);
                     currentSelection.setVisible(false);
                     startScreenVisible = false;
                     // Starts the game loop
@@ -3224,6 +3294,7 @@ public class frame extends JFrame implements KeyListener {
                     // Sets credit menu items to visible and the rest to invisible
                         SScredits.setVisible(true);
                         startMenu.setVisible(false);
+                        controls.setVisible(false);
                         startPlay.setVisible(false);
                         startCredits.setVisible(false);
                         startQuit.setVisible(false);
@@ -3232,6 +3303,7 @@ public class frame extends JFrame implements KeyListener {
                     // Does the reverse of the one before (removes the credits and puts up the regular start screen menu
                         SScredits.setVisible(false);
                         startMenu.setVisible(true);
+                        controls.setVisible(true);
                         startPlay.setVisible(true);
                         startCredits.setVisible(true);
                         startQuit.setVisible(true);
@@ -3252,6 +3324,8 @@ public class frame extends JFrame implements KeyListener {
     
 
         } else {
+
+            // switch statement that checks which key is pressed and sets the corresponding boolean to true, or runs an action
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W -> playerMovementInstance.setUpPressed(true);
             case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(true);
@@ -3262,12 +3336,18 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_EQUALS -> volumeChange(0.1f);
             case KeyEvent.VK_MINUS -> volumeChange(-0.1f);
             case KeyEvent.VK_SPACE -> {
-                savedDirection = playerMovementInstance.direction;
-                attacking(savedDirection, true);
-                spacePressed = true;
+                savedDirection = playerMovementInstance.direction; // Saves the direction the player is facing when they press space
+                attacking(savedDirection, true); // Calls the attacking method with the saved direction and sets spacePressed to true
+                spacePressed = true; // Sets spacePressed to true to indicate that the space key is pressed
 
             }
             case KeyEvent.VK_ESCAPE -> {
+
+                if(gameOver) { // If the game is over, pressing ESC will exit the game
+
+                    System.exit(0); // If the game is over, exit the game
+
+                }
 
             }
 
@@ -3416,6 +3496,8 @@ public class frame extends JFrame implements KeyListener {
                 // Changes the menu to false so you can press keys again
             menuAlreadyChanged = false;
     }
+
+// This switch statement checks which key is released and sets the corresponding boolean to false, or runs an action
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W -> playerMovementInstance.setUpPressed(false);
             case KeyEvent.VK_S -> playerMovementInstance.setDownPressed(false);
