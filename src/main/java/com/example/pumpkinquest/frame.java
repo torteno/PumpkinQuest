@@ -30,7 +30,7 @@ public class frame extends JFrame implements KeyListener {
     //declaration of variables that are used in the game, such as player position, movement, health, direction, and other game mechanics
 
     int x, y; // player position
-    int step = 25; // player movement step size
+    int step = 6; // player movement step size
     boolean upPressed = false, downPressed = false, leftPressed = false, rightPressed = false, qPressed = false, ePressed = false, plusPressed = false, minusPressed = false, spacePressed = false, kPressed = false, lPressed = false, onePressed = false, twoPressed = false, threePressed = false, fourPressed = false, fivePressed = false, sixPressed = false, sevenPressed = false, eightPressed = false, ninePressed = false, pPressed = false, enterPressed = false, escPressed = false; // player movement flags
     int moveTime, moveDir; // player movement time and direction
     int tortlesMoveTime; // tortles movement time
@@ -122,7 +122,7 @@ public class frame extends JFrame implements KeyListener {
     String savedDirection; // saves the direction of the player, used to determine the player's facing direction when attacking or interacting with objects
 
 
-    boolean debugMode = false; // false to enable, true to disable
+    boolean debugMode = true; // false to enable, true to disable
     boolean placeCooldown = false; // cooldown for placing objects, used to prevent the player from placing objects too quickly
     int swordUpgrade = 0; // the current sword upgrade level, used to determine the player's attack damage and reach
     boolean gameOver = false;
