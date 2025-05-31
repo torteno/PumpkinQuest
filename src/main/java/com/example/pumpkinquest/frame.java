@@ -43,10 +43,10 @@ public class frame extends JFrame implements KeyListener {
     boolean GUIOpen = true;
     boolean [] NPCInteracted = new boolean [3];
     int NPCNumber = 0;
-    boolean[] chestLooted = new boolean[7];
-    boolean[] pressChestOn = new boolean[7];
+    boolean[] chestLooted = new boolean[11];
+    boolean[] pressChestOn = new boolean[11];
     int messageDisDelay;
-    int playerDamage = 5;
+    int playerDamage = 3;
     String moveDirection = "down";
     int tortlesMoveDirection = 0;
     int tortlesDirection = 0;
@@ -54,13 +54,6 @@ public class frame extends JFrame implements KeyListener {
     int swordNumber = 0;
     int textDisappearTime = 0;
     int messageDisappearNumber = -1;
-
-    /*
-    int scrollTime = 0;
-    int lineComplete = 0;
-    int lineNumber = 1;
-    int scrollPixels = 30;  // instead of 30
-    */
 
 
     int grandmaDialogueIndex = -1;
@@ -103,7 +96,7 @@ public class frame extends JFrame implements KeyListener {
     Map<String, ImageIcon> tortlesImages = new HashMap<>();
     ArrayList<JLabel> obstacles = new ArrayList<>();
     ArrayList<JLabel> passables = new ArrayList<>();
-  //  ArrayList<JLabel> tiles = new ArrayList<>();
+
     ArrayList<Tile> backgroundTiles = new ArrayList<>();
     playerMovement playerMovementInstance;
     Camera CameraInstance;
@@ -167,9 +160,18 @@ public class frame extends JFrame implements KeyListener {
 };
 
     JLabel[] chestImages = new JLabel[] {
-        assets(3880, -525, 150, 150, false, "images/assets/chest.png", false, 8, true),
-        assets(1708 , -2861, 200, 200,  false, "images/assets/chest.png", false, 8, true),
-        assets(6000, -465, 150, 150, false, "images/assets/chest.png", false, 8, true)
+        assets(3880, -525, 150, 150, false, "images/assets/chest.png", false, 8, true), // Apple
+        assets(1708 , -2861, 150, 150,  false, "images/assets/chest.png", false, 8, true), // Stone
+        assets(6000, -465, 150, 150, false, "images/assets/chest.png", false, 8, true), // Iron
+        assets(10600, -495, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Gold
+        assets(15260, -1430, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Ruby
+        assets(15240, -6200, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Emerald
+        assets(3220, -7680, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Diamond
+        assets(9090, -4200, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Apple
+        assets(14950, -3820, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Apple
+        assets(11345, -7470, 150, 150, false, "images/assets/chest.png", false, 8, true),  // Apple
+        assets(3675, -7510, 150, 150, false, "images/assets/chest.png", false, 8, true)  // Apple
+
 };
 
 
@@ -281,30 +283,30 @@ public class frame extends JFrame implements KeyListener {
     // lots of tress
 
 
-    JLabel Rock274736 = assets(2353 , -7107, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock3320042 = assets(2278 , -7257, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock2848022 = assets(2178 , -7432, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock4690770 = assets(2178 , -7557, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock8165025 = assets(2178 , -7732, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock9260882 = assets(2178 , -7832, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock2335392 = assets(2278 , -7932, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock754881 = assets(2403 , -8007, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock1726032 = assets(1577 , -8031, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock8461454 = assets(1577 , -7856, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock4868639 = assets(1577 , -7681, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock3939617 = assets(1577 , -7531, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock8602846 = assets(1577 , -7381, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock1661273 = assets(1577 , -7281, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock8212042 = assets(1577 , -7131, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock1011629 = assets(1577 , -7081, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock4685957 = assets(1577 , -6856, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock7075964 = assets(1577 , -6856, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock1051545 = assets(1577 , -6956, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock9392083 = assets(1702 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock5679939 = assets(1877 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock7836519 = assets(2052 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock487015 = assets(2227 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
-    JLabel Rock939617 = assets(2377 , -8056, 100, 100,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock274736 = assets(2353 , -7107, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock3320042 = assets(2278 , -7257, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock2848022 = assets(2178 , -7432, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock4690770 = assets(2178 , -7557, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock8165025 = assets(2178 , -7732, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock9260882 = assets(2178 , -7832, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock2335392 = assets(2278 , -7932, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock754881 = assets(2403 , -8007, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock1726032 = assets(1577 , -8031, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock8461454 = assets(1577 , -7856, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock4868639 = assets(1577 , -7681, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock3939617 = assets(1577 , -7531, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock8602846 = assets(1577 , -7381, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock1661273 = assets(1577 , -7281, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock8212042 = assets(1577 , -7131, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock1011629 = assets(1577 , -7081, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock4685957 = assets(1577 , -6856, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock7075964 = assets(1577 , -6856, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock1051545 = assets(1577 , -6956, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock9392083 = assets(1702 , -8056, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock5679939 = assets(1877 , -8056, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock7836519 = assets(2052 , -8056, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock487015 = assets(2227 , -8056, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
+    JLabel Rock939617 = assets(2377 , -8056, 200, 200,  debugMode, "images/assets/rock.png", false, 8, true);
     JLabel Tree539529 = assets(1643 , -6687, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree5996628 = assets(1743 , -6687, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
     JLabel Tree3455053 = assets(1868 , -6687, 200, 300,  debugMode, "images/assets/tree.png", false, 8, true);
@@ -2502,7 +2504,7 @@ public class frame extends JFrame implements KeyListener {
                         swordNumber = 1;
                         messageDisappearNumber = 1;
                         stoneSword.setVisible(true);
-                        playerDamage = 2;
+                        playerDamage = 4;
                         chestLooted[1] = true;
 
                         break;
@@ -2513,7 +2515,7 @@ public class frame extends JFrame implements KeyListener {
                         textDisappear = true;
                         swordNumber = 2;
                         messageDisappearNumber = 2;
-                        playerDamage = 3;
+                        playerDamage = 5;
                         chestLooted[2] = true;
 
                         break;
@@ -2524,7 +2526,7 @@ public class frame extends JFrame implements KeyListener {
                         textDisappear = true;
                         swordNumber = 3;
                         messageDisappearNumber = 3;
-                        playerDamage = 4;
+                        playerDamage = 6;
                         chestLooted[3] = true;
 
                         break;
@@ -2535,7 +2537,7 @@ public class frame extends JFrame implements KeyListener {
                         textDisappear = true;
                         swordNumber = 4;
                         messageDisappearNumber = 4;
-                        playerDamage = 6;
+                        playerDamage = 7;
                         chestLooted[4] = true;
 
                         break;
@@ -2559,6 +2561,46 @@ public class frame extends JFrame implements KeyListener {
                         messageDisappearNumber = 6;
                         playerDamage = 10;
                         chestLooted[6] = true;
+
+                        break;
+                    }
+                    case 7 : {
+                        pressChest.setVisible(false);
+                        gotApple.setVisible(true);
+                        textDisappear = true;
+                        messageDisappearNumber = 7;
+                        healthChange(3);
+                        chestLooted[0] = true;
+
+                        break;
+                    }
+                    case 8 : {
+                        pressChest.setVisible(false);
+                        gotApple.setVisible(true);
+                        textDisappear = true;
+                        messageDisappearNumber = 8;
+                        healthChange(3);
+                        chestLooted[0] = true;
+
+                        break;
+                    }
+                    case 9 : {
+                        pressChest.setVisible(false);
+                        gotApple.setVisible(true);
+                        textDisappear = true;
+                        messageDisappearNumber = 9;
+                        healthChange(3);
+                        chestLooted[0] = true;
+
+                        break;
+                    }
+                    case 10 : {
+                        pressChest.setVisible(false);
+                        gotApple.setVisible(true);
+                        textDisappear = true;
+                        messageDisappearNumber = 10;
+                        healthChange(3);
+                        chestLooted[0] = true;
 
                         break;
                     }
@@ -2615,6 +2657,22 @@ public class frame extends JFrame implements KeyListener {
                     }
                     case 6: {
                         diamondSword.setVisible(false);
+                        break;
+                    }
+                    case 7: {
+                        gotApple.setVisible(false);
+                        break;
+                    }
+                    case 8: {
+                        gotApple.setVisible(false);
+                        break;
+                    }
+                    case 9: {
+                        gotApple.setVisible(false);
+                        break;
+                    }
+                    case 10: {
+                        gotApple.setVisible(false);
                         break;
                     }
                 }
