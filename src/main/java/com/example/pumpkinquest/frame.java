@@ -153,10 +153,6 @@ public class frame extends JFrame implements KeyListener {
     JLabel iceSpikeOne = GUIassets( 430, 345, 125, 125, false, "images/mob/tortles/iceSpikeSmall.png", false, 1, false);
     JLabel iceSpikeTwo = GUIassets( 430, 345, 125, 125, false, "images/mob/tortles/iceSpikeBig.png", false, 1, false);
 
-    JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 0, false);
-
-
-    JLabel armourFound = GUIassets( 130, 600, 1280, 320, false, "images/equipment/ArmourFound.png", false, 0, false);
 
 
     //JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
@@ -1005,9 +1001,14 @@ public class frame extends JFrame implements KeyListener {
     JLabel emeraldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword5.png", false, 0, false);
     JLabel diamondSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword6.png", false, 0, false);
 
+    JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 0, false);
 
 
-//all the images for the up attacks (different sword types)
+    JLabel armourFound = GUIassets( 130, 600, 896, 224, false, "images/equipment/ArmourFound.png", false, 0, false);
+
+
+
+    //all the images for the up attacks (different sword types)
     JLabel[] upAttack = new JLabel[]{
 
             GUIassets(100, 100, 100, 100, false, "images/equipment/wood/up_wood.png", false, 1, false),
