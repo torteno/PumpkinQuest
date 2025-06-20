@@ -1005,10 +1005,10 @@ public class frame extends JFrame implements KeyListener {
     JLabel emeraldSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword5.png", false, 0, false);
     JLabel diamondSword = GUIassets( 130, 600, 896, 224, false, "images/assets/SwordText/CharacterSword6.png", false, 0, false);
 
-    JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 0, false);
+  //  JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 0, false);
 
 
-    JLabel armourFound = GUIassets( 130, 600, 896, 224, false, "images/equipment/ArmourFound.png", false, 0, false);
+   // JLabel armourFound = GUIassets( 130, 600, 896, 224, false, "images/equipment/ArmourFound.png", false, 0, false);
 
 
 
