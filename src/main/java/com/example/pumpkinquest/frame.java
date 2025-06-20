@@ -89,7 +89,7 @@ public class frame extends JFrame implements KeyListener {
    // Map<JLabel, String[]> mobFrameAnimationFrames = new HashMap<>();
   //  ArrayList<Point> playerPastPositions = new ArrayList<>();
 
-
+    boolean music = true; // flag to check if the music is playing, used to control the background music in the game
 
 
 
@@ -156,7 +156,7 @@ public class frame extends JFrame implements KeyListener {
     JLabel gotApple = GUIassets( 130, 600, 1280, 320, false, "images/text/appleFind.png", false, 0, false);
 
 
-    JLabel armourFound = GUIassets( 130, 600, 1280, 320, false, "images/equipment/ArmourFound.png", false, 0, false);
+    JLabel armourFound = GUIassets( 130, 600, 900, 320, false, "images/equipment/ArmourFound.png", false, 0, false);
 
 
     //JLabel chest =  assets(2000, 1000, 200, 200, false, "images/assets/chest.png", false, 8, true);
@@ -1059,18 +1059,17 @@ public class frame extends JFrame implements KeyListener {
 
 // Method to play audio files, takes in the file path, number of repeats, and volume
     public static void Sequencer(String input, int numRepeat, float volume) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        File file = new File(input); // Specify the path to your audio file
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file); // Create an AudioInputStream from the file
-        clip = AudioSystem.getClip(); // Get a Clip resource
-        clip.open(audioStream); // Open the audio stream in the clip
+            File file = new File(input); // Specify the path to your audio file
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file); // Create an AudioInputStream from the file
+            clip = AudioSystem.getClip(); // Get a Clip resource
+            clip.open(audioStream); // Open the audio stream in the clip
 
 
-        //float volume = 1f; // adjust volume here
-        volumeChange(volume); // Set the volume of the clip
+            //float volume = 1f; // adjust volume here
+            volumeChange(volume); // Set the volume of the clip
 
-        clip.start(); // Start playing the audio clip
-        clip.loop(numRepeat); // Loop the audio clip for the specified number of times
-
+            clip.start(); // Start playing the audio clip
+            clip.loop(numRepeat); // Loop the audio clip for the specified number of times
     }
 
 
@@ -1092,11 +1091,12 @@ public class frame extends JFrame implements KeyListener {
         Image icon = new ImageIcon("images/mob/ghost").getImage(); // Load the icon image for the JFrame
 
         setIconImage(icon); // Set the icon image for the JFrame
-
-        try {
-            Sequencer("music/start.wav", 100, 1f); // Play the clip when the program starts
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
-            j.printStackTrace(); // Handle exceptions
+        if(music) {
+            try {
+                Sequencer("music" + File.separator + "start.wav", 100, 1f); // Play the clip when the program starts
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
+                j.printStackTrace(); // Handle exceptions
+            }
         }
 
 
@@ -2242,10 +2242,12 @@ public class frame extends JFrame implements KeyListener {
                 durationMobAttack = Duration.between(timeSinceAttack, LocalDateTime.now()); // calculates the duration since the mob was last attacked by subtracting the time since the last attack from the current time
                 mobCooldown = (Math.abs(durationMobAttack.get(ChronoUnit.SECONDS))); // calculates the mob's current cooldown by getting the absolute value of the duration in seconds since the last attack
                 if (mobCooldown >= (long) mobAttackCooldown) { // checks if the mob's current cooldown is greater than or equal to the mob's attack cooldown
-                    try {
-                        Sequencer("music/swipe.wav", 0, 0.7f); // plays the mob's attack sound effect
-                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
-                        j.printStackTrace(); // Handle exceptions
+                    if (music) {
+                        try {
+                            Sequencer("music" + File.separator + "swipe.wav", 0, 0.7f); // plays the mob's attack sound effect
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
+                            j.printStackTrace(); // Handle exceptions
+                        }
                     }
                     healthChange(-mobDamage); // reduces the player's health by the mob's damage
                     TimeMobAttacked.put(mobID, LocalDateTime.now()); // updates the time since the mob was attacked to the current time
@@ -2340,149 +2342,188 @@ public class frame extends JFrame implements KeyListener {
         if (player.getBounds().intersects(warpOne.getBounds())) {
 
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         }  else if (player.getBounds().intersects(warpTwo.getBounds())) {
             playerWorldPos.setLocation(11265, -973);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpThree.getBounds())) {
             playerWorldPos.setLocation(11908, -1169);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpFour.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpFive.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpSix.getBounds())) {
             playerWorldPos.setLocation(12544, -857);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpSeven.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpEight.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpNine.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
 
         } else if (player.getBounds().intersects(warpTen.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpEleven.getBounds())) {
             playerWorldPos.setLocation(13132, -1073);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpTwelve.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpThirteen.getBounds())) {
             playerWorldPos.setLocation(13721, -1044);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpFourteen.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpFifteen.getBounds())) {
             playerWorldPos.setLocation(10425, -787);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (player.getBounds().intersects(warpSixteen.getBounds())) {
             playerWorldPos.setLocation(14555, -789);
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
 
         } else if(player.getBounds().intersects(warpArena.getBounds())) {
             playerWorldPos.setLocation(21546, -4278);
 
-            try {
+           /* try {
                 clip.stop();
                 Sequencer("music/warp.wav", 0, 0.6f);
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
                 e.printStackTrace();
-            }
+            } */
 
-            try {
+            if(music) {
+
                 clip.stop();
-                Sequencer("music/tortlesFight.wav", 100, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+
+
+                try {
+
+
+                    Sequencer("music" + File.separator + "tortlesFight.wav", 100, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
 
 
@@ -2490,19 +2531,21 @@ public class frame extends JFrame implements KeyListener {
 
         } else if(player.getBounds().intersects(warpBack.getBounds())) {
             playerWorldPos.setLocation(2861, -7500);
-
-            try {
-                clip.stop();
-                Sequencer("music/korok.wav", 100, 0.5f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "korok.wav", 100, 0.5f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
-
-            try {
-                clip.stop();
-                Sequencer("music/warp.wav", 0, 0.6f);
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
+            if(music) {
+                try {
+                    clip.stop();
+                    Sequencer("music" + File.separator + "warp.wav", 0, 0.6f);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
 
 
@@ -3279,11 +3322,13 @@ public class frame extends JFrame implements KeyListener {
                     startScreenVisible = false;
                     // Starts the game loop
                     fadeOutStartScreen();
-                    try {
-                        clip.stop();
-                        Sequencer("music/korok.wav", 100, 0.5f); // Play the clip when the program starts
-                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
-                        j.printStackTrace(); // Handle exceptions
+                    if(music) {
+                        try {
+                            clip.stop();
+                            Sequencer("music" + File.separator + "korok.wav", 100, 0.5f); // Play the clip when the program starts
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException j) {
+                            j.printStackTrace(); // Handle exceptions
+                        }
                     }
 
                     return;
@@ -3481,6 +3526,20 @@ public class frame extends JFrame implements KeyListener {
             case KeyEvent.VK_P -> {
                 pPressed = true;
                 debug();
+
+            }
+
+            case KeyEvent.VK_M -> {
+
+                if(music) {
+
+                    music = false; // If music is on, it turns it off
+                    clip.stop();
+                } else {
+
+                    music = true; // If music is off, it turns it on
+
+                }
 
             }
 
